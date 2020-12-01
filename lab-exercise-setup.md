@@ -12,6 +12,12 @@ Our examples are all created using a Linux environment, but it should also work 
 
 [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
+### Clone the Developer Training Course Lab Exercises
+
+```text
+git clone https://github.com/jordanmack/developer-training-course.git
+```
+
 ### Setup a CKB Dev Blockchain
 
 Complete the setup for the following two sections:
