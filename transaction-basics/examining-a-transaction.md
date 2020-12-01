@@ -32,7 +32,7 @@ These CKBytes had to have been transferred from somewhere, and that place is the
 
 ![](../.gitbook/assets/tx-previous-output.png)
 
-The input is an output from a previous transaction, and that's why it's called a "previous output" in the image. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a tx\_hash and an index is called an "outpoint", and it is used to describe where an output originates from.
+Every input is an output from a previous transaction, and that's why it's called a "previous output" in ckb-cli. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a tx\_hash and an index is called an "outpoint", and it is used to describe where an output originates from.
 
 The image below combines the two images above so the formatting on the inputs matches the outputs. This should help to clarify what's going on in the transaction.
 
@@ -51,5 +51,10 @@ With the transaction fee taken into account, the CKBytes are now 100% accounted 
 
 ### Lab Exercise
 
+Task: Determine the outpoints for the two outputs from the transaction in the previous lab exercise.
 
+1. An outpoint is the tx\_hash of the transaction and the index of the output in the transaction.
+2. Once you have your outpoints, verify that they are valid and the status is "live" using the `rpc get_live_cell` command in ckb-cli. We will explain exactly what this terminology means in the next lesson.
+
+Once you have verified your outpoints, copy them somewhere that they can be retrieved later. We will be using them in the next lesson. 
 
