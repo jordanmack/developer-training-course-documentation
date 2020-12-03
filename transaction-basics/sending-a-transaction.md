@@ -2,17 +2,17 @@
 
 ### Lesson Introduction
 
-In this lesson, we will send a basic transaction using the ckb-cli command line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
+In this lesson, we will send a basic transaction using the `ckb-cli` command line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
 
 ### Verifying Your Accounts
 
-Launch ckb-cli in your console. You should be presented with a screen similar to this.
+Launch `ckb-cli` in your console. You should be presented with a screen similar to this.
 
 ![](../.gitbook/assets/20201129204105.png)
 
 Note: In my examples, I have disabled colored output to make it easier to read on a black terminal background. If you have difficulty with colors on your screen, use the command `config --color` to toggle them on and off.
 
-To list the accounts you have in ckb-cli, use the command `account list`. If you followed the Lab Exercise Setup instructions completely, you should see the same two accounts on your screen.
+To list the accounts you have in `ckb-cli`, use the command `account list`. If you followed the Lab Exercise Setup instructions completely, you should see the same two accounts on your screen.
 
 ![](../.gitbook/assets/20201129202724.png)
 
