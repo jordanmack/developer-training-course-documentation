@@ -34,7 +34,7 @@ These CKBytes had to have been transferred from somewhere, and that place is the
 
 Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "outpoint", and it is used to describe where an output originates from.
 
-Below is a diagram that shows how inputs and outputs are related, and how CKBytes can move around between transactions. Note: TX fees are omitted from this graphic to keep it more simple.
+Below is a diagram that shows how inputs and outputs are related, and how CKBytes can move around between transactions. Note: TX fees are omitted to keep it more simple.
 
 * TX1 has an input of 1,000 CKBytes, which is split into three outputs of 200, 300, and 500.
 * TX2 is using an output from TX1, and has two outputs of 100 and 100.
