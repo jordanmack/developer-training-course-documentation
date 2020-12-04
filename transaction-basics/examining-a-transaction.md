@@ -46,7 +46,7 @@ Below is a diagram that shows how inputs and outputs are related, and how CKByte
 
 An output can only be used once as an input. After that, it is marked as "spent" and cannot be used again. This is how the protocol ensures that a double-spend attack cannot occur. The inputs and outputs have been colored to indicate which have been spent \(red\), and which are still unspent \(green\).
 
-An unspent transaction output is more commonly known as a UTXO, and this is the foundation of the UTXO model that Bitcoin is built on. If you want to read more on UXTO, you can optionally do so [here](https://www.mycryptopedia.com/bitcoin-utxo-unspent-transaction-output-set-explained/). Nervos' model is inspired by Bitcoin's UTXO model, so you will find that many of the concepts and terminology is used interchangibly.
+An unspent transaction output is more commonly known as a UTXO, and this is the foundation of the UTXO model that Bitcoin is built on. If you want to read more on UXTO, you can optionally do so [here](https://www.mycryptopedia.com/bitcoin-utxo-unspent-transaction-output-set-explained/). Nervos' model is inspired by Bitcoin's UTXO model, so you will find that many of the concepts and terminology is used interchangeably.
 
 The image below combines the two screenshot images from earlier so the formatting on the inputs matches the outputs. This will make it easier to compare the capacity values to understand what's going on.
 

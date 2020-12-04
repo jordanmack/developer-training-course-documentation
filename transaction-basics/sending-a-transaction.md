@@ -8,13 +8,13 @@ In this lesson, we will send a basic transaction using the `ckb-cli` command lin
 
 Launch `ckb-cli` in your console. You should be presented with a screen similar to this.
 
-![](../.gitbook/assets/20201129204105.png)
+![](../.gitbook/assets/ckb-cli.png)
 
 Note: In my examples, I have disabled colored output to make it easier to read on a black terminal background. If you have difficulty with colors on your screen, use the command `config --color` to toggle them on and off.
 
 To list the accounts you have in `ckb-cli`, use the command `account list`. If you followed the Lab Exercise Setup instructions completely, you should see the same two accounts on your screen.
 
-![](../.gitbook/assets/20201129202724.png)
+![](../.gitbook/assets/account-list.png)
 
 These are two special accounts that are used only on dev blockchains. When the dev blockchain is created, these accounts are issued a very large amount of CKBytes, the native token of Nervos. Our examples will use these accounts often since they have plenty of CKBytes.
 
@@ -36,7 +36,7 @@ wallet transfer --from-account ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --
 
 You will be prompted to enter a password. This is the password you selected when you first imported the accounts during the Lab Exercise Setup.
 
-![](../.gitbook/assets/20201129223459.png)
+![](../.gitbook/assets/wallet-transfer.png)
 
 Let's break down the parameters one at a time.
 
