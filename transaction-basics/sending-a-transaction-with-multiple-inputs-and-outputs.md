@@ -6,7 +6,13 @@ In this lesson, we will introduce Nervos' Cell Model, and use it to generate a t
 
 ### The Cell Model
 
-In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "cells". Below is are the terms used for the Nervos Cell Model.
+In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "cells".
+
+A Cell is the most basic structure needed to represent a single piece of state data. The design is inspired by Bitcoin's outputs, but Cells have more flexible functionality. Cells can be used to represent any kind of on-chain asset type on Nervos, such as tokens, NFTs, and wrapped assets.
+
+![](../.gitbook/assets/cell-model.png)
+
+Below are the terms used for the Nervos Cell Model. We will stick to the Nervos terminology going forward, but know that it is not uncommon for others to use Bitcoin terminology when speaking about Nervos.
 
 | Bitcoin | Nervos Cell Model |
 | :--- | :--- |
@@ -14,20 +20,25 @@ In the last lab exercise, you may have noticed that the command you used to veri
 | Output | Output Cell |
 | Unspent Output | Live Cell |
 | Spent Output | Dead Cell |
-| Spend | Consume |
+| Spend | Consume  |
 
-A Cell is the most basic structure needed to represent a single piece of state data. The design is inspired by Bitcoin's outputs, but Cells have more powerful functionality.
+A Cell can only be used as an input to a transaction a single time, just like we covered in the last lesson. A Live Cell is one that has not been used as an Input Cell and is available to be used. A Dead Cell is one that has already been consumed by using it as an Input Cell and is no longer available for use.
 
-A Cell is composed of four basic components: Capacity, Data, Lock Script, and Type Script.
+Every Cell has an owner, and an individual can own any number of Cells. In the illustration below, Alice, Bob, and Charlie each own several Cells with different balances.
 
-* **Capacity** is the number of CKBytes held within the Cell. It's called capacity because it represents the amount of on-chain space that the Cell can occupy. If your Cell takes up 100 bytes of space, then it needs to have a capacity of at least 100, which means it must contain at least 100 CKBytes.
-* **Data** is any kind of data you want to store in the on-chain state. This can be data in any form, but the two most common are smart contract binaries and smart contract data.
-* **Lock Script** is a small program that determines who owns and has control over the Cell. The default Lock Script on Nervos uses the Secp256k1 algorithm, which is the same as Bitcoin and Ethereum. But unlike Bitcoin and Ethereum, a developer has complete control over the algorithms, and can change them if needed.
-* **Type Script** is a small program that validates state changes any time the Cell is included in a transaction. A Type Script is what enables small contract like functionality within the Cell Model.
+* Alice has two Cells for a total of 300 CKBytes.
+* Bob has two Cells for a total of 700 CKBytes.
+* Charlie has four Cells for a total of 2,000 CKBytes.
 
-All on-chain assets, such as tokens, NFTs, and wrapped assets, are all represented as Cells.
+![](../.gitbook/assets/cell-owners.png)
 
-![](../.gitbook/assets/cell-model.png)
+Let's say that Charlie wants to send 700 CKBytes to Alice. To create a transaction, the relevant Live Cells must be gathered for use in a process called Cell collection. Charlie has four Cells available that could be used, but none of them have enough to send Alice 700 CKBytes, so we will need to use multiple Cells.
 
-### 
+![](../.gitbook/assets/charlie-transaction.png)
+
+During Cell collection we needed at least 700 CKBytes to pay Alice, so we gathered two Cells to cover that amount. Our total input Cells contain 1,000 CKBytes, but Charlie only wants to send 700 CKBytes to Alice. This means Charlie needs to send 300 CKBytes back to himself as change.
+
+![](../.gitbook/assets/cell-owners-2.png)
+
+
 
