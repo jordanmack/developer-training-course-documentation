@@ -6,7 +6,7 @@ In this lesson, we will introduce Nervos' Cell Model, and use it to generate a t
 
 ### The Cell Model
 
-In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "cells".
+In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "Cells".
 
 A Cell is the most basic structure needed to represent a single piece of state data. The design is inspired by Bitcoin's outputs, but Cells have more flexible functionality. Cells can be used to represent any kind of on-chain asset type on Nervos, such as tokens, NFTs, and wrapped assets.
 
@@ -32,13 +32,19 @@ Every Cell has an owner, and an individual can own any number of Cells. In the i
 
 ![](../.gitbook/assets/cell-owners.png)
 
-Let's say that Charlie wants to send 700 CKBytes to Alice. To create a transaction, the relevant Live Cells must be gathered for use in a process called Cell collection. Charlie has four Cells available that could be used, but none of them have enough to send Alice 700 CKBytes, so we will need to use multiple Cells.
+Let's say that Charlie wants to send 700 CKBytes to Alice. To create a transaction, the relevant Live Cells must be gathered for use as inputs in a process called Cell collection. Charlie has four Cells available that could be used, but none of them have enough to send Alice 700 CKBytes, so we will need to use multiple Cells.
 
 ![](../.gitbook/assets/charlie-transaction.png)
 
 During Cell collection we needed at least 700 CKBytes to pay Alice, so we gathered two Cells to cover that amount. Our total input Cells contain 1,000 CKBytes, but Charlie only wants to send 700 CKBytes to Alice. This means Charlie needs to send 300 CKBytes back to himself as change.
 
+After the transaction has confirmed, the Cells which were used as inputs will be consumed, and two new Cells will be created. The new Cells created in the transaction are outlined in red below. 
+
 ![](../.gitbook/assets/cell-owners-2.png)
+
+### Thinking in Code
+
+Now we will look at 
 
 
 
