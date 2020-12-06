@@ -49,12 +49,12 @@ Once submitted, you will be presented with a long hex value. This is the transac
 
 ### Lab Exercise
 
-Task: Create a third account, and send it 100,000 CKBytes in a single transaction.
+Task: Create a third account, and send it 100,000 CKBytes in a single transaction from account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37`.
 
-1. First, you will need to create a third account. Use the command `account new` to do this.
-2. After the account is created, use the command `wallet transfer` to send CKBytes from one of your existing accounts to the new account.
+1. Use the command `account new` to create a new account.
+2. Use the command `wallet transfer` to send CKBytes.
 
-If you need help with either command, use the `--help` switch to display help.
+Hint: Use the `--help` switch to display the online help for any command.
 
 Once submitted, your transaction id will be printed on the screen. We will use this in the next section, so be sure to copy this value somewhere that it can be retrieved later.  
 

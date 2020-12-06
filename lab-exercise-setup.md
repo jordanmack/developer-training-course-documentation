@@ -27,5 +27,9 @@ Complete the setup for the following two sections:
 
 [https://docs.nervos.org/docs/basics/guides/devchain](https://docs.nervos.org/docs/basics/guides/devchain)
 
+### Setup a CKB Indexer
+
+[https://github.com/nervosnetwork/ckb-indexer](https://github.com/nervosnetwork/ckb-indexer)
+
 
 

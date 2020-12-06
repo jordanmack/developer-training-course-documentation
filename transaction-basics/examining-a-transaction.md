@@ -67,8 +67,8 @@ With the transaction fee taken into account, the CKBytes are now 100% accounted 
 
 Task: Determine the outpoints for the two outputs from the transaction in the previous lab exercise.
 
-1. An outpoint is the tx\_hash of the transaction and the index of the output in the transaction.
-2. Once you have your outpoints, verify that they are valid and the status is "live" using the `rpc get_live_cell` command in ckb-cli. We will explain exactly what this terminology means in the next lesson.
+1. An outpoint is the tx\_hash \(transaction id\) of the transaction and the index of the output in the transaction.
+2. Once you have your outpoints, verify that they are valid and the status is "live" using the `rpc get_live_cell` command in ckb-cli. It will also return a `lock_arg` which you will also need. We will explain exactly what this terminology means in the next lesson.
 
-Once you have verified your outpoints, copy them somewhere that they can be retrieved later. We will be using them in the next lesson. 
+Once you have verified your outpoints, copy them along with the `lock_arg` somewhere that they can be retrieved later. We will be using them in the next lesson.
 

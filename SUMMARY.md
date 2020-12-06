@@ -8,7 +8,7 @@
 
 * [Sending a Basic Transaction](transaction-basics/sending-a-transaction.md)
 * [Examining a Transaction](transaction-basics/examining-a-transaction.md)
-* [Sending a Transaction with Multiple Inputs and Outputs](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
+* [Sending a Transaction with Code](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
 * [Sending to Multiple People in a Single Transaction](transaction-basics/sending-to-multiple-people-in-a-single-transaction.md)
 * [Using a Multi-Sig Lock Script](transaction-basics/using-a-multi-sig-lock-script.md)
 * [Storing Data in a Cell](transaction-basics/storing-data-in-a-cell.md)
