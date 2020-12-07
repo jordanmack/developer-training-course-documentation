@@ -32,7 +32,7 @@ These CKBytes had to have been transferred from somewhere, and that place is the
 
 ![](../.gitbook/assets/tx-previous-output.png)
 
-Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "outpoint", and it is used to describe where an output originates from.
+Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "out point", and it is used to describe where an output originates from.
 
 Below is a diagram that shows how inputs and outputs are related, and how CKBytes can move around between transactions. Note: TX fees are omitted to keep it more simple.
 
@@ -44,7 +44,7 @@ Below is a diagram that shows how inputs and outputs are related, and how CKByte
 
 ![](../.gitbook/assets/transaction-flow.png)
 
-An output can only be used once as an input. After that, it is marked as "spent" and cannot be used again. This is how the protocol ensures that a double-spend attack cannot occur. The inputs and outputs have been colored to indicate which have been spent \(red\), and which are still unspent \(green\).
+An output can only be used once as an input. After that, it is marked as "spent" and cannot be used again. This is how the protocol ensures that the same CKBytes cannot be spent in two places. The inputs and outputs have been colored to indicate which have been spent \(red\), and which are still unspent \(green\).
 
 An unspent transaction output is more commonly known as a UTXO, and this is the foundation of the UTXO model that Bitcoin is built on. If you want to read more on UXTO, you can optionally do so [here](https://www.mycryptopedia.com/bitcoin-utxo-unspent-transaction-output-set-explained/). Nervos' model is inspired by Bitcoin's UTXO model, so you will find that many of the concepts and terminology is used interchangeably.
 
@@ -65,10 +65,10 @@ With the transaction fee taken into account, the CKBytes are now 100% accounted 
 
 ### Lab Exercise
 
-Task: Determine the outpoints for the two outputs from the transaction in the previous lab exercise.
+Task: Determine the out points for the two outputs from the transaction in the previous lab exercise.
 
-1. An outpoint is the tx\_hash \(transaction id\) of the transaction and the index of the output in the transaction.
-2. Once you have your outpoints, verify that they are valid and the status is "live" using the `rpc get_live_cell` command in ckb-cli. It will also return a `lock_arg` which you will also need. We will explain exactly what this terminology means in the next lesson.
+1. An out point is the tx\_hash \(transaction id\) of the transaction and the index of the output in the transaction.
+2. Once you have your out points, verify that they are valid and the status is "live" using the `rpc get_live_cell` command in ckb-cli. It will also return a `lock_arg` which you will also need. We will explain exactly what this terminology means in the next lesson.
 
-Once you have verified your outpoints, copy them along with the `lock_arg` somewhere that they can be retrieved later. We will be using them in the next lesson.
+Once you have verified your out points, copy them along with the `lock_arg` somewhere that they can be retrieved later. We will be using them in the next lesson.
 

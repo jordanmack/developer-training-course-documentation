@@ -2,7 +2,7 @@
 
 ### Lesson Introduction
 
-In this lesson, we will introduce Nervos' Cell Model, and use it to generate a transaction using code. You will need the outpoints you verified from the last lab exercise, so make sure you have them handy.
+In this lesson, we will introduce Nervos' Cell Model, and use it to generate a transaction using code. You will need the out points you verified from the last lab exercise, so make sure you have them handy.
 
 ### The Cell Model
 
@@ -36,7 +36,7 @@ Let's say that Charlie wants to send 700 CKBytes to Alice. To create a transacti
 
 ![](../.gitbook/assets/charlie-transaction.png)
 
-During Cell collection we needed at least 700 CKBytes to pay Alice, so we gathered two Cells to cover that amount. Our total input Cells contain 1,000 CKBytes, but Charlie only wants to send 700 CKBytes to Alice. This means Charlie needs to send 300 CKBytes back to himself as change.
+During Cell collection we need at least 700 CKBytes to pay Alice, so we gather two Cells to cover that amount. Our total Input Cells contain 1,000 CKBytes, but Charlie only wants to send 700 CKBytes to Alice. This means Charlie needs to send 300 CKBytes back to himself as change.
 
 After the transaction has confirmed, the Cells which were used as inputs will be consumed, and two new Cells will be created. The new Cells created in the transaction are outlined in red below. 
 
@@ -44,13 +44,15 @@ After the transaction has confirmed, the Cells which were used as inputs will be
 
 ### Thinking in Code
 
-Next we will create a similar transaction in code. Open `index.js` from the `03-01` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
+Next, we will create a similar transaction in code. Open the `index.js` file from the `03-01` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
 
-This code you're looking at will generate a transaction with one input and one output. We will be generating a real transaction on your CKB Dev Blockchain, but the code you see here is simplified for learning purposes. The input will be specified by one of two outpoints you verified in the last lab exercise. The output is a change cell that returns the CKBytes back to the same account, less the transaction fee. 
+This code in `index.js` will generate a basic transaction with one input and one output. We will be generating a real transaction on your CKB Dev Blockchain, but the code you see here is simplified to make it easier to follow.
+
+The Input Cell that the code uses will be specified by one of two out points you verified in the last lab exercise. The output that is created is a Change Cell that returns the CKBytes back to the same account, minus the transaction fee. 
 
 ![](../.gitbook/assets/code-transaction.png)
 
-You will see the code below near the top of the file.
+You will see this code below near the top of the file.
 
 ```javascript
 const nodeUrl = "http://127.0.0.1:8114/";
@@ -64,20 +66,20 @@ const previousOutput =
 const txFee = 100_000n;
 ```
 
-* The `nodeUrl` is the URL of the CKB Dev Blockchain which should be running locally.
-* The `privateKey` is the key used to sign transactions, and is set to the first account which contains the genesis issued CKBytes.
-* The `address` is the CKB address of the account being signed, and is set to the first account which contains the genesis issued CKBytes.
-*  The `previousOutput` contains the outpoint of a live Cell to be used in this transaction. 
-* The `txFee` is the amount of transaction fees to pay, in Shannons. There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
+* The `nodeUrl` variable is set to the URL of the CKB Dev Blockchain you set up in the Lab Exercise Setup section.
+* The `privateKey` variable is set to the key used to sign transactions. This is the private key for the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` which contains some genesis issued CKBytes. You may recognize this address from when you executed `account list` in `ckb-cli`.
+* The `address` variable is set to the CKB address of the account being signed, and is set to the same account as the `privateKey`.
+*  The `previousOutput` variable will be set to the out point of a live Cell to be used in this transaction. 
+* The `txFee` variable is the amount of transaction fee to pay, in Shannons. There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
 
-We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment. At the beginning of each lab we call this to simplify the setup of the environment. An empty transaction skeleton is returned for us to work with.
+We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment. It returns an empty transaction skeleton for us to work with. The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment.
 
 ```javascript
 // Initialize our lab and create a basic transaction skeleton to work with.
 let {transaction} = await initializeLab(nodeUrl, privateKey);
 ```
 
-This creates an input from a live Cell using the outpoint you specified, then adds it to the transaction.
+This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
 
 ```javascript
 // Add the input cell to the transaction.
@@ -85,7 +87,7 @@ const input = await getLiveCell(nodeUrl, previousOutput);
 transaction = addInput(transaction, input);
 ```
 
-This creates a change Cell output with the same capacity as the input, less the TX fee. The `lock` defines who the owner of this newly created Cell will be. We will explain `type` and `data` in a later lesson.
+This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable We will explain `type` and `data` in a later lesson.
 
 ```javascript
 // Add an output cell.
@@ -100,7 +102,7 @@ This prints the current transaction to the screen in an easy to read format.
 describeTransaction(transaction.toJS());
 ```
 
-This signs the transaction using the private key. Signing the transaction authorizes the usage of any input Cells, which are owned by the private key.
+This signs the transaction using the private key specified in the `privateKey` variable. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key.
 
 ```javascript
 // Sign the transaction.
@@ -115,7 +117,7 @@ const result = await sendTransaction(nodeUrl, signedTx);
 console.log("Transaction Sent:", result);
 ```
 
-Next, scroll back up to the top. Change the `previousOutpoint` value to match the outpoint you verified at the end of the last lesson. You should have verified two outpoints. The outpoint you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address.
+Now scroll back up to the top. We need to change the `previousOutpoint` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
 
 ```javascript
 const previousOutput =
@@ -125,7 +127,7 @@ const previousOutput =
 };
 ```
 
-After you have updated the code with the proper outpoint, open up a terminal and execute the command `node index.js` from within the code directory. Your output should be similar. Record the TX hash since we will use it again later.
+After you have updated the code with the proper out point, open up a terminal and execute the command `node index.js` from within the code directory to run the code. Your output should be similar to that below. Record the TX hash since we will use it again later.
 
 ```javascript
 $ node index.js
@@ -143,7 +145,7 @@ Outputs:
 Transaction Sent: 0xbdf6c1cbf69e97234aae29b6db4a1df107240cb478ff290c214d403b1dfbd94d
 ```
 
-Within a few seconds your transaction should confirm. You can use the `ckb-cli` command below to check the status of the transaction. The transaction is confirmed once the status at the bottom of the output reads `status: committed`.
+Within a few seconds, your transaction should confirm. You can use the `ckb-cli` command below to check the status of the transaction. The transaction is confirmed once the status at the bottom of the output reads `status: committed`.
 
 ```text
 rpc get_transaction --hash <TX_HASH>
@@ -157,20 +159,20 @@ You should get the following error:
 UnhandledPromiseRejectionWarning: Error: Live Cell not found at out point: 0x3a52afb04b91097c84ca287ce58f98c1a454a3aa53497fbdd0ad6cba4b66f43b-0x0
 ```
 
-The reason we received this error is that the outpoint we specified in the code was used as an input the first time we ran it. Using a Live Cell as an input will consume it and transform it into a Dead Cell. This can only occur a single time, which is why we received that error when trying to use it again.
+The reason we received this error is that the out point we specified in the code has already been used. Using a Live Cell as an input will consume it and transform it into a Dead Cell. This can only occur a single time, which is why we received that error when trying to use it again.
 
 ### Lab Exercise
 
 Task: Complete the transaction in `index.js` found in the folder `03-02` by adding values and code as necessary.
 
-To complete this lab exercide you will need to:
+To complete this lab exercise you will need to:
 
 * Perform a manual Cell collection and locate a usable Live Cell owned by the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` and use it to populate the `previousOutput` variable.
-  * Hint: Using the last successful transaction will worked on earlier will give you a usable outpoint.
+  * Hint: The last successful transaction we worked on earlier in this lesson will give you a usable out point matching this account. You should already have the TX hash.
 *  Populate the `txFee` variable with a 0.0001 CKByte fee.
   * Hint: The fee value must be given as a BigInt value expressed in Shannons. There are 100,000,000 Shannons in a CKByte.
-* Populate the `output2` variable with a Cell output structure that properly creates a change Cell for any remaining CKBytes from the input Cell.
-  * Hint: Pay attention to the value of `output1` to aid in creating the calculation.
+* Populate the `output2` variable with a Cell output structure that properly creates a change Cell for any remaining CKBytes from the Input Cell.
+  * Hint: Pay attention to the value of `output1` for the syntax of the value.
 * The transaction you create should have one input, two outputs, and a TX fee.
 
 ![](../.gitbook/assets/lab-exercise-transaction.png)
