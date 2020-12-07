@@ -93,18 +93,18 @@ let output = {cell_output: {capacity: input.cell_output.capacity - txFee, lock: 
 transaction = addOutput(transaction, output);
 ```
 
-This signs the transaction using the private key. Signing the transaction authorizes the usage of any input Cells, which are owned by the private key.
-
-```javascript
-// Sign the transaction.
-const signedTx = signTransaction(transaction, privateKey);
-```
-
 This prints the current transaction to the screen in an easy to read format.
 
 ```javascript
 // Print the details of the transaction to the console.
 describeTransaction(transaction.toJS());
+```
+
+This signs the transaction using the private key. Signing the transaction authorizes the usage of any input Cells, which are owned by the private key.
+
+```javascript
+// Sign the transaction.
+const signedTx = signTransaction(transaction, privateKey);
 ```
 
 This sends the signed transaction to the local CKB Dev Blockchain node and prints the resulting TX hash to the screen. If you watch your CKB node output in another terminal window you should see it confirm shortly after submission.
@@ -161,5 +161,21 @@ The reason we received this error is that the outpoint we specified in the code 
 
 ### Lab Exercise
 
+Task: Complete the transaction in `index.js` found in the folder `03-02` by adding values and code as necessary.
 
+To complete this lab exercide you will need to:
+
+* Perform a manual Cell collection and locate a usable Live Cell owned by the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` and use it to populate the `previousOutput` variable.
+  * Hint: Using the last successful transaction will worked on earlier will give you a usable outpoint.
+*  Populate the `txFee` variable with a 0.0001 CKByte fee.
+  * Hint: The fee value must be given as a BigInt value expressed in Shannons. There are 100,000,000 Shannons in a CKByte.
+* Populate the `output2` variable with a Cell output structure that properly creates a change Cell for any remaining CKBytes from the input Cell.
+  * Hint: Pay attention to the value of `output1` to aid in creating the calculation.
+* The transaction you create should have one input, two outputs, and a TX fee.
+
+![](../.gitbook/assets/lab-exercise-transaction.png)
+
+Run your code by opening a terminal to the `03-02` folder and running `node index.js`. If you get stuck you can find the solution in the `03-03` folder, but don't use it unless you absolutely need it!
+
+Once your code successfully executes, the resulting transaction id will be printed on the screen. Record this value so it's available in the future.
 
