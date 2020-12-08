@@ -7,7 +7,9 @@
 ## Transaction Basics
 
 * [Sending a Basic Transaction](transaction-basics/sending-a-transaction.md)
+* [Lab: Send 100,000 CKBytes](transaction-basics/lab-send-100-000-ckbytes.md)
 * [Examining a Transaction](transaction-basics/examining-a-transaction.md)
+* [Lab: Validating Out Points](transaction-basics/lab-validating-out-points.md)
 * [Sending a Transaction with Code](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
 * [Sending to Multiple People in a Single Transaction](transaction-basics/sending-to-multiple-people-in-a-single-transaction.md)
 * [Using a Multi-Sig Lock Script](transaction-basics/using-a-multi-sig-lock-script.md)

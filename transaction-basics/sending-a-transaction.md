@@ -2,7 +2,7 @@
 
 ### Lesson Introduction
 
-In this lesson, we will send a basic transaction using the `ckb-cli` command line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
+In this lesson, we will send a basic transaction using the `ckb-cli` command-line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
 
 ### Verifying Your Accounts
 
@@ -22,7 +22,7 @@ On the screen, you may see some terminology that isn't familiar. We will cover e
 
 #### Testnet Address
 
-An address on Nervos CKB is similar to other blockchains. It indicates a source or destination for a transaction. The address itself is a special encoded value that specifies both an identity and how it should be accessed, and also includes a checksum value so it cannot be typed incorrectly.
+An address on Nervos CKB is similar to other blockchains. It indicates a source or destination for a transaction. The address itself is a special encoded value that specifies both an identity and how it should be accessed and also includes a checksum value so it cannot be typed incorrectly.
 
 A testnet address can only be used on a testnet. Trying to use a testnet address on the mainnet will always fail. This prevents mistakes from being made when moving between a testnet and mainnet.
 
@@ -46,15 +46,4 @@ Let's break down the parameters one at a time.
 * `--tx-fee` This is the number of CKBytes to include as a transaction fee to pay miners. 
 
 Once submitted, you will be presented with a long hex value. This is the transaction id, and your value will be different than ours.
-
-### Lab Exercise
-
-Task: Create a third account, and send it 100,000 CKBytes in a single transaction from account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37`.
-
-1. Use the command `account new` to create a new account.
-2. Use the command `wallet transfer` to send CKBytes.
-
-Hint: Use the `--help` switch to display the online help for any command.
-
-Once submitted, your transaction id will be printed on the screen. We will use this in the next section, so be sure to copy this value somewhere that it can be retrieved later.  
 
