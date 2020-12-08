@@ -12,7 +12,8 @@ These are the technologies used in this lesson series which a developer needs to
 
 You will need to have a basic understanding of Bitcoin, Ethereum, Smart Contracts, Tokens, and other similar concepts. 
 
-* 
+* [DCX Learn: What is Blockchain?](https://dcxlearn.com/blockchain/)
+
 #### JavaScript/TypeScript
 
 You will need to be comfortable with JavaScript in order to work with the code in the lab exercises. Knowledge of TypeScript is also helpful since it is recommended for development, but our examples will primarily use plain Javascript.
