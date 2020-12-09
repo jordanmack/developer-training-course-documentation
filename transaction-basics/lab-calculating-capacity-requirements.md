@@ -2,7 +2,7 @@
 
 ### Task
 
-Complete the transaction in `index.js` found in the folder `03-02` by adding values and code as necessary.
+Complete the transaction in `index.js` found in the folder `03-02` by adding code and values as necessary. 
 
 ### Steps
 
