@@ -1,8 +1,8 @@
 # The Cell Model
 
-### Lesson Introduction
+### Introduction
 
-In this lesson, we will introduce Nervos' Cell Model, and use it to generate a transaction using code. You will need the out points you verified from the last lab exercise, so make sure you have them handy.
+In this lesson, we will introduce Nervos' Cell Model, and show how it is used in transactions. 
 
 ### The Cell Model
 

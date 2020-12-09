@@ -1,8 +1,8 @@
 # Sending a Basic Transaction
 
-### Lesson Introduction
+### Introduction
 
-In this lesson, we will send a basic transaction using the `ckb-cli` command-line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
+We will begin by sending a basic transaction using the `ckb-cli` command-line tool. You will need to be running a CKB Dev Blockchain in order to complete this lesson. A node configured for the Testnet or Mainnet will not work properly. If you haven't already set one up, go back to the [Lab Exercise Setup](https://nervos.gitbook.io/developer-training-course/lab-exercise-setup) section and make sure you have completed everything required.
 
 ### Verifying Your Accounts
 

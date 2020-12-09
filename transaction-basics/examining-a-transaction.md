@@ -1,6 +1,6 @@
 # Examining a Transaction
 
-### Lesson Introduction
+### Introduction
 
 In this lesson, we will examine the transaction that was created in the last lab exercise. To do this we will, once again, be using the `ckb-cli` command line tool. You will need the transaction id that was generated from the last lab exercise, so make sure it's handy.
 
