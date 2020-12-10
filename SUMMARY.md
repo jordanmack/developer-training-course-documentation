@@ -11,12 +11,10 @@
 * [Examining a Transaction](transaction-basics/examining-a-transaction.md)
 * [Lab: Validating Out Points](transaction-basics/lab-validating-out-points.md)
 * [The Cell Model](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
-* [Building Transactions](transaction-basics/untitled.md)
+* [Components of a Transaction](transaction-basics/components-of-a-transaction.md)
+* [Introduction to Lumos](transaction-basics/untitled.md)
 * [Lab: Calculating Capacity Requirements](transaction-basics/lab-calculating-capacity-requirements.md)
-* [Sending to Multiple People in a Single Transaction](transaction-basics/sending-to-multiple-people-in-a-single-transaction.md)
-* [Using a Multi-Sig Lock Script](transaction-basics/using-a-multi-sig-lock-script.md)
-* [Storing Data in a Cell](transaction-basics/storing-data-in-a-cell.md)
-* [Updating Data in a Cell](transaction-basics/updating-data-in-a-cell.md)
+* [Cell Management](transaction-basics/cell-management.md)
 
 ## Scripting Basics
 

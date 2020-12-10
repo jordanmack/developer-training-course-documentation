@@ -1,7 +1,5 @@
 # Examining a Transaction
 
-### Introduction
-
 Let's examine the transaction that was created in the last lab exercise using `ckb-cli`. You will need the transaction ID that was generated from the last lab exercise, so make sure it's handy.
 
 ### Retrieving Transaction Details

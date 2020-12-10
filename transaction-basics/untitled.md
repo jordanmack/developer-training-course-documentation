@@ -1,4 +1,4 @@
-# Building Transactions
+# Introduction to Lumos
 
 Open the `index.js` file from the `03-01` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
 

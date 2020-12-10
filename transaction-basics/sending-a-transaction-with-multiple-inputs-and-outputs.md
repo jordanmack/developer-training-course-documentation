@@ -1,11 +1,5 @@
 # The Cell Model
 
-### Introduction
-
-In this lesson, we will introduce Nervos' Cell Model, and show how it is used in transactions. 
-
-### The Cell Model
-
 In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "Cells".
 
 A Cell is the most basic structure needed to represent a single piece of state data. The design is inspired by Bitcoin's outputs, but Cells have more flexible functionality. Cells can be used to represent any kind of on-chain asset type on Nervos, such as tokens, NFTs, and wrapped assets.
