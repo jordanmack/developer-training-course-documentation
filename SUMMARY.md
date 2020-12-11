@@ -11,7 +11,7 @@
 * [Examining a Transaction](transaction-basics/examining-a-transaction.md)
 * [Lab: Validating Out Points](transaction-basics/lab-validating-out-points.md)
 * [The Cell Model](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
-* [Components of a Transaction](transaction-basics/components-of-a-transaction.md)
+* [Components of a Valid Transaction](transaction-basics/components-of-a-transaction.md)
 * [Introduction to Lumos](transaction-basics/untitled.md)
 * [Lab: Calculating Capacity Requirements](transaction-basics/lab-calculating-capacity-requirements.md)
 * [Cell Management](transaction-basics/cell-management.md)
