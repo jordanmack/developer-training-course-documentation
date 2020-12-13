@@ -8,7 +8,16 @@ The Input Cell that the code uses will be specified by one of two out points you
 
 ![](../.gitbook/assets/code-transaction.png)
 
-You will see this code below near the top of the file.
+Starting at the top of the file, we have the includes.
+
+```javascript
+const {addressToScript} = require("@ckb-lumos/helpers");
+const {addInput, addOutput, describeTransaction, getLiveCell, initializeLab, sendTransaction, signTransaction} = require("./lab.js");
+```
+
+We have an include from Lumos, but most are from our lab.js library. To keep things more easy to follow, lab.js abstracts out some of the more complex functionality of Lumos. As we get more familiar with Lumos, we will slowly introduce more functionality.
+
+Next, you will see a group of variables, which we will explain.
 
 ```javascript
 const nodeUrl = "http://127.0.0.1:8114/";

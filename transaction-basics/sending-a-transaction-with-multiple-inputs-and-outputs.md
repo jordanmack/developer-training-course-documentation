@@ -1,4 +1,4 @@
-# The Cell Model
+# Introduction to the Cell Model
 
 In the last lab exercise, you may have noticed that the command you used to verify that your outputs is called `get_live_cell`. It's called this because, in Nervos' terminology, both inputs and outputs are canonically referred to as "Cells".
 
