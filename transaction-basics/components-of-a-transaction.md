@@ -18,35 +18,37 @@ All Input Cells in the transaction must be authorized to be consumed. This means
 
 #### Capacity Requirements Must be Met
 
-Every Cell must have capacity equal or greater than the number of bytes occupied by the Cell on the blockchain. This includes any assets or data held within the Cell, as well as the overhead of the Cell's data structure itself. In most cases, this means that the minimum capacity required by a basic Cell is 61 bytes.
+Every Cell must have a capacity equal or greater than the number of bytes occupied by the Cell on the blockchain. This includes any assets or data held within the Cell, as well as the overhead of the Cell's data structure itself. In most cases, this means that the minimum capacity required by a basic Cell is 61 bytes.
 
-The capacity requirement exists both at the Cell level and the transaction level. In order for an Output Cell to have 61 bytes of capacity, there must be an Input Cell with at least 61 bytes of capacity. If the total capacity of the Output Cells exceeds that of the Input Cells, then the transaction is invalid.
+The capacity requirement exists both at the Cell level and the transaction level. In order for an Output Cell to have 61 bytes of capacity, there must be an Input Cell with at least 61 bytes of capacity \(+ TX Fees\). If the total capacity of the Output Cells exceeds that of the Input Cells, then the transaction is invalid.
 
 #### All Scripts Must Execute Successfully
 
 Nervos uses small programs called "scripts" to achieve smart contract functionality. Each Cell can include an optional "Type Script" to include custom logic. We will cover Type Scripts in detail in the later lessons. The important takeaway right now is that when a transaction executes, all Cells with Type Scripts must execute successfully without error. If even one script in the transaction returns an error, then the entire transaction is invalid.
 
-#### Transaction Fees
+#### Adequate Transaction Fees Must be Included
 
-Every transaction that is submitted to the network must include a fee paid in CKBytes. This fee is paid to miners for verifying and processing transactions and for providing security to the network. Fees are based both on the size of the transaction, and the amount of computing resources required to process it. Just like with other blockchains, a fee market is used to prioritize transactions that have paid a higher fee rate. However, unlike most other blockchains, transaction fees are not the only economic incentive for miners. The result is less upward pressure on transaction fees, allowing them to remain lower without sacrificing security. We'll learn how to calculate transaction fees in a later lesson.
+Every transaction that is submitted to the network must include a fee paid in CKBytes. This fee is paid to miners for verifying and processing transactions and for providing security to the network. Fees are based both on the size of the transaction and the amount of computing resources required to process it. Just like with other blockchains, a fee market is used to prioritize transactions that have paid a higher fee rate. However, unlike most other blockchains, transaction fees are not the only economic incentive for miners. The result is less upward pressure on transaction fees, allowing them to remain lower without sacrificing security. We'll learn how to calculate transaction fees in a later lesson.
 
 ### Transaction Lifecycle
 
-Most transactions have a very similar lifecycle on Nervos. Regardless of which framework and tools are used, the process of working with transactions will be similar. 
+Most transactions on Nervos have a very similar lifecycle. Regardless of which framework and tools are used, the general process of working with transactions is similar. 
 
 #### Create an Empty Transaction
 
-Most frameworks you will work with will start with some kind of a scaffold to produce a transaction. Across different frameworks and libraries this may be called by different names. Some may call it a "skeleton",  "builder", "raw transaction", or simply a "transaction". The syntax may be different, but the purpose is generally the same. It is an empty box into which the components of a transaction will be placed.
+Most frameworks you will work with will start with some kind of a scaffold to produce a transaction. Across different frameworks and libraries, this may be called by different names. Some may call it a "skeleton",  "builder", "raw transaction", or simply a "transaction". The syntax may be different, but the purpose is generally the same. It is an empty box into which the components of a transaction will be placed.
 
 #### Add Input Cells
 
-The next step is usually to add Input Cells. I say "usually" because sometimes Output Cells are added first. The order doesn't matter to the framework, but depending on the particulars of the transaction it may be easier to add one before the another to calculate capacity requirements and tx fees.
+The next step is usually to add Input Cells. I say "usually" because sometimes Output Cells are added first. The order doesn't matter to the framework, but depending on the particulars of the transaction it may be easier to add one before the other to calculate capacity requirements and tx fees.
 
 Live Cells are gathered through the process of Cell Collection and added as Inputs within the transaction. These Cells are already on-chain, so they are represented by their Out Point; the transaction ID and index from where the Cell originates. Often times frameworks will abstract this away allowing the developer to work with some kind of a Live Cell instance.
 
 #### Add Output Cells
 
-Output Cells are Cells that will be created after the transaction confirms. They do not exist on-chain yet, so there is no Out Point to reference. The developer must configure the Cell as necessary and then add it to the transaction.
+Output Cells are Cells that will be created after the transaction confirms. They do not exist on-chain yet, so there is no Out Point to reference. The developer must configure the Cell with all details as necessary and then add it to the transaction.
+
+After all the Output Cells are added to the transaction the total capacity required by the outputs will be known. If the capacity provided by the Input Cells is not enough, then a second round of Cell Collection may need to occur to add more input capacity. 
 
 #### Add Change and TX Fees
 
@@ -54,9 +56,9 @@ Once the Input Cells and Output Cells are added to the transaction the capacity 
 
 #### Add Signatures
 
-After the Input Cells have been added to the transaction, authorization needs to be provided for the Input Cells which were added to the transaction. To do this, the transaction is serialized and hashed by the library or framework to create a signing message. This message is signed by the private keys which own the Input Cells, and the resulting signature is added to the Witnesses of the transaction. If there are multiple Input Cells in the transaction that have different owners, then one signature is required from each of the owner's private keys.
+After the Input Cells have been added to the transaction, authorization needs to be provided for those Cells. To do this, the transaction is serialized and hashed by the library or framework to create a signing message. This message is signed by the private keys which own the Input Cells, and the resulting signature is added to the Witnesses of the transaction. If there are multiple Input Cells in the transaction that have different owners, then one signature is required from each of the owner's private keys.
 
-The transaction is serialized and hashed before generating the signing message. This ensures that the transaction cannot change after the signatures were provided. If the transaction does change, then the existing signatures are invalid. A new signing message would need to be generated and signed again by the owners of the Input Cells.
+Since the transaction is serialized and hashed before generating the signing message, any change to the transaction after signing would invalidate the signatures provided. A new signing message would need to be generated and signed again by the owners of the Input Cells. This is important because it ensures that a signature cannot be copied from one transaction to another in a way that the signer didn't intend for.
 
 #### Broadcast the Transaction
 
@@ -64,7 +66,5 @@ The transaction may be completed, but until it is sent to the network no changes
 
 #### Wait for Confirmation
 
-When the transaction is broadcasted it isn't confirmed immediately. It will reside in the mempool, which is kind of like a waiting room for transactions that are waiting for acceptance. When a miner finds a block, they include transactions from the mempool, then broadcast the completed block to the network. Only after the block has been propagated and accepted by the rest of the network can it be considered confirmed.
-
-
+When the transaction is broadcasted it isn't confirmed immediately. It will reside in the mempool, which is kind of like a waiting room for transactions that haven't been added to the blockchain yet. When a miner finds a block, they include transactions from the mempool, then broadcast the completed block to the network. Only after the block has been propagated and accepted by the rest of the network can it be considered confirmed.
 
