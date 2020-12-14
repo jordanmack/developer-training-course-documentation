@@ -72,3 +72,13 @@ const query = {lock: lockScript, type: null};
 
 This JSON object is describing attributes of Cells that we want to locate. In this case, they are Cells which are owned by the specified `lockScript` and do not have a Type Script.
 
+On line 4 we have this:
+
+```javascript
+const cellCollector = new CellCollector(indexer, query);
+```
+
+The `CellCollector` constructor takes the indexer and the query and returns an instance that we can use to locate Cells.
+
+The rest of the code should be fairly easy to understand. It continuously gathers Live Cells that match the query until we have the required capacity, or it errors if there are not enough Cells to meet the requirement.
+
