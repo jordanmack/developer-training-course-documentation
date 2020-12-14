@@ -72,13 +72,19 @@ const query = {lock: lockScript, type: null};
 
 This JSON object is describing attributes of Cells that we want to locate. In this case, they are Cells which are owned by the specified `lockScript` and do not have a Type Script.
 
-On line 4 we have this:
-
-```javascript
-const cellCollector = new CellCollector(indexer, query);
-```
-
-The `CellCollector` constructor takes the indexer and the query and returns an instance that we can use to locate Cells.
-
 The rest of the code should be fairly easy to understand. It continuously gathers Live Cells that match the query until we have the required capacity, or it errors if there are not enough Cells to meet the requirement.
+
+### Capacity Management
+
+Let's say that Charlie wants to send Bob 100 CKBytes. If Charlie had a Cell that contained exactly enough CKBytes, this would be a very straight forward transaction.
+
+![](../.gitbook/assets/cell-capacity-management.png)
+
+In this transaction, Charlie uses a Cell that has exactly 100.0001 CKBytes. Exactly 100 CKBytes is sent to Bob, and the remaining 0.0001 CKBytes is used at the transaction fee. It is very unlikely that this scenario would occur in reality, since the exact amounts present in Cell are very unlikely to match the exact amounts needed for the transaction.
+
+![](../.gitbook/assets/cell-capacity-management-2.png)
+
+Here is a slightly more realistic transaction example. Cell collection was performed to gather at least 100.0001 CKBytes to send to Bob and pay transaction fees. Two Cells were found for 65 CKBytes and 75 CKBytes, for a total of 140 CKBytes.   
+
+
 
