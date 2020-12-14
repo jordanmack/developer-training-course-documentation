@@ -84,7 +84,15 @@ In this transaction, Charlie uses a Cell that has exactly 100.0001 CKBytes. Exac
 
 ![](../.gitbook/assets/cell-capacity-management-2.png)
 
-Here is a slightly more realistic transaction example. Cell collection was performed to gather at least 100.0001 CKBytes to send to Bob and pay transaction fees. Two Cells were found for 65 CKBytes and 75 CKBytes, for a total of 140 CKBytes.   
+Here is a slightly more realistic transaction example. Cell collection was performed to gather at least 100.0001 CKBytes to send to Bob and pay transaction fees. Two Cells were found for 65 CKBytes and 75 CKBytes, for a total of 140 CKBytes.  Now there is enough capacity to pay Bob 100 CKBytes, pay a 0.0001 CKByte transaction fee, and the remaining 39.9999 CKBytes can be sent back to Charlie as change.
 
+However, this transaction has a problem and would be invalid. Can you spot the problem?
 
+The problem with this transaction is that the Change Cell has 39.9999 CKBytes, but as we covered earlier, the minimum capacity of a Cell is 61 CKBytes. This is because a Cell must have enough capacity to cover its own overhead for data storage, which is 61 bytes for a basic Cell.
+
+To solve this, another round of Cell collection must occur to gather enough capacity to properly structure this transaction.
+
+![](../.gitbook/assets/cell-capacity-management-3.png)
+
+Cell collection continues, and a third Input Cell is found with 90.0001 CKBytes. Now there is enough input capacity to create the Change Cell and this transaction would be successful.
 
