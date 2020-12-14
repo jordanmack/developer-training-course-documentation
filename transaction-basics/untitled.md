@@ -1,5 +1,7 @@
 # Introduction to Lumos
 
+Lumos is a framework for building dapps. It is aimed at the backend side of dapp development and is very useful for creating transactions and interacting with the blockchain.
+
 Open the `index.js` file from the `03-01` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
 
 This code in `index.js` will generate a basic transaction with one input and one output. We will be generating a real transaction on your CKB Dev Blockchain, but the code you see here is simplified to make it easier to follow.
@@ -37,12 +39,14 @@ const txFee = 100_000n;
 *  The `previousOutput` variable will be set to the out point of a live Cell to be used in this transaction. 
 * The `txFee` variable is the amount of transaction fee to pay, in Shannons. There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
 
-We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment. It returns an empty transaction skeleton for us to work with. The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment.
+We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment.
 
 ```javascript
 // Initialize our lab and create a basic transaction skeleton to work with.
 let {transaction} = await initializeLab(nodeUrl, privateKey);
 ```
+
+The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code. In this lab, it returns a transaction skeleton for us to work with.
 
 This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
 
