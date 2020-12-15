@@ -2,7 +2,7 @@
 
 Lumos is a framework for building dapps. It is aimed at the backend side of dapp development and is very useful for creating transactions and interacting with the blockchain.
 
-Open the `index.js` file from the `03-01` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
+Open the `index.js` file from the `Introduction-to-Lumos-Example` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
 
 This code in `index.js` will generate a basic transaction with one input and one output. We will be generating a real transaction on your CKB Dev Blockchain, but the code you see here is simplified to make it easier to follow.
 
