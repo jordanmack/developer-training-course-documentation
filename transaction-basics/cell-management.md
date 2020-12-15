@@ -1,4 +1,4 @@
-# Cell Management
+# Working with Cell Collection
 
 One of the unique challenges with the Cell Model is how to effectively manage Cells and the capacity contained within them. 
 
@@ -29,7 +29,7 @@ This code is used to create a new instance of the Lumos indexer which will conne
 
 Up until this point we have been manually doing Cell collection through `ckb-cli` or by using the outputs of transactions we just recently created. Of course, this is not an effective way of doing this in a real dapp. Cell collection needs to be done quickly and automatically.
 
-Lumos has a class called `CellCollector` which is designed to help with this. Here is the `collectCapacity` function from the main library \(`lib/index.js`\).
+Lumos has a class called `CellCollector` which is designed to help with Cell collection, but it requires some additional code to be used for our purposes. Here is the `collectCapacity` function that exists in the main shared library of the Developer Training Course repo `lib/index.js`.
 
 ```javascript
 async function collectCapacity(indexer, lockScript, capacityRequired)
