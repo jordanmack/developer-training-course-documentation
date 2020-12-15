@@ -37,12 +37,12 @@ async function collectCapacity(indexer, lockScript, capacityRequired)
 	const query = {lock: lockScript, type: null};
 	const cellCollector = new CellCollector(indexer, query);
 
-	let inputs = [];
+	let inputCells = [];
 	let inputCapacity = 0n;
 
 	for await (const cell of cellCollector.collect())
 	{
-		inputs.push(cell);
+		inputCells.push(cell);
 		inputCapacity += BigInt(cell.cell_output.capacity);
 
 		if(inputCapacity >= capacityRequired)
@@ -52,7 +52,7 @@ async function collectCapacity(indexer, lockScript, capacityRequired)
 	if(inputCapacity < capacityRequired)
 		throw new Error("Unable to collect enough cells to fulfill the capacity requirements.");
 
-	return {inputs, inputCapacity};
+	return {inputCells, inputCapacity};
 }
 ```
 
