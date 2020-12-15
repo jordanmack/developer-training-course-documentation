@@ -25,7 +25,7 @@ await indexerReady(indexer);
 
 This code is used to create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date, which is beneficial for long-running dapp backend servers. If you have a small program that is designed to run once and exit, then consider using `start()`. Lastly, we wait for the indexer to synchronize with the node using our library function `indexerReady`.
 
-### Automatic Cell Collection
+### Automated Cell Collection
 
 Up until this point we have been manually doing Cell collection through `ckb-cli` or by using the outputs of transactions we just recently created. Of course, this is not an effective way of doing this in a real dapp. Cell collection needs to be done quickly and automatically.
 
