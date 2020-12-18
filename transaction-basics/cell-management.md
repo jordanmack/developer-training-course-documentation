@@ -1,10 +1,10 @@
 # Working with Cell Collection
 
-One of the unique challenges with the Cell Model is how to effectively manage Cells and the capacity contained within them. 
+One of the unique challenges with the Cell Model is how to effectively manage Cells and the capacity contained within them. The Nervos CKB blockchain contains millions of Live Cells, and a developer must be able to locate the Cells they need both for their own accounts, and for the accounts of the users they support in their dapps. 
 
 ### Indexers
 
-The Nervos CKB blockchain contains millions of Live Cells, and a developer must be able to locate the Cells they need to use in transactions. An indexer is a piece of software that helps speed up the process of locating Cells and allows the developer to query for Cells based on their attributes.
+An indexer is a piece of software that helps speed up the process of locating Cells and allows the developer to query for Cells based on their attributes.
 
 ![](../.gitbook/assets/ckb-indexer.png)
 
