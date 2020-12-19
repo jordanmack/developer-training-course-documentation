@@ -18,6 +18,7 @@
 * [Working with Cell Collection](transaction-basics/cell-management.md)
 * [Lab: Implement Automated Cell Collection](transaction-basics/untitled-1.md)
 * [Understanding Lock Scripts](transaction-basics/understanding-lock-scripts.md)
+* [Untitled](transaction-basics/untitled-2.md)
 
 ## Scripting Basics
 
