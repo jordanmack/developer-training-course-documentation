@@ -18,7 +18,8 @@
 * [Working with Cell Collection](transaction-basics/cell-management.md)
 * [Lab: Implement Automated Cell Collection](transaction-basics/untitled-1.md)
 * [Understanding Lock Scripts](transaction-basics/understanding-lock-scripts.md)
-* [Untitled](transaction-basics/untitled-2.md)
+* [Using a Multi-Sig Lock Script](transaction-basics/untitled-2.md)
+* [Lab: Multi-Sig](transaction-basics/lab-multi-sig.md)
 * [Introduction to Lumos Part 2](transaction-basics/introduction-to-lumos-part-2.md)
 * [Untitled](transaction-basics/untitled-4.md)
 
