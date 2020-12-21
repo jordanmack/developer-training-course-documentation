@@ -32,7 +32,26 @@ If you pay close attention, the `lock_arg` value of `0xc8328aabcd9b9e8e64fbc566c
 
 ### Lock Hash
 
-A `lock_hash` is another common value that is used for identifying ownership of a Cell. A `lock_hash` is a Blake2b hash of the Lock Script data structure. A Lock Script contains `args`, `code_hash`, and `hash_type`, and all three of these values must be known to determine ownership. However, this is less convinient to reference. Since `lock_hash` is a hash of all three of these values, it serves the purpose of a single value identifier of Cell ownership.
+A `lock_hash` is another common value that is used for identifying ownership of a Cell. A `lock_hash` is a Blake2b hash of the Lock Script data structure. A Lock Script contains `args`, `code_hash`, and `hash_type`. A Lock Script is less convenient to reference since all three of these values must be known. Since a `lock_hash` encompasses all three of these values, it serves the purpose of a single value identifier of Cell ownership.
 
+### Cell Deps
 
+We already learned about Input Cells and Output Cells, but there is a third type called Cell Deps. Short for Cell Dependencies, Cell Deps are similar to Input Cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
+
+Some of the common uses of Cells Deps are:
+
+* Script Code - A Lock Script references the `code_hash` of the code it needs to execute, but it still needs to know where the code resides. This is done by specifying a Live Cell that contains this code as a Cell Dep.
+* Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
+* State Data - A Cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
+
+### Default Lock Script Cell Deps
+
+The default Lock Script has a `code_hash` of `0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8`. This tells CKB-VM the script that it needs to match to execute, but it doesn't tell it where that Cell is. To do that, we must add a Cell Dep for a Live Cell that has the matching script code that we need.
+
+```javascript
+// Add the cell dep for the lock script.
+skeleton = skeleton.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8", hash_type: "type"})));
+```
+
+The code above is how we can quickly add a Cell Dep for the default Lock Script. You don't need to dig into this now. Just know that it is using Lumos to locate an out point for a Live Cell that contains the script code needed to execute the default Lock Script.
 
