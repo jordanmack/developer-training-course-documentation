@@ -55,3 +55,21 @@ skeleton = skeleton.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({
 
 The code above is how we can quickly add a Cell Dep for the default Lock Script. You don't need to dig into this now. Just know that it is using Lumos to locate an out point for a Live Cell that contains the script code needed to execute the default Lock Script.
 
+### Advantages of Lock Scripts
+
+There are several advantages to using Lock Scripts instead of the hardcoded authentication methods which are used in most other blockchains.
+
+#### Flexibility
+
+The developer is able to have complete control over how authentication is handled. When new cryptography standards emerge in the future, using them is as simple as including a new library in your codebase.
+
+However, the flexibility of Lock Scripts goes far beyond new cryptography. We will cover more cases in future lessons that demonstrate how a Lock Script plays a critical role in more complicated dapps.
+
+#### Scalability
+
+The Cell Model allows for very high-performance script execution. This is possible because each Live Cell is a piece of immutable state that is effectively pre-sharded. Lock Scripts can be executed in parallel, leading to massive scalability on layer 1, and even higher on layer 2.
+
+#### Recoverability
+
+Cell Deps also provide a means of recovering a smart contract if a necessary dependency is consumed, removing it from the state. Cell Deps are never linked to a specific out point, so any resource can be securely redeployed as long as the original source code or binary is available.
+
