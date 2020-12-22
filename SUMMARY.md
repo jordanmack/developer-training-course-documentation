@@ -19,9 +19,9 @@
 * [Lab: Implement Automated Cell Collection](transaction-basics/untitled-1.md)
 * [Understanding Lock Scripts](transaction-basics/understanding-lock-scripts.md)
 * [Using a Multi-Sig Lock Script](transaction-basics/untitled-2.md)
-* [Lab: Multi-Sig](transaction-basics/lab-multi-sig.md)
+* [Lab: Using a 2/3 Multi-Sig](transaction-basics/lab-multi-sig.md)
 * [Introduction to Lumos Part 2](transaction-basics/introduction-to-lumos-part-2.md)
-* [Untitled](transaction-basics/untitled-4.md)
+* [Transaction Aggregation](transaction-basics/untitled-4.md)
 
 ## Scripting Basics
 
