@@ -21,7 +21,6 @@
 * [Using a Multi-Sig Lock Script](transaction-basics/untitled-2.md)
 * [Lab: Using a 2/3 Multi-Sig](transaction-basics/lab-multi-sig.md)
 * [Introduction to Lumos Part 2](transaction-basics/introduction-to-lumos-part-2.md)
-* [Transaction Aggregation](transaction-basics/untitled-4.md)
 
 ## Scripting Basics
 
