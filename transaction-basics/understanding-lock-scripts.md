@@ -2,7 +2,7 @@
 
 Lock Scripts are one of the many powerful features that differentiate Nervos from most other blockchain platforms. A Lock Script is a small program \(called a script\), that is used to define ownership of a Cell. This program has the ability to fully examine the transaction it is included within. This gives the developer a tremendous amount of flexibility on how to manage access.
 
-The default Lock Script is based on Secp256k1 cryptography, making it nearly identical to Bitcoin and Ethereum. This allows a Cell to be owned and unlocked by any user who possesses the private key. However, a Lock Script can do much more. A Cell can be owned by multiple people, or by a smart contract. A Cell can also be owned by no one, but unlock when specific conditions are met in a transaction.
+The default Lock Script is based on Secp256k1 cryptography, making it nearly identical to Bitcoin and Ethereum. This allows a Cell to be owned and unlocked by any user who possesses the private key. However, a Lock Script can do much more. A Cell can be owned by a single person, by multiple people using a multi-sig lock script, a script similar to a smart contract. or by no one.
 
 ### The Structure of a Lock Script
 
@@ -16,7 +16,7 @@ In the above image, the `lock` defines the Lock Script and it has three structur
 
 * `args` are short for arguments. This data provided to the Lock Script similarly to how arguments can be passed to a normal command-line program.
 * `code_hash` is a Blake2b hash of the code that defines the Lock Script. The code itself is a RISC-V binary executable that is stored on-chain. 
-* `hash_type` is a value that is either `data` or `type`. This controls how the `code_hash` is used in a transaction and can be used in the process of upgrading smart contracts. We will cover more about the usage of `code_hash` at a later time.
+* `hash_type` controls how the `code_hash` is used in a transaction. It is used in the process of upgrading smart contracts. We will cover more about the usage of `hash_type` at a later time.
 
 The `code_hash` value of `0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8` is the default Lock Script which uses Secp256k1 cryptography. When a Cell is included in a transaction, the binary code matching the `code_hash` will execute and verify that the proper Secp256k1 signature was provided.
 
