@@ -28,7 +28,7 @@ The output from `account list` in `ckb-cli` shows the `lock_arg`.
 
 ![](../.gitbook/assets/account-list.png)
 
-If you pay close attention, the `lock_arg` value of `0xc8328aabcd9b9e8e64fbc566c4385c3bdeb219d7` from the first account is a match for the `lock_arg` values in the previous screenshot of transaction outputs. Since the `code_hash` and `lock_arg` match, we know that those Cells are owned by the first account listed in the above screenshot.
+Pay close attention to the `lock_arg` value of the first account. The `lock_arg` has a value of `0xc8328aabcd9b9e8e64fbc566c4385c3bdeb219d7` which is an exact match for the `lock_arg` values in the previous screenshot of transaction outputs. The `lock_arg` is the account that owns the Cell, and since it matches, we know that those Cells are owned by the first account listed in the above screenshot.
 
 ### Lock Hash
 
