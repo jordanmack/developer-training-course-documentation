@@ -17,10 +17,13 @@
 * [Lab: Calculating Capacity Requirements](transaction-basics/lab-calculating-capacity-requirements.md)
 * [Working with Cell Collection](transaction-basics/cell-management.md)
 * [Lab: Implement Automated Cell Collection](transaction-basics/untitled-1.md)
-* [Understanding Lock Scripts](transaction-basics/understanding-lock-scripts.md)
-* [Using a Multi-Sig Lock Script](transaction-basics/untitled-2.md)
-* [Lab: Using a 2/3 Multi-Sig](transaction-basics/lab-multi-sig.md)
-* [Introduction to Lumos Part 2](transaction-basics/introduction-to-lumos-part-2.md)
+
+## Lock Scripts
+
+* [Understanding Lock Scripts](lock-scripts/understanding-lock-scripts.md)
+* [Using a Multi-Sig Lock Script](lock-scripts/untitled-2.md)
+* [Lab: Using a 2/3 Multi-Sig](lock-scripts/lab-multi-sig.md)
+* [Introduction to Lumos Part 2](lock-scripts/introduction-to-lumos-part-2.md)
 
 ## Scripting Basics
 
