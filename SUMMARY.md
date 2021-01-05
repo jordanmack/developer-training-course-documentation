@@ -21,7 +21,8 @@
 ## Lock Scripts
 
 * [Using a New Crypto Primitive](lock-scripts/understanding-lock-scripts.md)
-* [Lab: Deploy the Secp256r1 Lock Script](lock-scripts/lab-deploy-the-secp256r1-lock-script.md)
+* [Lab: Deploy a Custom Lock Script](lock-scripts/lab-deploy-the-secp256r1-lock-script.md)
+* [Lab: Complete a Transaction With a Custom L](lock-scripts/lab-complete-a-transaction-with-a-custom-l.md)
 * [Using a Multi-Sig Lock Script](lock-scripts/untitled-2.md)
 * [Lab: Using a 2/3 Multi-Sig](lock-scripts/lab-multi-sig.md)
 * [Introduction to Lumos Part 2](lock-scripts/introduction-to-lumos-part-2.md)

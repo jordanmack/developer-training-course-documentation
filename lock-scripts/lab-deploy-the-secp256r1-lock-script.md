@@ -1,2 +1,2 @@
-# Lab: Deploy the Secp256r1 Lock Script
+# Lab: Deploy a Custom Lock Script
 
