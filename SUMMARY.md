@@ -25,7 +25,7 @@
 * [Lab: Complete a Transaction With a Custom L](lock-scripts/lab-complete-a-transaction-with-a-custom-l.md)
 * [Using a Multi-Sig Lock Script](lock-scripts/untitled-2.md)
 * [Lab: Using a 2/3 Multi-Sig](lock-scripts/lab-multi-sig.md)
-* [Introduction to Lumos Part 2](lock-scripts/introduction-to-lumos-part-2.md)
+* [Introduction to Lumos](lock-scripts/introduction-to-lumos-part-2.md)
 
 ## Scripting Basics
 

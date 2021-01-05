@@ -1,2 +1,2 @@
-# Introduction to Lumos Part 2
+# Introduction to Lumos
 
