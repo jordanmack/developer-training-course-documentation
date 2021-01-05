@@ -20,7 +20,7 @@
 
 ## Lock Scripts
 
-* [Understanding Lock Scripts](lock-scripts/understanding-lock-scripts.md)
+* [Using a New Crypto Primitive](lock-scripts/understanding-lock-scripts.md)
 * [Using a Multi-Sig Lock Script](lock-scripts/untitled-2.md)
 * [Lab: Using a 2/3 Multi-Sig](lock-scripts/lab-multi-sig.md)
 * [Introduction to Lumos Part 2](lock-scripts/introduction-to-lumos-part-2.md)
