@@ -1,4 +1,4 @@
-# Introduction to Lumos Part 1
+# Introduction to Lumos
 
 Lumos is a framework for building dapps. It is aimed at the backend side of dapp development and is very useful for creating transactions and interacting with the blockchain.
 
