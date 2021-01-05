@@ -20,7 +20,7 @@
 
 ## Lock Scripts
 
-* [Using a New Crypto Primitive](lock-scripts/understanding-lock-scripts.md)
+* [Using a Custom Lock Script](lock-scripts/understanding-lock-scripts.md)
 * [Lab: Deploy a Custom Lock Script](lock-scripts/lab-deploy-the-secp256r1-lock-script.md)
 * [Lab: Complete a Transaction With a Custom L](lock-scripts/lab-complete-a-transaction-with-a-custom-l.md)
 * [Using a Multi-Sig Lock Script](lock-scripts/untitled-2.md)

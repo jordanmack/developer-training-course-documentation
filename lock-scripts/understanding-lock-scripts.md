@@ -1,4 +1,4 @@
-# Using a New Crypto Primitive
+# Using a Custom Lock Script
 
 Lock Scripts are one of the many powerful features that differentiate Nervos from most other blockchain platforms. A Lock Script is a small program \(called a script\), that is used to define ownership of a Cell. This program has the ability to fully examine the transaction it is included within. This gives the developer a tremendous amount of flexibility on how to manage access.
 
