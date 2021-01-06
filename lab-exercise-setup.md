@@ -14,6 +14,12 @@ Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the
 * NVM \(Linux\): [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 * NVM \(Windows\): [https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows) 
 
+### Install Rust
+
+We will be using the Rust programming language to create on-chain scripts and install the required tooling. Using `rustup` is generally recommended, but there are several methods available.
+
+* Rust \(All Platforms\): [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
+
 ### Install Git
 
 You will need Git to clone the example code and lab exercises from GitHub in order to complete each lesson.
