@@ -16,15 +16,15 @@ In order for a transaction to be considered valid, there must be at least one In
 
 All Input Cells in the transaction must be authorized to be consumed. This means they must be Live Cells, and in most cases, this means that the transaction must be signed using the private keys of the owners of the Input Cells. This is very similar to other blockchains, which also rely on private keys for authorization. However, Nervos is much more flexible in how authorization can be provided, opening new possibilities which we will cover in a later lesson.
 
+#### All Scripts Must Execute Successfully
+
+Nervos uses small programs called "scripts" to achieve smart contract functionality. Each Cell must include a "Lock Script", which determines the authorization mentioned above. Each Cell and also optionally include a "Type Script" to include custom logic. We will cover Type Scripts in detail in the later lessons. The important takeaway right now is that when a transaction executes, all Lock Scripts and Type Scripts present on all Cells must execute successfully without error. If even one script in the transaction returns an error, then the entire transaction is invalid.
+
 #### Capacity Requirements Must be Met
 
 Every Cell must have a capacity equal or greater than the number of bytes occupied by the Cell on the blockchain. This includes any assets or data held within the Cell, as well as the overhead of the Cell's data structure itself. In most cases, this means that the minimum capacity required by a basic Cell is 61 bytes.
 
 The capacity requirement exists both at the Cell level and the transaction level. In order for an Output Cell to have 61 bytes of capacity, there must be an Input Cell with at least 61 bytes of capacity \(+ TX Fees\). If the total capacity of the Output Cells exceeds that of the Input Cells, then the transaction is invalid.
-
-#### All Scripts Must Execute Successfully
-
-Nervos uses small programs called "scripts" to achieve smart contract functionality. Each Cell can include an optional "Type Script" to include custom logic. We will cover Type Scripts in detail in the later lessons. The important takeaway right now is that when a transaction executes, all Cells with Type Scripts must execute successfully without error. If even one script in the transaction returns an error, then the entire transaction is invalid.
 
 #### Adequate Transaction Fees Must be Included
 
