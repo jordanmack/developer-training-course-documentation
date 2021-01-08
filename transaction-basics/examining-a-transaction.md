@@ -32,7 +32,7 @@ These CKBytes had to have been transferred from somewhere, and that place is the
 
 There is one input and it has a `previous_output` with a `tx_hash` and `index` as a reference. If we use `ckb-cli` to look up that transaction hash and look at the matching index, we see an output with 300,000 capacity.
 
-Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "out point", and it is used to describe where an output originates from.
+Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "out point", and it is used to describe where an output originates from. An out point is sometimes represented as two values, and sometimes represented as a single value in the format `<tx_hash>-<index>`.
 
 Below is a diagram that shows how inputs and outputs are related, and how CKBytes can move around between transactions. Note: TX fees are omitted to keep it more simple.
 
