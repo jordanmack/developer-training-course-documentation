@@ -22,6 +22,10 @@ After all the Output Cells are added to the transaction the total capacity requi
 
 Once the Input Cells and Output Cells are added to the transaction the capacity can be totaled for the Inputs and Outputs. In most cases, the capacity provided by the Input Cells and required by the Output Cells will not be an exact match. The capacity of the Input Cells will exceed the requirements of the Output Cells and the transaction fees. The left over capacity needs to be sent back to the original owner by creating a Change Cell and adding it to the transaction. 
 
+#### Add Dependencies
+
+All transactions will have at least one dependency in the form of a Cell Dep or Header Dep. We will cover what these are and how to use them in the later lessons. For now, know that they are resources needed by the transaction. This can come in the form of smart contract binaries, libraries, modules, information about the blockchain itself, or many forms of data, like oracles.
+
 #### Add Signatures
 
 After the Input Cells have been added to the transaction, authorization needs to be provided for those Cells. To do this, the transaction is serialized and hashed by the library or framework to create a signing message. This message is signed by the private keys which own the Input Cells, and the resulting signature is added to the Witnesses of the transaction. If there are multiple Input Cells in the transaction that have different owners, then one signature is required from each of the owner's private keys.
