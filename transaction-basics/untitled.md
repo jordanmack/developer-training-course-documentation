@@ -17,7 +17,7 @@ const {addressToScript} = require("@ckb-lumos/helpers");
 const {addInput, addOutput, describeTransaction, getLiveCell, initializeLab, sendTransaction, signTransaction} = require("./lab.js");
 ```
 
-We have an include from Lumos, but most are from our lab.js library. To keep things more easy to follow, lab.js abstracts out some of the more complex functionality of Lumos. As we get more familiar with Lumos, we will slowly introduce more functionality.
+We have an include from Lumos, but most are from our lab.js library. To keep things easier to follow, lab.js abstracts out some of the more complex functionality of Lumos. As we get more familiar with Lumos, we will slowly introduce more functionality.
 
 Next, you will see a group of variables, which we will explain.
 
