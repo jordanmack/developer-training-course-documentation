@@ -37,7 +37,7 @@ const txFee = 100_000n;
 * The `privateKey` variable is set to the key used to sign transactions. This is the private key for the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` which contains some genesis issued CKBytes. You may recognize this address from when you executed `account list` in `ckb-cli`.
 * The `address` variable is set to the CKB address of the account being signed, and is set to the same account as the `privateKey`.
 *  The `previousOutput` variable will be set to the out point of a live Cell to be used in this transaction. 
-* The `txFee` variable is the amount of transaction fee to pay, in Shannons. There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
+* The `txFee` variable is the amount of transaction fee to pay, in a measurement unit called "Shannons". There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
 
 We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment.
 
