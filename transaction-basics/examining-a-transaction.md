@@ -50,7 +50,7 @@ An unspent transaction output is more commonly known as a UTXO, and this is the 
 
 ![](../.gitbook/assets/tx-combined.png)
 
-The formatting on the inputs and outputs is different, so it's hard to compare. The image below combines the two screenshot images from earlier so the formatting on the inputs matches the outputs. This will make it easier to compare the capacity values to understand what's going on.
+The formatting on the inputs and outputs is different, so it's hard to compare. The image above combines the two screenshot images from earlier so the formatting on the inputs matches the outputs. This will make it easier to compare the capacity values to understand what's going on.
 
 With this combined image, the amounts should start to make more sense. The inputs have a total of 300,000 CKBytes. The outputs have one for 100,000 CKBytes, and one for 199,999.9999 CKBytes, for a total of 299,999.9999 CKBytes.
 
