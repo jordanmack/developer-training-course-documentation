@@ -40,16 +40,14 @@ const txFee = 100_000n;
 *  The `previousOutput` variable will be set to the out point of a live Cell to be used in this transaction. 
 * The `txFee` variable is the amount of transaction fee to pay, in a measurement unit called "Shannons". There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
 
-We'll walk through each line of code to give a deeper explanation of what is happening. This first line initializes the lab environment.
+We'll walk through each line of code to give a deeper explanation of what is happening.
 
 ```javascript
 // Initialize our lab and create a basic transaction skeleton to work with.
-let {transaction} = await initializeLab(nodeUrl, privateKey);
+let {transaction} = await initializeLab(nodeUrl);
 ```
 
-The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code. In this lab, it returns a transaction skeleton for us to work with.
-
-This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
+This first line initializes the lab environment. The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code. In this lab, it returns a transaction skeleton for us to work with.
 
 ```javascript
 // Add the input cell to the transaction.
@@ -57,7 +55,7 @@ const input = await getLiveCell(nodeUrl, previousOutput);
 transaction = addInput(transaction, input);
 ```
 
-This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable We will explain `type` and `data` in a later lesson.
+This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
 
 ```javascript
 // Add an output cell.
@@ -65,27 +63,29 @@ let output = {cell_output: {capacity: input.cell_output.capacity - txFee, lock: 
 transaction = addOutput(transaction, output);
 ```
 
-This prints the current transaction to the screen in an easy to read format.
+This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable We will explain `type` and `data` in a later lesson.
 
 ```javascript
 // Print the details of the transaction to the console.
 describeTransaction(transaction.toJS());
 ```
 
-This signs the transaction using the private key specified in the `privateKey` variable. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key.
+This prints the current transaction to the screen in an easy to read format.
 
 ```javascript
 // Sign the transaction.
 const signedTx = signTransaction(transaction, privateKey);
 ```
 
-This sends the signed transaction to the local CKB Dev Blockchain node and prints the resulting TX hash to the screen. If you watch your CKB node output in another terminal window you should see it confirm shortly after submission.
+This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key.
 
 ```javascript
 // Send the transaction to the RPC node.
 const result = await sendTransaction(nodeUrl, signedTx);
 console.log("Transaction Sent:", result);
 ```
+
+This sends the signed transaction to the local CKB Dev Blockchain node and prints the resulting TX hash to the screen. If you watch your CKB node output in another terminal window you should see it confirm shortly after submission.
 
 Now scroll back up to the top. We need to change the `previousOutpoint` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
 
