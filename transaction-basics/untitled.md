@@ -14,10 +14,11 @@ Starting at the top of the file, we have the includes.
 
 ```javascript
 const {addressToScript} = require("@ckb-lumos/helpers");
-const {addInput, addOutput, describeTransaction, getLiveCell, initializeLab, sendTransaction, signTransaction} = require("./lab.js");
+const {getLiveCell, hexToInt, intToHex} = require("../lib/index.js");
+const {addInput, addOutput, describeTransaction, initializeLab, sendTransaction, signTransaction} = require("./lab.js");
 ```
 
-We have an include from Lumos, but most are from our lab.js library. To keep things easier to follow, lab.js abstracts out some of the more complex functionality of Lumos. As we get more familiar with Lumos, we will slowly introduce more functionality.
+We have a few includes from Lumos framework, but most are from our shared library and lab library. The shared library contains some functions to handle common operations, while the lab library abstracts out some of the more complex functionality of Lumos to make it easier to understand when introducing it. As we get more familiar with Lumos, we will slowly introduce more and more functionality.
 
 Next, you will see a group of variables, which we will explain.
 
