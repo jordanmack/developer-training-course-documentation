@@ -23,7 +23,7 @@ indexer.startForever();
 await indexerReady(indexer);
 ```
 
-This code is used to create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date, which is beneficial for long-running dapp backend servers. If you have a small program that is designed to run once and exit, then consider using `start()`. Lastly, we wait for the indexer to synchronize with the node using our library function `indexerReady`.
+This code is used to create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date, which is beneficial for long-running dapp backend servers. If you have a small program that is designed to run once and exit, then consider using `start()`. Lastly, we wait for the indexer to synchronize with the node using our shared library function `indexerReady`.
 
 ### Automated Cell Collection
 
