@@ -27,7 +27,7 @@ This code is used to create a new instance of the Lumos indexer which will conne
 
 ### Automated Cell Collection
 
-Up until this point we have been manually doing Cell collection through `ckb-cli` or by using the outputs of transactions we just recently created. Of course, this is not an effective way of doing this in a real dapp. Cell collection needs to be done quickly and automatically.
+Up until this point we have been manually doing Cell collection through `ckb-cli` or by using the outputs of transactions we just recently created. Of course, this is not an effective way of doing things in a real dapp. Cell collection needs to be done quickly and automatically.
 
 Lumos has a class called `CellCollector` which is designed to help with Cell collection, but it requires some additional code to be used for our purposes. Here is the `collectCapacity` function that exists in the main shared library of the Developer Training Course repo `lib/index.js`.
 
