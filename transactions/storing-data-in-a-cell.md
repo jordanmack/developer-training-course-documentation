@@ -107,5 +107,28 @@ transaction = addOutput(transaction, output1);
 
 On line 2 you see the `readFileToHexString()` function. This is a simple convenience function from our shared library that reads the specified file from the filesystem and converts it to a hex string while also giving us the size of the data. On line 3 we use that information to calculate the capacity needed for the Cell. On line 4 we specify the `data` using the `hexString` provided from out function. 
 
-In a terminal, open the `Storing-Data-in-a-Cell-Example` directory and then execute the example using `node index.js`.
+In a terminal, open the `Storing-Data-in-a-Cell-Example` directory and then execute the example using `node index.js`. The example should execute successfully and print a transaction hash. Using this hash with the command below:
+
+```text
+ckb-cli rpc get_live_cell --tx-hash <tx_hash> --index 0 --with-data
+```
+
+Your output should match that of this below.
+
+```text
+cell:
+  data:
+    content: 0x48656c6c6f204e6572766f7321
+    hash: 0xaa44a1b32b437a2a68537398f7730b4d3ef036cd1fdcf0e7b15a04633755ac31
+  output:
+    capacity: 0x1b9130a00
+    lock:
+      args: 0x988a9c3e74c09dab76c8e41d481a71f4d36d772f
+      code_hash: 0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8
+      hash_type: type
+    type: ~
+status: live
+```
+
+If you compare this with the output from earlier, it should be identical. We have created two different Cells, but the data contained within is identical.
 
