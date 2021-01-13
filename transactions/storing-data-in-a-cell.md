@@ -93,11 +93,9 @@ Storing data using Lumos is very similar to what you've already done in previous
 }
 ```
 
-The `data` field is where you specify the data the Cell should be created with, as a hex value.
+The `data` field is where you specify the data the Cell should be created with, as a hex value. That is all that needs to be changed.
 
- Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the equivalent of the `ckb-cli` we used earlier, but in code. This code 
-
-
+Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the code equivalent of the `ckb-cli` command we used earlier. This code also uses the same `HelloNervos.txt` as the contents of the Cell it creates.
 
 ```javascript
 // Create a Cell with a capacity large enough for the data being placed in it.
@@ -107,5 +105,7 @@ const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(
 transaction = addOutput(transaction, output1);
 ```
 
+On line 2 you see the `readFileToHexString()` function. This is a simple convenience function from our shared library that reads the specified file from the filesystem and converts it to a hex string while also giving us the size of the data. On line 3 we use that information to calculate the capacity needed for the Cell. On line 4 we specify the `data` using the `hexString` provided from out function. 
 
+In a terminal, open the `Storing-Data-in-a-Cell-Example` directory and then execute the example using `node index.js`.
 
