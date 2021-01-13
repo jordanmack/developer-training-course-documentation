@@ -4,19 +4,20 @@
 * [Nervos Basics](nervos-basics.md)
 * [Lab Exercise Setup](lab-exercise-setup.md)
 
-## Transaction Basics
+## Transactions
 
-* [Sending a Basic Transaction](transaction-basics/sending-a-transaction.md)
-* [Lab: Send 100,000 CKBytes](transaction-basics/lab-send-100-000-ckbytes.md)
-* [Examining a Transaction](transaction-basics/examining-a-transaction.md)
-* [Lab: Validating Out Points](transaction-basics/lab-validating-out-points.md)
-* [Introduction to the Cell Model](transaction-basics/sending-a-transaction-with-multiple-inputs-and-outputs.md)
-* [Components of a Valid Transaction](transaction-basics/components-of-a-transaction.md)
-* [Transaction Lifecycle](transaction-basics/transaction-lifecycle.md)
-* [Introduction to Lumos](transaction-basics/untitled.md)
-* [Lab: Calculating Capacity Requirements](transaction-basics/lab-calculating-capacity-requirements.md)
-* [Working with Cell Collection](transaction-basics/cell-management.md)
-* [Lab: Implement Automated Cell Collection](transaction-basics/untitled-1.md)
+* [Sending a Basic Transaction](transactions/sending-a-transaction.md)
+* [Lab: Send 100,000 CKBytes](transactions/lab-send-100-000-ckbytes.md)
+* [Examining a Transaction](transactions/examining-a-transaction.md)
+* [Lab: Validating Out Points](transactions/lab-validating-out-points.md)
+* [Introduction to the Cell Model](transactions/sending-a-transaction-with-multiple-inputs-and-outputs.md)
+* [Components of a Valid Transaction](transactions/components-of-a-transaction.md)
+* [Transaction Lifecycle](transactions/transaction-lifecycle.md)
+* [Introduction to Lumos](transactions/untitled.md)
+* [Lab: Calculating Capacity Requirements](transactions/lab-calculating-capacity-requirements.md)
+* [Working with Cell Collection](transactions/cell-management.md)
+* [Lab: Implement Automated Cell Collection](transactions/untitled-1.md)
+* [Storing Data in a Cell](transactions/storing-data-in-a-cell.md)
 
 ## Lock Scripts
 
