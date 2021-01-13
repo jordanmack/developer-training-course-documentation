@@ -93,7 +93,7 @@ Storing data using Lumos is very similar to what you've already done in previous
 }
 ```
 
-The `data` field is where you specify the data the Cell should be created with, as a hex value. That is all that needs to be changed.
+The `data` field is a hex string of the data to create the Cell with. The process to add data is simple. Replace this with the hex string for the data desired, and adjust the capacity if necessary to accommodate the extra storage required by the data. 
 
 Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the code equivalent of the `ckb-cli` command we used earlier. This code also uses the same `HelloNervos.txt` as the contents of the Cell it creates.
 
