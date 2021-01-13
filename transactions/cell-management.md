@@ -18,12 +18,19 @@ const {indexerReady} = require("../lib/index.js");
 
 const nodeUrl = "http://127.0.0.1:8114/";
 
+initializeConfig();
 const indexer = new Indexer(nodeUrl, "./indexer-data");
 indexer.startForever();
 await indexerReady(indexer);
 ```
 
-This code is used to create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date, which is beneficial for long-running dapp backend servers. If you have a small program that is designed to run once and exit, then consider using `start()`. Lastly, we wait for the indexer to synchronize with the node using our shared library function `indexerReady`.
+On line 6 we start with `initializeConfig()`. This uses the `config.json` file in your current working directory to initialize Lumos.
+
+Starting on line 7 we create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date and automatically restarts it if there was any problem. This is beneficial for long-running dapp backend servers that never stop running. If you have a small program that is designed to run and exit, then consider using `start()`.
+
+Lastly, we wait for the indexer to synchronize with the node using our shared library function `indexerReady`. This function waits for the current block tip of the indexer to match the block tip of the CKB node using the RPC.
+
+This code has always been present in the previous examples, but we hid it in `initializeLab()` to make things easier to read. Now that you're aware of it we will show it going forward.
 
 ### Automated Cell Collection
 
