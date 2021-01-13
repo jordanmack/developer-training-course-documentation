@@ -34,12 +34,77 @@ Under the hood, all three methods ultimately rely on RPC calls to a ckb node, bu
 
 ### Storing Data Using ckb-cli
 
+Open a terminal and enter the top level of the `developer-training-course` folder. From there, execute the following command:
 
+```bash
+ckb-cli wallet transfer --from-account ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-address ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-data-path "./files/HelloNervos.txt" --capacity 74 --tx-fee 0.0001
+```
 
+This will create a new Cell that contains the contents of the file `HelloNervos.txt`. The capacity of the new Cell is exactly 74. This is because the size of `HelloNervos.txt` is 13 bytes. If you remember from earlier, the minimum capacity for a standard Cell is 61 bytes. The minimum capacity requirements are always for the total space a Cell occupies, which includes both the data in the Cell and the overhead of the structures that comprise the Cell itself. The Cell structures take 61 bytes, the data takes 13 bytes, and 61 + 13 = 74.
 
+Now let's look at the Cell that was just created. Execute the following command, replacing the TX Hash with the transaction from the `wallet transfer` command we just executed above.
+
+```bash
+ckb-cli rpc get_live_cell --tx-hash <tx_hash> --index 0 --with-data
+```
+
+Your output should be very similar to this:
 
 ```text
-wallet transfer --from-account ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-address ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-data-path "./files/HelloNervos.txt" --capacity 147 --tx-fee 0.0001
+cell:
+  data:
+    content: 0x48656c6c6f204e6572766f7321
+    hash: 0xaa44a1b32b437a2a68537398f7730b4d3ef036cd1fdcf0e7b15a04633755ac31
+  output:
+    capacity: 0x1b9130a00
+    lock:
+      args: 0xc8328aabcd9b9e8e64fbc566c4385c3bdeb219d7
+      code_hash: 0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8
+      hash_type: type
+    type: ~
+status: live
+```
+
+The hex-encoded content of `0x48656c6c6f204e6572766f7321` decodes to `Hello Nervos!`, which is the content of the file `HelloNervos.txt`. The data hash value of `0xaa44a1b32b437a2a68537398f7730b4d3ef036cd1fdcf0e7b15a04633755ac31` is the hash of the content itself.
+
+To verify, let's check the hash of the file itself using this command:
+
+```bash
+ckb-cli util blake2b --binary-path "./files/HelloNervos.txt"
+```
+
+The output should match the data hash value from the previous command.
+
+Looking at the output capacity, we have a value of `0x1b9130a00`. When decoded back to decimal, it is a value of 7,400,000,000. The value is in Shannons, which means this is exactly 74 CKBytes.
+
+### Storing Data Using Lumos
+
+Storing data using Lumos is very similar to what you've already done in previous labs. Here is an example of the JSON structure used as an output in previous code examples:
+
+```javascript
+{
+    cell_output:
+    {
+        capacity: outputCapacity,
+        lock: addressToScript(address),
+        type: null
+    },
+    data: "0x"
+}
+```
+
+The `data` field is where you specify the data the Cell should be created with, as a hex value.
+
+ Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the equivalent of the `ckb-cli` we used earlier, but in code. This code 
+
+
+
+```javascript
+// Create a Cell with a capacity large enough for the data being placed in it.
+const {hexString, dataSize} = await readFileToHexString(dataFile);
+const outputCapacity1 = intToHex(ckbytesToShannons(61n) + ckbytesToShannons(dataSize));
+const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: hexString};
+transaction = addOutput(transaction, output1);
 ```
 
 
