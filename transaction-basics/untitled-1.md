@@ -2,7 +2,7 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Implement-Automated-Cell-Collection-Exercise` by adding code and values as necessary.
 
-The transaction you create should have one or more inputs, one output to `address2` for 100 CKBytes, one change Cell if necessary, and a TX fee.
+The transaction you create should have one or more inputs from `address1`, one output to `address2` for 100 CKBytes, one change Cell back to `address1`if necessary, and a TX fee.
 
 ![](../.gitbook/assets/transaction-structure.png)
 
