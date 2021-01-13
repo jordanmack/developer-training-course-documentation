@@ -14,7 +14,7 @@ Lumos has a built-in indexer as part of the framework. The allows dapps built on
 
 ```javascript
 const {Indexer} = require("@ckb-lumos/indexer");
-const {getLiveCell} = require("../lib/index.js");
+const {indexerReady} = require("../lib/index.js");
 
 const nodeUrl = "http://127.0.0.1:8114/";
 
@@ -32,6 +32,20 @@ Up until this point we have been manually doing Cell collection through `ckb-cli
 Lumos has a class called `CellCollector` which is designed to help with Cell collection, but it requires some additional code to be used for our purposes. Here is the `collectCapacity` function that exists in the main shared library of the Developer Training Course repo `lib/index.js`.
 
 ```javascript
+/**
+ * Collects Cells for use as capacity from the specified lock script.
+ * 
+ * This will search for Cells with at least capacityRequired. If there is insufficient capacity available an error will be thrown.
+ * 
+ * @example
+ * const {inputCells, inputCapacity} = await collectCapacity(indexer, addressToScript("ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37"), ckbytesToShannons(100n));
+ * 
+ * @param {Object} indexer An instance of a running Lumos Indexer.
+ * @param {Object} lockScript A script used to query the CellCollector to find Cells to use as capacity.
+ * @param {BigInt} capacityRequired The number of CKBytes necessary
+ * 
+ * @returns {Object} An object with the inputCells[] found and the inputCapacity contained within the provided Cells.  
+ */
 async function collectCapacity(indexer, lockScript, capacityRequired)
 {
 	const query = {lock: lockScript, type: null};
@@ -43,7 +57,7 @@ async function collectCapacity(indexer, lockScript, capacityRequired)
 	for await (const cell of cellCollector.collect())
 	{
 		inputCells.push(cell);
-		inputCapacity += BigInt(cell.cell_output.capacity);
+		inputCapacity += hexToInt(cell.cell_output.capacity);
 
 		if(inputCapacity >= capacityRequired)
 			break;
@@ -58,13 +72,13 @@ async function collectCapacity(indexer, lockScript, capacityRequired)
 
 This function is used to collect Cells for use as capacity in a transaction. It uses a `CellCollector` instance to query the indexer to find Live Cells.
 
-Looking at line 1, it takes the following arguments:
+Looking at line 15, it takes the following arguments:
 
 * `indexer` is an instance of the Lumos indexer that is initialized and fully synced with a Nervos CKB node.
 * `lockScript` is something we will cover in one of the next topics. For now, think of it as the owner of a Cell.
 * `capacityRequired` is the amount of CKBytes, in Shannons, that are needed to complete our transaction.
 
-Looking at line 3 we see this:
+Looking at line 17 we see this:
 
 ```javascript
 const query = {lock: lockScript, type: null};
