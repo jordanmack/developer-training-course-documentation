@@ -34,14 +34,36 @@ This would limit the results of the query only to Cells that contain no data. If
 const lockScript = addressToScript("ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37");
 const {hexString} = await readFileToHexString("../files/HelloNervos.txt");
 const query = {lock: lockScript, type: null, data: hexString};
+```
+
+This example code will create a query object to locate only the Cells which have data matching the contents of the `HelloNervos.txt` file. This can be used with `CellCollector()` to query for Live Cells.
+
+If you open the `index.js` file from the `Updating-Data-in-a-Cell-Example` folder in the Developer Training Course repo you will see the following code.
+
+```javascript
+// Locate a single Live Cell with the desired data and add it as an input.
+const {hexString: hexString1} = await readFileToHexString(dataFile1);
+const query = {lock: addressToScript(address1), type: null, data: hexString1};
 const cellCollector = new CellCollector(indexer, query);
 for await (const cell of cellCollector.collect())
 {
-	console.log(cell);
+	transaction = addInput(transaction, cell);
+	break;
 }
+if(transaction.inputs.size === 0)
+	throw new Error("Unable to locate a Live Cell with the expected data.");
+
+// Calculate the total capacity of all inputs.
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+
+// Create a Cell with data from the specified file.
+const {hexString: hexString2} = await readFileToHexString(dataFile2);
+const outputCapacity1 = intToHex(inputCapacity - txFee);
+const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: hexString2};
+transaction = addOutput(transaction, output1);
 ```
 
-This example code will locate only the Cells which have data matching the contents of the `HelloNervos.txt` file and print them to the screen.
+ If you read through the comments, the intent of the code is quite simple. We locate the existing Cell and use it as an input, consuming it. We then create a new output, recycling the capacity from the consumed Cell.
 
- 
+If you look through the rest of the code you will notice there is no additional Cell collection and no creation of a change Cell. This is because we knew ahead of time that the size of the data in the output Cell is smaller than the input Cell, and that we would have more than enough CKBytes.
 
