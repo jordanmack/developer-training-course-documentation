@@ -13,7 +13,7 @@
 * [Introduction to the Cell Model](transactions/sending-a-transaction-with-multiple-inputs-and-outputs.md)
 * [Components of a Valid Transaction](transactions/components-of-a-transaction.md)
 * [Transaction Lifecycle](transactions/transaction-lifecycle.md)
-* [Introduction to Lumos](transactions/untitled.md)
+* [Introduction to Lumos](transactions/introduction-to-lumos.md)
 * [Lab: Calculating Capacity Requirements](transactions/lab-calculating-capacity-requirements.md)
 * [Working with Cell Collection](transactions/cell-management.md)
 * [Lab: Implement Automated Cell Collection](transactions/untitled-1.md)
