@@ -30,8 +30,6 @@ Starting on line 7 we create a new instance of the Lumos indexer which will conn
 
 Lastly, we wait for the indexer to synchronize with the node using our shared library function `indexerReady`. This function waits for the current block tip of the indexer to match the block tip of the CKB node using the RPC.
 
-This code has always been present in the previous examples, but we hid it in `initializeLab()` to make things easier to read. Now that you're aware of it we will show it going forward.
-
 ### Automated Cell Collection
 
 Up until this point we have been manually doing Cell collection through `ckb-cli` or by using the outputs of transactions we just recently created. Of course, this is not an effective way of doing things in a real dapp. Cell collection needs to be done quickly and automatically.
