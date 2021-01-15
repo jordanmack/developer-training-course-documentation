@@ -13,12 +13,14 @@ The Input Cell that the code uses will be specified by one of two out points you
 Starting at the top of the file, we have the includes.
 
 ```javascript
-const {addressToScript} = require("@ckb-lumos/helpers");
-const {getLiveCell, hexToInt, intToHex} = require("../lib/index.js");
-const {addInput, addOutput, describeTransaction, initializeLab, sendTransaction, signTransaction} = require("./lab.js");
+const {initializeConfig} = require("@ckb-lumos/config-manager");
+const {addressToScript, TransactionSkeleton} = require("@ckb-lumos/helpers");
+const {addDefaultCellDeps, addDefaultWitnessPlaceholders, getLiveCell, initializeLumosIndexer, sendTransaction, signTransaction, waitForNextBlock, waitForTransactionConfirmation} = require("../lib/index.js");
+const {hexToInt, intToHex} = require("../lib/util.js");
+const {describeTransaction, initializeLab} = require("./lab.js");
 ```
 
-We have a few includes from Lumos framework, but most are from our shared library and lab library. The shared library contains some functions to handle common operations, while the lab library abstracts out some of the more complex functionality of Lumos to make it easier to understand when introducing it. As we get more familiar with Lumos, we will slowly introduce more and more functionality.
+We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic convertors and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
 
 Next, you will see a group of variables, which we will explain.
 
@@ -43,27 +45,65 @@ const txFee = 100_000n;
 We'll walk through each line of code to give a deeper explanation of what is happening.
 
 ```javascript
-// Initialize our lab and create a basic transaction skeleton to work with.
-let {transaction} = await initializeLab(nodeUrl);
+// Initialize the Lumos configuration which is held in config.json.
+initializeConfig();
 ```
 
-This first line initializes the lab environment. The `initializeLab` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code. In this lab, it returns a transaction skeleton for us to work with.
+Lumos must be initialized with a configuration file before it can be used for the first time. This configuration file is named `config.json`, and it is normally found in the current directory where your script executes from. This is already set up for you in the developer training course repo.
+
+```javascript
+// Start the Lumos Indexer and wait until it is fully synchronized.
+const indexer = await initializeLumosIndexer(nodeUrl);
+```
+
+Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate Cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. Feel free to peek at the implementation to see what's going on under the hood.
+
+```javascript
+// Create a transaction skeleton.
+let transaction = TransactionSkeleton({cellProvider: indexer});
+```
+
+This creates a Lumos transaction skeleton, which is an empty transaction structure which we will populate.
+
+```javascript
+// Add the cell dep for the lock script.
+transaction = addDefaultCellDeps(transaction);
+```
+
+This adds in the required Cell deps. We will cover what this is in a later lesson. For now, think of them as libraries needed for the transaction.
+
+```javascript
+// Initialize our lab and create a basic transaction skeleton to work with.
+let {transaction} = await initializeLab(nodeUrl, indexer);
+```
+
+This initializes the lab environment. The `initializeLab()` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code.
 
 ```javascript
 // Add the input cell to the transaction.
 const input = await getLiveCell(nodeUrl, previousOutput);
-transaction = addInput(transaction, input);
+transaction = transaction.update("inputs", (i)=>i.push(input));
 ```
 
-This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
+This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the update syntax. Check out their documentation if you need more information on the syntax and usage.
 
 ```javascript
 // Add an output cell.
-let output = {cell_output: {capacity: input.cell_output.capacity - txFee, lock: addressToScript(address), type: null}, data: "0x"};
-transaction = addOutput(transaction, output);
+const outputCapacity = intToHex(hexToInt(input.cell_output.capacity) - txFee);
+const output = {cell_output: {capacity: outputCapacity, lock: addressToScript(address), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output));
 ```
 
-This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable We will explain `type` and `data` in a later lesson.
+This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable. We will explain `type` and `data` in a later lesson.
+
+```javascript
+// Add in the witness placeholders.
+transaction = addDefaultWitnessPlaceholders(transaction);
+```
+
+The Witness is the part of the transaction that holds all the data provided with a transaction to prove its validity. This includes signatures that prove the owner of the input Cells authorized their usage in the transaction. The structure of Witness requires specific formatting, which we will cover in a later lesson.
+
+The `addDefaultWitnessPlaceholders()` shared library function creates this structure for us and adds in the required placeholders for the most common usage scenarios.
 
 ```javascript
 // Print the details of the transaction to the console.
@@ -73,11 +113,18 @@ describeTransaction(transaction.toJS());
 This prints the current transaction to the screen in an easy to read format.
 
 ```javascript
+// Validate the transaction against the lab requirements.
+await validateLab(transaction);
+```
+
+The `validateLab()` function verifies that the transaction meets the requirements of the lab. Similar to the `initializeLab()` function, this is something we use on lab exercises, but it would never be used in a production environment.
+
+```javascript
 // Sign the transaction.
 const signedTx = signTransaction(transaction, privateKey);
 ```
 
-This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key.
+This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability. If you want to look at what it's really doing, look at the implementation in the shared library.
 
 ```javascript
 // Send the transaction to the RPC node.
@@ -86,6 +133,14 @@ console.log("Transaction Sent:", result);
 ```
 
 This sends the signed transaction to the local CKB Dev Blockchain node and prints the resulting TX hash to the screen. If you watch your CKB node output in another terminal window you should see it confirm shortly after submission.
+
+```javascript
+// Wait for the transaction to confirm.
+await waitForTransactionConfirmation(nodeUrl, txid);
+console.log("\n");
+```
+
+This waits for the transaction we just sent to confirm before we continue. The `waitForTransactionConfirmation()` shared library function that uses the CKB node RPC to continuously check the status of a transaction, waiting for it to confirm before proceeding.
 
 Now scroll back up to the top. We need to change the `previousOutpoint` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
 
