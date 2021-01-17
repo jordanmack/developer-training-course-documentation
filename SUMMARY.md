@@ -18,6 +18,7 @@
 * [Working with Cell Collection](transactions/cell-management.md)
 * [Lab: Implement Automated Cell Collection](transactions/untitled-1.md)
 * [Storing Data in a Cell](transactions/storing-data-in-a-cell.md)
+* [Lab: Store a File in a Cell](transactions/lab-store-a-file-in-a-cell.md)
 * [Updating Data in a Cell](transactions/updating-data-in-a-cell.md)
 
 ## Lock Scripts

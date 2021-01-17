@@ -19,7 +19,7 @@ The transaction you create should have one or more inputs from `address1`, one o
 6. Populate the `output2` variable with the JSON structure for an output Cell to use as change back to `address1`.
    * Hint: You can copy the structure from `output1` to use as a reference. 
 
-Run your code by opening a terminal to the `Lab-Implement-Automated-Cell-Collection-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Implement-Automated-Cell-Collection-Solution` folder, but don't use it unless you absolutely need it!
+Run your code by opening a terminal to the `Lab-Implement-Automated-Cell-Collection-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Implement-Automated-Cell-Collection-Solution` folder.
 
 Once your code successfully executes, the resulting transaction id will be printed on the screen.
 

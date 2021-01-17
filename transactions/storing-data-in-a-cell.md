@@ -95,17 +95,18 @@ Storing data using Lumos is very similar to what you've already done in previous
 
 The `data` field is a hex string of the data to create the Cell with. The process to add data is simple. Replace this with the hex string for the data desired, and adjust the capacity if necessary to accommodate the extra storage required by the data. 
 
-Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the code equivalent of the `ckb-cli` command we used earlier. This code also uses the same `HelloNervos.txt` as the contents of the Cell it creates.
+Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the code equivalent of the `ckb-cli` command we used earlier.
 
 ```javascript
 // Create a Cell with a capacity large enough for the data being placed in it.
-const {hexString, dataSize} = await readFileToHexString(dataFile);
-const outputCapacity1 = intToHex(ckbytesToShannons(61n) + ckbytesToShannons(dataSize));
-const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: hexString};
-transaction = addOutput(transaction, output1);
+const hexString = "0x48656c6c6f204e6572766f7321"; // "Hello Nervos!" as a hex string.
+const dataSize = ((hexString.length - 2) / 2); // Calculate the size of hexString as binary.
+const outputCapacity1 = intToHex(ckbytesToShannons(61n) + ckbytesToShannons(dataSize)); // 61 CKBytes for the Cell minimum + the size of the data.
+const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address), type: null}, data: hexString};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
-On line 2 you see the `readFileToHexString()` function. This is a simple convenience function from our shared library that reads the specified file from the filesystem and converts it to a hex string while also giving us the size of the data. On line 3 we use that information to calculate the capacity needed for the Cell. On line 4 we specify the `data` using the `hexString` provided from out function. 
+On line 2 you see the text "Hello Nervos!" encoded as a hex string. On line 3 we calculate the size of the data if it was decoded back to binary. On line 4 we use that information to calculate the capacity needed for the Cell, which is equal to the base requirement of 61 CKBytes plus CKBytes equal to the amount of data being stored. On line 5 we specify the `data` for the Cell using the `hexString` provided from out function. 
 
 In a terminal, open the `Storing-Data-in-a-Cell-Example` directory and then execute the example using `node index.js`. The example should execute successfully and print a transaction hash. Using this hash with the command below:
 
