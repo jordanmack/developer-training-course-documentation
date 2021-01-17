@@ -6,7 +6,7 @@ Updating the data in a Cell is another common process that must be performed, bu
 
 In the above example image, Charlie is updating the data in a Cell he owns. The input Cell is consumed and effectively destroyed. In its place, a new Cell is created with different data. Note: The transaction fee has been omitted from this example for simplicity.
 
-In a sense, it isn't really an "update" at all because the Cell being consumed has no direct connection to the Cell being created. The process should be relatively simple at this point, but it is important to completely understand what is going on. Once we start working with smart contracts in later lessons it will become apparent why this conceptual difference is very important.
+In a sense, it isn't really an "update" at all because the Cell being consumed has no direct connection to the Cell being created. The process should be relatively simple at this point, but it is important to completely understand what is going on. Once we start working with smart contracts in later lessons, it will become apparent why this conceptual difference is very important.
 
 ### Updating Data Using Lumos
 
@@ -63,7 +63,7 @@ const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(
 transaction = addOutput(transaction, output1);
 ```
 
- If you read through the comments, the intent of the code is quite simple. We locate the existing Cell and use it as an input, consuming it. We then create a new output, recycling the capacity from the consumed Cell.
+ If you read through the comments, the intent of the code is quite simple. We locate a single existing Cell and use it as an input, consuming it. We then create a new output, recycling the capacity from the consumed Cell.
 
 If you look through the rest of the code you will notice there is no additional Cell collection and no creation of a change Cell. This is because we knew ahead of time that the size of the data in the output Cell is smaller than the input Cell, and that we would have more than enough CKBytes.
 
