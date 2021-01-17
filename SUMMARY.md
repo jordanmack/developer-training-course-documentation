@@ -20,6 +20,7 @@
 * [Storing Data in a Cell](transactions/storing-data-in-a-cell.md)
 * [Lab: Store a File in a Cell](transactions/lab-store-a-file-in-a-cell.md)
 * [Updating Data in a Cell](transactions/updating-data-in-a-cell.md)
+* [Lab: Updating Data in a Cell](transactions/lab-updating-data-in-a-cell.md)
 
 ## Lock Scripts
 
