@@ -2,6 +2,8 @@
 
 ### Setup Introduction
 
+In order to follow along with the examples and complete the lab exercises, some basic software and tooling will need to be installed on your computer.
+
 Our examples are all created using a Linux environment, but it should also work for MacOS and Windows.
 
 ### Install Node.js
@@ -11,7 +13,7 @@ Our lessons and lab exercises all rely on Node.js, so it will need to be install
 Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the installation.
 
 * Vanilla Node.js \(All Platforms\): [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-* NVM \(Linux\): [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
+* NVM \(Linux & MacOS\): [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 * NVM \(Windows\): [https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows) 
 
 ### Install Rust
