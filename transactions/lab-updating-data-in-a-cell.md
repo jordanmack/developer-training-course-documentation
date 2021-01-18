@@ -2,7 +2,7 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Updating-Data-in-a-Cell-Exercise` by adding code and values as necessary.
 
-Locate the two existing Cells which have data matching the contents of `HelloNervos.txt`. Update one with the contents of `HelloWorld.txt`. Update the other with the contents of `LoremIpsum.txt`.
+Your code should locate the two existing Cells which have data matching the contents of `HelloNervos.txt`. Update one with the contents of `HelloWorld.txt`. Update the other with the contents of `LoremIpsum.txt`.
 
 Your resulting transaction should contain:
 
@@ -15,16 +15,14 @@ Your resulting transaction should contain:
 
 ![](../.gitbook/assets/transaction-structure%20%281%29.png)
 
-1. 2. Populate the `hexString` variable with the contents of the `files/HelloNervos.txt` encoded as a hex string.
-   * Hint: Use the [Node.js native functions](https://nodejs.dev/learn/reading-files-with-nodejs) to read the file to a Buffer, then use `.toString("hex")` to convert it to a hex string.
-3. Populate the `dataSize` variable with the size of the data.
-   * Hint: The size of the data should be in binary format, not hex string format.
-4. Populate the `outputCapacity1` variable with the minimum amount of CKBytes necessary to create a Cell with the data being included.
-   * Hint: Capacity values added to the Cell output structure must be in Shannons, and expressed as a hex value. Don't forget to use `intToHex()` and `ckbytesToShannons()`.
-5. Populate the `output1` variable with the JSON structure for an output Cell that is owned by `address` and has the data from `hexString`.
-   * Hint: You can copy the structure from `output2` to use as a reference. 
+In this lab exercise, all of the core Cell management logic has been removed. You must construct it yourself. Feel free to copy and paste some of your code from previous exercises to complete this lab exercise, but it's recommended that you try to write as much of the code as possible. 
 
-Run your code by opening a terminal to the `Lab-Store-a-File-in-a-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Store-a-File-in-a-Cell-Solution` folder.
+1. Provide code to locate the two input cells that contain data matching the contents of `files/HelloNervos.txt`.
+2. Update the data in those two cells with the contents of `files/HelloWorld.txt` and `files/LoremIpsum.txt` by creating two output cells.
+3. If more input capacity is needed, add more input cells as necessary.
+4. If a change cell is needed, add an output as needed.
 
-Once your code successfully executes, the resulting transaction id will be printed on the screen.
+Run your code by opening a terminal to the `Lab-Updating-Data-in-a-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Updating-Data-in-a-Cell-Solution` folder.
+
+Once your code successfully executes, the resulting transaction ID will be printed on the screen.
 
