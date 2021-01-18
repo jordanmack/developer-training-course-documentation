@@ -21,5 +21,5 @@ The transaction you create should have one or more inputs from `address1`, one o
 
 Run your code by opening a terminal to the `Lab-Store-a-File-in-a-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Store-a-File-in-a-Cell-Solution` folder.
 
-Once your code successfully executes, the resulting transaction id will be printed on the screen.
+Once your code successfully executes, the resulting transaction ID will be printed on the screen.
 
