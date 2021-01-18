@@ -6,7 +6,7 @@ Open the `index.js` file from the `Introduction-to-Lumos-Example` folder in the 
 
 This code in `index.js` will generate a basic transaction with one input and one output. We will be generating a real transaction on your CKB Dev Blockchain, but the code you see here is simplified to make it easier to follow.
 
-The Input Cell that the code uses will be specified by one of two out points you verified in the last lab exercise. The output that is created is a Change Cell that returns the CKBytes back to the same account, minus the transaction fee. 
+The input cell that the code uses will be specified by one of two out points you verified in the last lab exercise. The output that is created is a change cell that returns the CKBytes back to the same account, minus the transaction fee. 
 
 ![](../.gitbook/assets/code-transaction.png)
 
