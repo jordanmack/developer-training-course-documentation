@@ -20,7 +20,7 @@ const {hexToInt, intToHex} = require("../lib/util.js");
 const {describeTransaction, initializeLab} = require("./lab.js");
 ```
 
-We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic convertors and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
+We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic converters and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
 
 Next, you will see a group of variables, which we will explain.
 
@@ -39,7 +39,7 @@ const txFee = 100_000n;
 * The `nodeUrl` variable is set to the URL of the CKB Dev Blockchain you set up in the Lab Exercise Setup section.
 * The `privateKey` variable is set to the key used to sign transactions. This is the private key for the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` which contains some genesis issued CKBytes. You may recognize this address from when you executed `account list` in `ckb-cli`.
 * The `address` variable is set to the CKB address of the account being signed, and is set to the same account as the `privateKey`.
-*  The `previousOutput` variable will be set to the out point of a live Cell to be used in this transaction. 
+*  The `previousOutput` variable will be set to the out point of a live cell to be used in this transaction. 
 * The `txFee` variable is the amount of transaction fee to pay, in a measurement unit called "Shannons". There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
 
 We'll walk through each line of code to give a deeper explanation of what is happening.
@@ -56,7 +56,7 @@ Lumos must be initialized with a configuration file before it can be used for th
 const indexer = await initializeLumosIndexer(nodeUrl);
 ```
 
-Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate Cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. Feel free to peek at the implementation to see what's going on under the hood.
+Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. Feel free to peek at the implementation to see what's going on under the hood.
 
 ```javascript
 // Create a transaction skeleton.
@@ -70,7 +70,7 @@ This creates a Lumos transaction skeleton, which is an empty transaction structu
 transaction = addDefaultCellDeps(transaction);
 ```
 
-This adds in the required Cell deps. We will cover what this is in a later lesson. For now, think of them as libraries needed for the transaction.
+This adds in the required cell deps. We will cover what this is in a later lesson. For now, think of them as libraries needed for the transaction.
 
 ```javascript
 // Initialize our lab and create a basic transaction skeleton to work with.
@@ -85,7 +85,7 @@ const input = await getLiveCell(nodeUrl, previousOutput);
 transaction = transaction.update("inputs", (i)=>i.push(input));
 ```
 
-This creates an input from a live Cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the update syntax. Check out their documentation if you need more information on the syntax and usage.
+This creates an input from a live cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the update syntax. Check out their documentation if you need more information on the syntax and usage.
 
 ```javascript
 // Add an output cell.
@@ -94,14 +94,14 @@ const output = {cell_output: {capacity: outputCapacity, lock: addressToScript(ad
 transaction = transaction.update("outputs", (i)=>i.push(output));
 ```
 
-This creates an output for a change Cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created Cell will be, and that is defined with the `address` variable. We will explain `type` and `data` in a later lesson.
+This creates an output for a change cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created cell will be, and that is defined with the `address` variable. We will explain `type` and `data` in a later lesson.
 
 ```javascript
 // Add in the witness placeholders.
 transaction = addDefaultWitnessPlaceholders(transaction);
 ```
 
-The Witness is the part of the transaction that holds all the data provided with a transaction to prove its validity. This includes signatures that prove the owner of the input Cells authorized their usage in the transaction. The structure of Witness requires specific formatting, which we will cover in a later lesson.
+The Witness is the part of the transaction that holds all the data provided with a transaction to prove its validity. This includes signatures that prove the owner of the input cells authorized their usage in the transaction. The structure of Witness requires specific formatting, which we will cover in a later lesson.
 
 The `addDefaultWitnessPlaceholders()` shared library function creates this structure for us and adds in the required placeholders for the most common usage scenarios.
 
@@ -124,7 +124,7 @@ The `validateLab()` function verifies that the transaction meets the requirement
 const signedTx = signTransaction(transaction, privateKey);
 ```
 
-This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any Input Cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability. If you want to look at what it's really doing, look at the implementation in the shared library.
+This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any input cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability. If you want to look at what it's really doing, look at the implementation in the shared library.
 
 ```javascript
 // Send the transaction to the RPC node.
@@ -181,8 +181,8 @@ Go back to the terminal where you ran the code, and try executing the code again
 You should get the following error:
 
 ```text
-UnhandledPromiseRejectionWarning: Error: Live Cell not found at out point: 0x3a52afb04b91097c84ca287ce58f98c1a454a3aa53497fbdd0ad6cba4b66f43b-0x0
+UnhandledPromiseRejectionWarning: Error: Live cell not found at out point: 0x3a52afb04b91097c84ca287ce58f98c1a454a3aa53497fbdd0ad6cba4b66f43b-0x0
 ```
 
-The reason we received this error is that the out point we specified in the code has already been used. Using a Live Cell as an input will consume it and transform it into a Dead Cell. This can only occur a single time, which is why we received that error when trying to use it again.
+The reason we received this error is that the out point we specified in the code has already been used. Using a live cell as an input will consume it and transform it into a dead cell. This can only occur a single time, which is why we received that error when trying to use it again.
 
