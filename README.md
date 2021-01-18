@@ -23,7 +23,7 @@ You will need to be comfortable with JavaScript in order to work with the code i
 
 #### Rust
 
-Rust is used to write on-chain smart contracts. You will need to be proficient in Rust to write your own smart contracts. We try to keep our lab exercises as simple as possible but you should check out one of the tutorials if you find you're having trouble understanding them. 
+Rust is used to write on-chain smart contracts. You will need to be proficient in Rust to write your own smart contracts. We try to keep our lab exercises as simple as possible but you should check out one of the tutorials if you find you're having trouble understanding the lessons. 
 
 * [Learn Rust](https://www.rust-lang.org/learn)
 
