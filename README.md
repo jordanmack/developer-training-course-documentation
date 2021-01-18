@@ -1,6 +1,6 @@
 # Welcome
 
-This lesson plan is designed to teach developers, who are familiar with blockchain, how to build common application components on Nervos. We will walk through a series of examples and lab exercises designed to help you learn the essentials through practical hands-on examples.
+This lesson plan is designed to teach developers, who are familiar with blockchain, how to build common application components on Nervos. We will walk through a series of examples and lab exercises designed to help you learn the essentials through practical hands-on experience.
 
 These exercises are designed to be completed in sequential order. Each new exercise builds upon the previous, so it is not recommended that you do not skip any sections. 
 
