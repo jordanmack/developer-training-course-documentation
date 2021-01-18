@@ -4,7 +4,7 @@ Developers who are learning about Nervos for the first time are recommended to d
 
 ### Nervos Basics
 
-These materials give a high-level introduction to anyone who is unfamiliar with technology that powers the Nervos platform.
+These materials give a high-level introduction to anyone who is unfamiliar with the technology that powers the Nervos platform.
 
 * [Nervos Blockchain](https://docs.nervos.org/docs/basics/concepts/nervos-blockchain)
 * [Cell Model](https://docs.nervos.org/docs/basics/concepts/cell-model)
