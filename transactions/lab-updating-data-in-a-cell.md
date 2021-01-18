@@ -2,7 +2,7 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Updating-Data-in-a-Cell-Exercise` by adding code and values as necessary.
 
-Your code should locate the two existing Cells which have data matching the contents of `HelloNervos.txt`. Update one with the contents of `HelloWorld.txt`. Update the other with the contents of `LoremIpsum.txt`.
+Your code should locate the two existing cells which have data matching the contents of `HelloNervos.txt`. Update one with the contents of `HelloWorld.txt`. Update the other with the contents of `LoremIpsum.txt`.
 
 Your resulting transaction should contain:
 
@@ -15,7 +15,7 @@ Your resulting transaction should contain:
 
 ![](../.gitbook/assets/transaction-structure%20%281%29.png)
 
-In this lab exercise, all of the core Cell management logic has been removed. You must construct it yourself. Feel free to copy and paste some of your code from previous exercises to complete this lab exercise, but it's recommended that you try to write as much of the code as possible. 
+In this lab exercise, all of the core cell management logic has been removed. You must construct it yourself. Feel free to copy and paste some of your code from previous exercises to complete this lab exercise, but it's recommended that you try to write as much of the code as possible. 
 
 1. Provide code to locate the two input cells that contain data matching the contents of `files/HelloNervos.txt`.
 2. Update the data in those two cells with the contents of `files/HelloWorld.txt` and `files/LoremIpsum.txt` by creating two output cells.
