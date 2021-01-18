@@ -24,7 +24,7 @@ We will be using the Rust programming language to create on-chain scripts and in
 
 ### Install Git
 
-You will need Git to clone the example code and lab exercises from GitHub in order to complete each lesson.
+You will need Git to clone the example code and lab exercises from GitHub in order to complete each lesson. Using your favorite Git client is fine.
 
 * Git \(All Platforms\): [https://git-scm.com/downloads](https://git-scm.com/downloads)
 
@@ -43,10 +43,4 @@ You will need to have a CKB Dev Blockchain node running locally for our code to 
 You will need to complete the setup instruction from the URL below for the sections "Setup a Dummy-Worker Blockchain" and "Adding the Genesis Issued Cells".
 
 * CKB Dev Blockchain Setup Instructions: [https://docs.nervos.org/docs/basics/guides/devchain](https://docs.nervos.org/docs/basics/guides/devchain)
-
-### ~~Setup a CKB Indexer~~
-
-~~You will need to setup a CKB Indexer. This tool works along-side the CKB Dev Blockchain to help speed up processing of transactions.~~
-
-~~~~[~~https://github.com/nervosnetwork/ckb-indexer~~](https://github.com/nervosnetwork/ckb-indexer)~~~~
 
