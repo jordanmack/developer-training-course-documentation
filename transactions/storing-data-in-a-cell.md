@@ -1,6 +1,6 @@
 # Storing Data in a Cell
 
-A Cell can be used to store any kind of data that is desired by the developer. However, the cost of storing state data on a globally decentralized blockchain is high when compared to normal or cloud-based storage. This means that some types of data are more appropriate than others.
+A cell can be used to store any kind of data that is desired by the developer. However, the cost of storing state data on a globally decentralized blockchain is high when compared to normal or cloud-based storage. This means that some types of data are more appropriate than others.
 
 | Typically Appropriate | Typically Inappropriate |
 | :--- | :--- |
@@ -16,7 +16,7 @@ Bitcoin often uses the comparison of blockchain storage to prime real estate. Th
 
 In order to store one megabyte of data on Nervos, you would need to hold 1,048,576 CKBytes. This makes the storage of large data prohibitively expensive for large files. Notice that I said _hold_ CKBytes and not _pay_ CKBytes. This is because those CKBytes can be reclaimed once the data is removed from the state.
 
-CKBytes are used to pay state rent while a Cell occupies blockchain state. A Cell must have at least enough capacity \(CKBytes\) for the space the Cell occupies in the blockchain state, including all data within it. The CKBytes are effectively locked in the Cell until the Cell is consumed. During this time, the CKBytes locked in a Cell are subject to targeted inflation. This inflation pays the state rent indirectly, requiring no action from the owner of the Cell.
+CKBytes are used to pay state rent while a cell occupies blockchain state. A cell must have at least enough capacity \(CKBytes\) for the space the cell occupies in the blockchain state, including all data within it. The CKBytes are effectively locked in the cell until the cell is consumed. During this time, the CKBytes locked in a cell are subject to targeted inflation. This inflation pays the state rent indirectly, requiring no action from the owner of the cell.
 
 When CKBytes are locked they are ineligible to use the NervosDAO, which pays users interest on their CKBytes. This interest is equal to the inflation which pays the state rent, effectively negating it, and making the CKByte a deflationary currency similar to Bitcoin.
 
@@ -24,10 +24,10 @@ For more information on this topic, you can read the [Crypto-Economic White Pape
 
 ### Methods of Storing Data
 
-There are three main methods of storing data in a Cell:
+There are three main methods of storing data in a cell:
 
 * Using `ckb-cli` is convenient for one-off files.
-* Using Lumos Framework is the most common way for dapps to generate Cells with data.
+* Using Lumos Framework is the most common way for dapps to generate cells with data.
 * Using Capsule Framework is a common way to deploy scripts created with Capsule.
 
 Under the hood, all three methods ultimately rely on RPC calls to a ckb node, but it's much less common to interact directly with the RPC. We will demonstrate `ckb-cli` and Lumos now, and Capsule will be introduced later.
@@ -40,9 +40,9 @@ Open a terminal and enter the top level of the `developer-training-course` folde
 ckb-cli wallet transfer --from-account ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-address ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-data-path "./files/HelloNervos.txt" --capacity 74 --tx-fee 0.0001
 ```
 
-This will create a new Cell that contains the contents of the file `HelloNervos.txt`. The capacity of the new Cell is exactly 74. This is because the size of `HelloNervos.txt` is 13 bytes. If you remember from earlier, the minimum capacity for a standard Cell is 61 bytes. The minimum capacity requirements are always for the total space a Cell occupies, which includes both the data in the Cell and the overhead of the structures that comprise the Cell itself. The Cell structures take 61 bytes, the data takes 13 bytes, and 61 + 13 = 74.
+This will create a new cell that contains the contents of the file `HelloNervos.txt`. The capacity of the new cell is exactly 74. This is because the size of `HelloNervos.txt` is 13 bytes. If you remember from earlier, the minimum capacity for a standard cell is 61 bytes. The minimum capacity requirements are always for the total space a cell occupies, which includes both the data in the cell and the overhead of the structures that comprise the cell itself. The cell structures take 61 bytes, the data takes 13 bytes, and 61 + 13 = 74.
 
-Now let's look at the Cell that was just created. Execute the following command, replacing the TX Hash with the transaction from the `wallet transfer` command we just executed above.
+Now let's look at the cell that was just created. Execute the following command, replacing the TX Hash with the transaction from the `wallet transfer` command we just executed above.
 
 ```bash
 ckb-cli rpc get_live_cell --tx-hash <tx_hash> --index 0 --with-data
@@ -93,12 +93,12 @@ Storing data using Lumos is very similar to what you've already done in previous
 }
 ```
 
-The `data` field is a hex string of the data to create the Cell with. The process to add data is simple. Replace this with the hex string for the data desired, and adjust the capacity if necessary to accommodate the extra storage required by the data. 
+The `data` field is a hex string of the data to create the cell with. The process to add data is simple. Replace this with the hex string for the data desired, and adjust the capacity if necessary to accommodate the extra storage required by the data. 
 
 Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we see the code equivalent of the `ckb-cli` command we used earlier.
 
 ```javascript
-// Create a Cell with a capacity large enough for the data being placed in it.
+// Create a cell with a capacity large enough for the data being placed in it.
 const hexString = "0x48656c6c6f204e6572766f7321"; // "Hello Nervos!" as a hex string.
 const dataSize = ((hexString.length - 2) / 2); // Calculate the size of hexString as binary.
 const outputCapacity1 = intToHex(ckbytesToShannons(61n) + ckbytesToShannons(dataSize)); // 61 CKBytes for the Cell minimum + the size of the data.
@@ -106,7 +106,7 @@ const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
-On line 2 you see the text "Hello Nervos!" encoded as a hex string. On line 3 we calculate the size of the data if it was decoded back to binary. On line 4 we use that information to calculate the capacity needed for the Cell, which is equal to the base requirement of 61 CKBytes plus CKBytes equal to the amount of data being stored. On line 5 we specify the `data` for the Cell using the `hexString` provided from out function. 
+On line 2 you see the text "Hello Nervos!" encoded as a hex string. On line 3 we calculate the size of the data if it was decoded back to binary. On line 4 we use that information to calculate the capacity needed for the cell, which is equal to the base requirement of 61 CKBytes plus CKBytes equal to the amount of data being stored. On line 5 we specify the `data` for the cell using the `hexString` provided from out function. 
 
 In a terminal, open the `Storing-Data-in-a-Cell-Example` directory and then execute the example using `node index.js`. The example should execute successfully and print a transaction hash. Using this hash with the command below:
 
@@ -131,5 +131,5 @@ cell:
 status: live
 ```
 
-If you compare this with the output from earlier, it should be identical. We have created two different Cells, but the data contained within is identical.
+If you compare this with the output from earlier, it should be identical. We have created two different cells, but the data contained within is identical.
 
