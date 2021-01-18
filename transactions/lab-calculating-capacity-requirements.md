@@ -14,5 +14,5 @@ Complete the transaction in `index.js` found in the folder `Lab-Calculating-Capa
 
 Run your code by opening a terminal to the `Lab-Calculating-Capacity-Requirements-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Calculating-Capacity-Requirements-Solution` folder, but don't use it unless you absolutely need it!
 
-Once your code successfully executes, the resulting transaction id will be printed on the screen without any errors.
+Once your code successfully executes, the resulting transaction ID will be printed on the screen without any errors.
 
