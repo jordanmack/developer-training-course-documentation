@@ -2,11 +2,11 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Calculating-Capacity-Requirements-Exercise` by adding code and values as necessary. 
 
-1. Perform a manual Cell collection and locate a usable Live Cell owned by the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` and use it to populate the `previousOutput` variable.
+1. Perform a manual cell collection and locate a usable live cell owned by the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` and use it to populate the `previousOutput` variable.
    * Hint: The last successful transaction we worked on earlier in this lesson will give you a usable out point matching this account. You should already have the TX hash.
 2.  Populate the `txFee` variable with a 0.0001 CKByte fee.
    * Hint: The fee value must be given as a BigInt value expressed in Shannons. There are 100,000,000 Shannons in a CKByte.
-3. Populate the `output2` variable with a Cell output structure that properly creates a change Cell for any remaining CKBytes from the Input Cell.
+3. Populate the `output2` variable with a cell output structure that properly creates a change cell for any remaining CKBytes from the input cell.
    * Hint: You can copy the value of `output1` to get the required structure, then just change what is necessary.
 4. The transaction you create should have one input, two outputs, and a TX fee.
 
