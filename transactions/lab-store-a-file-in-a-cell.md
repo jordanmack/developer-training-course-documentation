@@ -4,7 +4,7 @@ Complete the transaction in `index.js` found in the folder `Lab-Store-a-File-in-
 
 The transaction you create should have one or more inputs from `address1`, one output to `address1` with the `data` set to the contents of the file `HelloNervos.txt` one change Cell back to `address1`if necessary, and a TX fee.
 
-![](../.gitbook/assets/transaction-structure%20%281%29.png)
+![](../.gitbook/assets/transaction-structure%20%282%29.png)
 
 
 
