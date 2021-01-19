@@ -1,2 +1,2 @@
-# Lab: Using a 2/3 Multi-Sig
+# Lab: Creating a 2/3 Multi-Sig
 

@@ -1,2 +1,2 @@
-# Introduction to Lumos
+# Lab: Unlocking a 2/3 Multi-Sig
 
