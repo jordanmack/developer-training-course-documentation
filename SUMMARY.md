@@ -35,15 +35,9 @@
 
 ## Scripting Basics
 
-* [Untitled](scripting-basics/untitled.md)
-
 ## Token Basics
 
-* [Untitled](token-basics/untitled.md)
-
 ## Dapp Basics
-
-* [Untitled](dapp-basics/untitled.md)
 
 ---
 
