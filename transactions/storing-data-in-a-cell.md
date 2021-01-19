@@ -8,7 +8,7 @@ A cell can be used to store any kind of data that is desired by the developer. H
 | Dapp State Data | Movies |
 | Token Balances | Music |
 | Oracle Data | PDFs |
-| Data Hashes |  |
+| Data Hashes \(Anchoring\) |  |
 
 ### Understanding the Costs of State Storage
 
