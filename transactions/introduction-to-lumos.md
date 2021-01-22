@@ -22,8 +22,6 @@ const {describeTransaction, initializeLab} = require("./lab.js");
 
 We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic converters and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
 
-
-
 Next, you will see a group of variables, which we will explain.
 
 ```javascript
