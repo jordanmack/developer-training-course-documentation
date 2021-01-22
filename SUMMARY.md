@@ -24,7 +24,7 @@
 
 ## Managing Permissions
 
-* [Using a Custom Lock Script](managing-permissions/understanding-lock-scripts.md)
+* [Using a Custom Lock Script](managing-permissions/using-a-custom-lock-script.md)
 * [Lab: Deploy the Secp256r1 Lock Script](managing-permissions/lab-deploy-the-secp256r1-lock-script.md)
 * [Lab: Complete a Transaction With Secp256r1](managing-permissions/lab-complete-a-transaction-with-a-custom-l.md)
 * [Using a Multi-Sig Lock Script](managing-permissions/untitled-2.md)
