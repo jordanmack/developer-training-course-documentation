@@ -30,7 +30,7 @@ So far we know that a transaction has input cells, and each one of these inputs 
 
 ![](../.gitbook/assets/transaction-connections-1.png)
 
-The code hash is describing the code that should execute, but it does not indicate where the code is located on the blockchain. To indicate   
+The code hash is describing the code that should execute, but it does not indicate where the code is located on the blockchain. To do this, we need to use a cell dep.
 
 ### Cell Deps
 
