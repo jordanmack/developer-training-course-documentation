@@ -22,6 +22,8 @@ const {describeTransaction, initializeLab} = require("./lab.js");
 
 We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic converters and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
 
+
+
 Next, you will see a group of variables, which we will explain.
 
 ```javascript
@@ -56,28 +58,28 @@ Lumos must be initialized with a configuration file before it can be used for th
 const indexer = await initializeLumosIndexer(nodeUrl);
 ```
 
-Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. Feel free to peek at the implementation to see what's going on under the hood.
+Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. In the next topic, we will look at what this is doing under the hood.
 
 ```javascript
 // Create a transaction skeleton.
 let transaction = TransactionSkeleton({cellProvider: indexer});
 ```
 
-This creates a Lumos transaction skeleton, which is an empty transaction structure which we will populate.
+This creates a Lumos transaction skeleton. This is an empty transaction structure which we will populate with information, like what cells to consume as inputs, and which to create as outputs. We will then use this transaction skeleton to generate a real transaction that is sent to the CKB node via RPC, and broadcast to the network.
 
 ```javascript
 // Add the cell dep for the lock script.
 transaction = addDefaultCellDeps(transaction);
 ```
 
-This adds in the required cell deps. We will cover what this is in a later lesson. For now, think of them as libraries needed for the transaction.
+This adds in the required cell deps. Cell deps is short for cell dependencies, and we will cover exactly what this is in a later lesson. For now, think of them as libraries needed for the transaction to complete.
 
 ```javascript
-// Initialize our lab and create a basic transaction skeleton to work with.
-let {transaction} = await initializeLab(nodeUrl, indexer);
+// Initialize our lab.
+await initializeLab(nodeUrl, indexer);
 ```
 
-This initializes the lab environment. The `initializeLab()` function is something we use on lab exercises, but it would never be used in a production environment. It sets up each lab in a way that we can focus specifically on the relevant code.
+This initializes the lab environment by setting up on-chain resources in a way so it is ready for the lab exercise. We do this to create a predictable environment so you can focus specifically on the relevant code and less on the setup and teardown of a lab exercise.
 
 ```javascript
 // Add the input cell to the transaction.
@@ -85,7 +87,7 @@ const input = await getLiveCell(nodeUrl, previousOutput);
 transaction = transaction.update("inputs", (i)=>i.push(input));
 ```
 
-This creates an input from a live cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the update syntax. Check out their documentation if you need more information on the syntax and usage.
+This creates an input from a live cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the `update()` syntax. Check out their documentation if you need more information on the syntax and usage.
 
 ```javascript
 // Add an output cell.
@@ -103,14 +105,14 @@ transaction = addDefaultWitnessPlaceholders(transaction);
 
 The Witness is the part of the transaction that holds all the data provided with a transaction to prove its validity. This includes signatures that prove the owner of the input cells authorized their usage in the transaction. The structure of Witness requires specific formatting, which we will cover in a later lesson.
 
-The `addDefaultWitnessPlaceholders()` shared library function creates this structure for us and adds in the required placeholders for the most common usage scenarios.
+The `addDefaultWitnessPlaceholders()` shared library function creates this structure for us and adds in the required placeholders for the most common basic usage scenario.
 
 ```javascript
 // Print the details of the transaction to the console.
 describeTransaction(transaction.toJS());
 ```
 
-This prints the current transaction to the screen in an easy to read format.
+This prints the current transaction to the screen in an easy to read format. The `describeTransaction()` function is part of the shared library and is provided as an easier-to-read alternative to the normal viewing of transactions as JS objects, which may include all kinds of extra information that isn't relevant right now. 
 
 ```javascript
 // Validate the transaction against the lab requirements.
@@ -124,7 +126,7 @@ The `validateLab()` function verifies that the transaction meets the requirement
 const signedTx = signTransaction(transaction, privateKey);
 ```
 
-This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any input cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability. If you want to look at what it's really doing, look at the implementation in the shared library.
+This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any input cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability.
 
 ```javascript
 // Send the transaction to the RPC node.
