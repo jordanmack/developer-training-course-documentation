@@ -85,7 +85,9 @@ const input = await getLiveCell(nodeUrl, previousOutput);
 transaction = transaction.update("inputs", (i)=>i.push(input));
 ```
 
-This creates an input from a live cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction. The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the `update()` syntax. Check out their documentation if you need more information on the syntax and usage.
+This creates an input from a live cell using the out point you specified in the `previousOutput` variable, then adds it to the transaction.
+
+The transaction skeleton is built with the [ImmutableJS](https://immutable-js.github.io/immutable-js/) library, which is why it uses the `update()` syntax. Check out their documentation if you need more information on the syntax and usage.
 
 ```javascript
 // Add an output cell.
@@ -95,6 +97,8 @@ transaction = transaction.update("outputs", (i)=>i.push(output));
 ```
 
 This creates an output for a change cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created cell will be, and that is defined with the `address` variable. We will explain `type` and `data` in a later lesson.
+
+The `addressToScript()` function in Lumos converts an address to a script data structure, which is the form required by Lumos. An address is actually just an encoded and shortened version of a script, so the two can be converted back and forth easily. We will learn more about addresses and scripts in a later lesson. 
 
 ```javascript
 // Add in the witness placeholders.
