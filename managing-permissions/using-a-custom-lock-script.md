@@ -174,7 +174,9 @@ const collectedCells = await collectCapacity(indexer, addressToScript(address1),
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 ```
 
+This code is adding our always success cell to the transaction, and then adding more cells for capacity. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee. This is why we add more capacity to the transaction here.
 
+The reason that `capacityRequired` is set to 61 CKBytes + the tx fee is because we are anticipating an output of a single standard cell and a tx fee. We are consuming the always success cell and sending the value back to ourselves, so we only need one output. If we were sending to someone else, we would need more capacity since we would need an output to send to them, and a change cell.
 
 
 
