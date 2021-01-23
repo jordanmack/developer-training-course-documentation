@@ -112,33 +112,21 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockSc
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
-There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum is 61"? Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
+There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
 The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script: 
 
 ![](../.gitbook/assets/get-live-cell.png)
 
-The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. This identifies the owner of the  cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
+The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
 
 This 160-bit `args` value takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.   
 
+Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
+### Consuming a Cell with the Always Success Lock
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
 
 ```javascript
 // Add the cell dep for the lock script.
@@ -166,4 +154,14 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep))
 ```
 
 The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in the next topic.
+
+Let's look at the transaction path graphic again.
+
+![](../.gitbook/assets/transaction-connections-2.png)
+
+Right now we are defining the cell dep that points to live cell \#2. However, if you look closely at the code in `createCellWithAlwaysSuccessLock()` and `consumeCellWithAlwaysSuccessLock()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The reason we only need it in the consume function is because that is the only time where the code in live cell \#2 is actually executed.
+
+A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value can be extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs.
+
+
 
