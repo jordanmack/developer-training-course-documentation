@@ -24,7 +24,7 @@ The `code_hash` value of `0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17
 
 To explain it another way, the `code_hash` value is a way of indicating what code should execute to determine if the cell should grant access and unlock. The `code_hash` value itself does not contain any logic to make this determination. It simply indicates what code should make that determination.
 
-When the default Secp256k1 lock script \(`0x9bd7...cce8`\) executes, it makes that determination by checking if the proper credentials were provided using the Secp256k1 algorithm. To do this, it matches values from the Lock Args with values from the Witnesses. We will show exactly how this works later, but we will not need this for the always success and always fail lock scripts since they do not rely on those.
+When the default Secp256k1 lock script \(`0x9bd7...cce8`\) executes, it makes that determination by checking if the proper credentials were provided using the Secp256k1 algorithm. To do this, it matches values from the Lock Args with values from the Witnesses. The Lock Args contains a hash of the owner's public key, and the Witnesses contains a value signed with the owner's private key. We will show exactly how this works later, but we will not need these for the always success and always fail lock scripts since they do not rely on those.
 
 So far we know that a transaction has input cells, and each one of these inputs is referenced by an out point to a live cell. Each one of these cells has a lock script that indicates what code should execute using the code hash, but there is still something missing.
 
@@ -118,9 +118,9 @@ The `lockScript1` variable defines the lock script for the cell. The `code_hash`
 
 ![](../.gitbook/assets/get-live-cell.png)
 
-The `args` value is 
+The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. This identifies the owner of the  cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
 
-  
+This 160-bit `args` value takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.   
 
 
 
