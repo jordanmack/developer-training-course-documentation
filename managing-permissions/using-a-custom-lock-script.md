@@ -59,6 +59,8 @@ Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. I
 3. Create Cell - The `createCellWithAlwaysSuccessLock()` function creates a cell that uses the always success lock.
 4. Consume Cell - The `consumeCellWithAlwaysSuccessLock()` function consumes the cell with the always success lock that we just created.
 
+### Deploying the Always Success Binary
+
 Let's go through the `deployAlwaysSuccessBinary()` function. Some of the code at the beginning and end is redundant from previous topics, so we will only cover the relevant code.
 
 ```javascript
@@ -71,9 +73,13 @@ transaction = transaction.update("outputs", (i)=>i.push(output1));
 
 This code should look familiar since we've used it several times before. We're creating a cell that contains the contents of the always success binary.
 
-
+Here is the transaction path from earlier:
 
 ![](../.gitbook/assets/transaction-connections-2.png)
+
+The cell we just created would be Live Cell \#2 in this image. It is the code that will be referenced as a cell dep by it's outpoint.
+
+At the end of the function you will see this code:
 
 ```javascript
 // Return the out point for the always success binary so it can be used in the next transaction.
@@ -85,7 +91,79 @@ const outPoint =
 return outPoint;
 ```
 
+We're returning the out point of the cell we just created so that it can be used in the next transaction.
+
+One important point of note is that this cell is intended for use as a cell dep, not as an input. If you remember from earlier, unlike an input, a cell dep is not consumed. This means that we can use this cell over and over again as a cell dep in multiple transactions. The binary only has to be deployed once, and then it can be used as many times as needed.
+
+### Creating a Cell with the Always Success Lock
+
+Next, let's look at the `createCellWithAlwaysSuccessLock()` function. Once again, we'll skip straight to the relevant parts.
+
+```javascript
+// Create a cell using the always success lock.
+const outputCapacity1 = ckbytesToShannons(41n);
+const lockScript1 =
+{
+	code_hash: dataFileHash1,
+	hash_type: "data",
+	args: "0x"
+}
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+```
+
+There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum is 61"? Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
+
+The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script: 
+
+![](../.gitbook/assets/get-live-cell.png)
+
+The `args` value is 
+
+  
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```javascript
+// Add the cell dep for the lock script.
+transaction = addDefaultCellDeps(transaction);
+const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+```
+
+This code adds cell deps to our transaction skeleton. On line 2 you see the function `addDefaultCellDeps()`. If we look into the shared library, we will see this:
+
+```javascript
+function addDefaultCellDeps(transaction)
+{
+	return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+}
+```
+
+We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default Secp256k1 lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
+
+However, we will not be able to use the `locateCellDep` function with the always success binary we just loaded, because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
+
+```javascript
+const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+```
+
+The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in the next topic.
 
