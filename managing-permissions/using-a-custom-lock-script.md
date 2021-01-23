@@ -48,7 +48,9 @@ With the addition of cell deps we now have a complete path from the transaction 
 
 Live Cell \#1 has a lock script with a `code_hash` that matches the data in Live Cell \#2. The data in Live Cell \#2 is a RISC-V binary that contains the logic needed to determine if a cell should unlock in a transaction.
 
-### Using the Always Success Lock
+### Using the Always Success Lock in Lumos
+
+Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. 
 
 
 
