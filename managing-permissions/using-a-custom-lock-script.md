@@ -172,11 +172,26 @@ transaction = transaction.update("inputs", (i)=>i.push(input));
 const capacityRequired = ckbytesToShannons(61n) + txFee;
 const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
+
+// Determine the capacity from all input Cells.
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+const outputCapacity = transaction.outputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+
+// Create a change Cell for the remaining CKBytes.
+const changeCapacity = intToHex(inputCapacity - outputCapacity - txFee);
+let change = {cell_output: {capacity: changeCapacity, lock: addressToScript(address1), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(change));
 ```
 
-This code is adding our always success cell to the transaction, and then adding more cells for capacity. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee. This is why we add more capacity to the transaction here.
+This code is adding our always success cell to the transaction, adding more cells for capacity, then sending everything back to ourselves as a single change cell. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee. 
 
-The reason that `capacityRequired` is set to 61 CKBytes + the tx fee is because we are anticipating an output of a single standard cell and a tx fee. We are consuming the always success cell and sending the value back to ourselves, so we only need one output. If we were sending to someone else, we would need more capacity since we would need an output to send to them, and a change cell.
+Looking at the fourth block of code for the change cell, the `lock` is set to `addressToScript(address1)`. This means it is using the default lock script again, and that 61 CKBytes is the minimum required.
 
+The reason that `capacityRequired` in the code above is set to 61 CKBytes + the tx fee is because we are anticipating an output of a single standard cell and a tx fee.
 
+![](../.gitbook/assets/transaction-compare.png)
+
+On the left is the transaction we are generating. We are consuming the always success cell and sending the value back to ourselves, so we only need one output.
+
+On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes \(+ tx fee\) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes \(122 - 41\), plus the transaction fee. 
 
