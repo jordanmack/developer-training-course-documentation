@@ -59,6 +59,32 @@ Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. I
 3. Create Cell - The `createCellWithAlwaysSuccessLock()` function creates a cell that uses the always success lock.
 4. Consume Cell - The `consumeCellWithAlwaysSuccessLock()` function consumes the cell with the always success lock that we just created.
 
+Let's go through the `deployAlwaysSuccessBinary()` function. Some of the code at the beginning and end is redundant from previous topics, so we will only cover the relevant code.
+
+```javascript
+// Create a cell with data from the specified file.
+const {hexString: hexString1, dataSize: dataSize1} = await readFileToHexString(dataFile1);
+const outputCapacity1 = ckbytesToShannons(61n) + ckbytesToShannons(dataSize1);
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: addressToScript(address1), type: null}, data: hexString1};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+```
+
+This code should look familiar since we've used it several times before. We're creating a cell that contains the contents of the always success binary.
+
+
+
+![](../.gitbook/assets/transaction-connections-2.png)
+
+```javascript
+// Return the out point for the always success binary so it can be used in the next transaction.
+const outPoint =
+{
+	tx_hash: txid,
+	index: "0x0"
+};
+return outPoint;
+```
+
 
 
 
