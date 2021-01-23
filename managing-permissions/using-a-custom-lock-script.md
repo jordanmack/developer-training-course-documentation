@@ -163,5 +163,18 @@ Right now we are defining the cell dep that points to live cell \#2. However, if
 
 A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value can be extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs, and we don't need to provide a cell dep to the always success binary since it isn't executing.
 
+```javascript
+// Add the always success cell to the transaction.
+const input = await getLiveCell(nodeUrl, alwaysSuccessCellOutPoint);
+transaction = transaction.update("inputs", (i)=>i.push(input));
+
+// Add input cells.
+const capacityRequired = ckbytesToShannons(61n) + txFee;
+const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
+transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
+```
+
+
+
 
 
