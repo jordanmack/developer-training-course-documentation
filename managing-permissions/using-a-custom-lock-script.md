@@ -4,7 +4,7 @@ Lock Scripts are one of the many powerful features that differentiate Nervos fro
 
 The default Lock Script is based on Secp256k1 cryptography, making it nearly identical to Bitcoin and Ethereum. This allows a cell to be owned and unlocked by any user who possesses the private key. However, a Lock Script can do much more. A cell can be owned by a single person, by multiple people using a multi-sig lock script, by another script similar to a smart contract, or by no one.
 
-When testing dapps and smart contracts, it is often convenient to test transactions using special Lock Scripts which always succeed \(unlock\) or always fail \(never unlock\) in any transaction. We will demonstrate how to create cells with these special locks, but first, we need to understand the structure of a Lock Script to do so.
+When testing dapps and smart contracts, it is often convenient to test transactions using special Lock Scripts which always succeed \(unlock\) or always fail \(never unlock\) in any transaction. We will demonstrate how to create cells with special locks like these, but first, we need to understand the structure of a Lock Script to do so.
 
 ### The Structure of a Lock Script
 
