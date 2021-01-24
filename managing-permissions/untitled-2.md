@@ -75,7 +75,18 @@ The lock args length for a multi-sig cell is 20 bytes \(160 bits\), just like a 
 
 On lines 16 and 17 we construct the output cell and insert it into the transaction.
 
-You may notice that nowhere in the cell does it actually contain the multi-sig script that has the configuration. All it has is the hash of the multi-sig script. It's not needed here because that would take up more space to store. Instead, it will be provided as part of the witness when we need to unlock the cell. 
+You may notice that nowhere in the cell does it actually contain the multi-sig script that has the configuration. All it has is the hash of the multi-sig script. It's not needed here because that would take up more space to store. Instead, it will be provided as part of the witness when we need to unlock the cell.
+
+### Consuming a Multi-Sig Cell
+
+Next, let's look at the important parts of the `consumeMultisigCell()` function.
+
+```javascript
+// Add the cell dep for the lock script.
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: MULTISIG_LOCK_HASH, hash_type: "type"})));
+```
+
+On this line, we're adding our cell deps. However, we're not using the default lock script on any inputs, so we don't need the usual cell deps. This transaction will have only one input, the multi-sig cell, so we need to include the code binary for multi-sig. Just like the default lock, this is considered well-known, and is included in `config.json`. Therefore, we can use Lumos' `locateCellDep()` function to provide the necessary out point.
 
 
 
