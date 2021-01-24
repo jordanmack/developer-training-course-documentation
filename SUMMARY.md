@@ -28,7 +28,7 @@
 * [Using the Secp256r1 Crypto Primitive](managing-permissions/using-the-secp256r1-crypto-primitive.md)
 * [Lab: Deploy the Secp256r1 Lock Script](managing-permissions/lab-deploy-the-secp256r1-lock-script.md)
 * [Lab: Complete a Transaction With Secp256r1](managing-permissions/lab-complete-a-transaction-with-a-custom-l.md)
-* [Using a Multi-Sig Lock Script](managing-permissions/untitled-2.md)
+* [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
 * [Lab: Creating a 2/3 Multi-Sig](managing-permissions/lab-multi-sig.md)
 * [Lab: Unlocking a 2/3 Multi-Sig](managing-permissions/introduction-to-lumos-part-2.md)
 * [Understanding Lock Value Relationships](managing-permissions/understanding-lock-value-relationships.md)
