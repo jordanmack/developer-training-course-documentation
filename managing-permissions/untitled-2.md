@@ -65,11 +65,17 @@ Let's go through the `createMultisigCell()` function, skipping straight to the i
 
 Starting on line 2, we are setting the capacity to 61 CKBytes + the transaction fee. The minimum for a multi-sig cell is still 61 CKBytes, just like we were using the default lock script. The reason we are adding an extra transaction fee here is to simplify the next transaction by providing the transaction fee now, so we don't have to do another cell collection later. This is probably not something you would do in production, but you will see later on why this makes our example code much more simple.
 
-On line 3 we are constructing what is commonly known as the "multi-sig script". It is a binary structure consisting of the S/R/M/N values, followed by the hashed public keys in order. We're using a hex string to represent this, which is why it starts with "0x" on line 3. Lines 4-7 add the S/R/M/N values. Line 8 takes our `multisigAddresses` and extracts the hashed public key. The multi-sig lock uses the same format for hashed public keys as the default lock script,  
+On line 3 we are constructing what is commonly known as the "multi-sig script". It is a binary structure consisting of the S/R/M/N values, followed by the hashed public keys in order. We're using a hex string to represent this, which is why it starts with "0x" on line 3. Lines 4-7 add the S/R/M/N values. Line 8 takes our `multisigAddresses` and extracts the hashed public key. The multi-sig lock uses the same lock arg as the default lock script, a 160-bit Blake2b hash of the Secp256k1 public key. Since it's the same, we can just strip off the leading "0x" hex prefix using `substr(2)`, then copy it directly.
 
+On line 9 we take the entire multi-sig script structure and create a 160-bit Blake2b hash from it.
 
+On line 10 we construct our lock script. Instead of using the default lock hash, we use the multi-sig lock hash, which is inserted on line 12. On line 14 we put the multi-sig script hash we created on line 9.
 
+The lock args length for a multi-sig cell is 20 bytes \(160 bits\), just like a cell that uses the default lock script. This is why both only require 61 CKBytes of capacity as the minimum. 
 
+On lines 16 and 17 we construct the output cell and insert it into the transaction.
+
+You may notice that nowhere in the cell does it actually contain the multi-sig script that has the configuration. All it has is the hash of the multi-sig script. It's not needed here because that would take up more space to store. Instead, it will be provided as part of the witness when we need to unlock the cell. 
 
 
 
