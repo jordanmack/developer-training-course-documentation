@@ -117,5 +117,30 @@ const witness = arrayBufferToHex(core.SerializeWitnessArgs(normalizers.Normalize
 transaction = transaction.update("witnesses", (w)=>w.push(witness));
 ```
 
+This block of code adds in the witness placeholders for the transaction. The placeholder needed for the multi-sig lock is slightly different than the default lock. When we created the multi-sig cell, we included a hash of the multi-sig script, but we didn't actually include the script. The multi-sig script has the configuration information, so it is needed to unlock, and it is provided during the unlock procedure by placing it into the Witnesses structure.
 
+On lines 2-7, we create a hex string representation of the binary multi-sig script. This is the S/R/M/N values and the list of hashed public keys. This is identical to how it was done before.
+
+Line 8 creates the actual placeholder, consisting of the multi-sig script, and zero-filled placeholders which will later be replaced with signatures. These zero-filled placeholders are necessary because this is used to generate the signing message which will be signed by the authorized private keys. Each Secp256k1 signature requires 65 bytes to store. In hex, every byte is represented by two characters, which is why we are creating a string of zeros that is 130 characters in length. A signature placeholder is needed for every required signature, so we add in one 65 byte zero-filled placeholder for each M value. This process is represented on line 8 with the code `"0".repeat(130).repeat(multisigThreshold)`.
+
+Lines 9-10 serialize this structure in the expected format, and add it to the Witnesses of the transaction.
+
+```javascript
+// Sign the transaction.
+transaction = secp256k1Blake160Multisig.prepareSigningEntries(transaction);
+const signingEntries = transaction.get("signingEntries").toArray();
+const signature1 = signMessage(privateKey1, signingEntries[0].message);
+const multisigSignature = multisigScript + signature1.substr(2);
+const signedTx = sealTransaction(transaction, [multisigSignature]);
+```
+
+This block of code generates the signing entries, signs with the required signatures, and seals the transaction by adding the signatures to the transaction.
+
+Lines 2-3 generate the signing entries for the multi-sig specifically since it's using the  `secp256k1Blake160Multisig` library. If we needed to add capacity from cells using the default lock script, then we would need to use the `secp256k1Blake160` library in addition. If there were multiple input cells owned by different accounts, then the `signingEntries` array would hold multiple messages.
+
+Line 4 generates the Secp256k1 signature for the first message. Since we only have a single input, we know that only a single signing entry will be generated.
+
+Line 5 creates the multi-sig signature, which consists of the multi-sig script + each required signature. Our multi-sig configuration's M value \(`multisigThreshold`\) is 1, so we only add a single signature. If the M value is higher, we would continue to append each signature here.
+
+Line 6 seals the transaction by replacing the zero-filled witness values in the transaction with the real signatures. Our transaction only has a single multi-sig cell as an input, so we only need one signature. If our transaction had more input cells with the default lock script which were needed for capacity, then we would have more than one signature here.
 
