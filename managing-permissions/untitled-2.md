@@ -88,5 +88,34 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCel
 
 On this line, we're adding our cell deps. However, we're not using the default lock script on any inputs, so we don't need the usual cell deps. This transaction will have only one input, the multi-sig cell, so we need to include the code binary for multi-sig. Just like the default lock, this is considered well-known, and is included in `config.json`. Therefore, we can use Lumos' `locateCellDep()` function to provide the necessary out point.
 
+```javascript
+// Add the input cell to the transaction.
+const input = await getLiveCell(nodeUrl, multisigCellOutPoint);
+transaction = transaction.update("inputs", (i)=>i.push(input));
+
+// Get the capacity sums of the inputs.
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+
+// Create a change Cell for the remaining CKBytes.
+const outputCapacity2 = intToHex(inputCapacity - txFee);
+const output2 = {cell_output: {capacity: outputCapacity2, lock: addressToScript(address1), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output2));
+```
+
+These blocks of code add the multi-sig cell as an input, calculate the input capacity, then create a change cell that returns the capacity back to `address1`. We don't need to perform any additional cell collection here because the input cell has enough capacity to cover a 61 CKByte change cell, and the transaction fee.
+
+```javascript
+// Add in the witness placeholders.
+const multisigScript = "0x"
+	+ multisigReserved.toString(16).padStart(2, "0")
+	+ multisigMustMatch.toString(16).padStart(2, "0")
+	+ multisigThreshold.toString(16).padStart(2, "0")
+	+ multisigPublicKeys.toString(16).padStart(2, "0")
+	+ multisigAddresses.map((address)=>addressToScript(address).args.substr(2)).join("");
+const multisigPlaceholder = multisigScript + "0".repeat(130).repeat(multisigThreshold);
+const witness = arrayBufferToHex(core.SerializeWitnessArgs(normalizers.NormalizeWitnessArgs({lock: multisigPlaceholder})));
+transaction = transaction.update("witnesses", (w)=>w.push(witness));
+```
+
 
 
