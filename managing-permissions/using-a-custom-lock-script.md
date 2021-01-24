@@ -118,7 +118,7 @@ The `lockScript1` variable defines the lock script for the cell. The `code_hash`
 
 ![](../.gitbook/assets/get-live-cell.png)
 
-The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. Specifically, it is a Blake2b hash with a 256-bit digest size and a personalization string of "ckb-default-hash" that is truncated to 160 bits. This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
+The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. Specifically, it is a Blake2b hash with a 256-bit digest size and a personalization string of "ckb-default-hash" that is truncated to 160 bits. This is commonly known as the "lock arg". This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
 
 This 160-bit `args` value takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.   
 
