@@ -29,7 +29,7 @@
 * [Lab: Deploy the Secp256r1 Lock Script](managing-permissions/lab-deploy-the-secp256r1-lock-script.md)
 * [Lab: Complete a Transaction With Secp256r1](managing-permissions/lab-complete-a-transaction-with-a-custom-l.md)
 * [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
-* [Lab: Creating a 2/3 Multi-Sig](managing-permissions/lab-multi-sig.md)
+* [Lab: Creating a 2/3 Multi-Sig Cell](managing-permissions/lab-multi-sig.md)
 * [Lab: Unlocking a 2/3 Multi-Sig](managing-permissions/introduction-to-lumos-part-2.md)
 * [Understanding Lock Value Relationships](managing-permissions/understanding-lock-value-relationships.md)
 * [Lab: Construct Necessary Lock Scripts](managing-permissions/lab-construct-necessary-lock-scripts.md)
