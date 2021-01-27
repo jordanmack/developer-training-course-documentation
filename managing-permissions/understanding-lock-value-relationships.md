@@ -16,7 +16,7 @@ A lock arg is a [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%2
 
 #### Lock Hash
 
-A lock hash 
+A lock hash is a lock script which has been serialized into binary format using the Molecule serialization library, then hashed using Blake2b.
 
 #### CKB Address
 
