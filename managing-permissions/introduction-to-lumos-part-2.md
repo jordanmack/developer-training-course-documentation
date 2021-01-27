@@ -27,8 +27,11 @@ In this lab exercise, we will descript the syntax, but it is up to you to constr
 3. Configure the `multisigScript` as a hex string consisting of the S/R/M/N values, followed by the hashed public keys of the authorized accounts.
    * Hint: You can use Lumos' `addressToScript()` function to convert an address to a lock script object. The \`args\` values are the hashed public keys you need. Make sure your hex string does not include extra "0x" hex prefixes in the middle when you concatenate values.
 4. Configure the cell deps as needed.
-   * Hint: You will need to include cell deps for every lock script binary that is used.
-5. 
+   * Hint: You will need to include a cell dep for every unique lock script binary that is used.
+5. Generate the appropriate witness placeholders.
+   * Hint: A zero-filled placeholder is needed for the occurrence of each unique lock script.
+6. Generate the signing entities and 
+
 Run your code by opening a terminal to the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Solution` folder.
 
 Once your code successfully executes, the resulting transaction ID will be printed on the screen.
