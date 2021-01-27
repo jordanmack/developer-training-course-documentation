@@ -2,7 +2,7 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Creating-a-2-3-Multi-Sig-Cell-Exercise` by adding code and values as necessary.
 
-You task is to create the multi-sig configuration by filling in the addresses and S/R/M/N values, then create the multi-sig script, calculate the multi-sig hash, and populate the lock script.
+Your task is to create the multi-sig configuration by filling in the addresses and S/R/M/N values, then create the multi-sig script, calculate the multi-sig hash, and populate the lock script.
 
 Your resulting transaction should contain:
 
