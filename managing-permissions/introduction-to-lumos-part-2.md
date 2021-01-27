@@ -7,8 +7,8 @@ Your task is to create the multi-sig configuration by filling in the addresses a
 Your resulting transaction should contain:
 
 * One multi-sig input cell.
-* One or more additional input cells from `address1` to use as capacity, if necessary.
-* One output to `address1` with the change from the transaction.
+* One or more additional input cells from `address1` to use as capacity.
+* One output to `address2` with the change from the transaction.
 * A transaction fee.
 
 ![](../.gitbook/assets/transaction-structure%20%284%29.png)
@@ -29,8 +29,8 @@ In this lab exercise, we will descript the syntax, but it is up to you to constr
 4. Configure the cell deps as needed.
    * Hint: You will need to include a cell dep for every unique lock script binary that is used.
 5. Generate the appropriate witness placeholders.
-   * Hint: A zero-filled placeholder is needed for the occurrence of each unique lock script.
-6. Generate the signing entities and 
+   * Hint: A zero-filled placeholder is needed for the first occurrence of each unique lock script.
+6. Generate the signing entities and sign them with the correct signatures.
 
 Run your code by opening a terminal to the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Solution` folder.
 
