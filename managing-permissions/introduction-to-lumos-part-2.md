@@ -31,6 +31,7 @@ In this lab exercise, we will descript the syntax, but it is up to you to constr
 5. Generate the appropriate witness placeholders.
    * Hint: A zero-filled placeholder is needed for the first occurrence of each unique lock script.
 6. Generate the signing entities and sign them with the correct signatures.
+   * Hint: You will need to generate signing entities with both `secp256k1Blake160.prepareSigningEntries()` and `secp256k1Blake160Multisig.prepareSigningEntries()` since both the default lock and the multi-sig lock are used on input cells.
 
 Run your code by opening a terminal to the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Solution` folder.
 
