@@ -11,7 +11,7 @@ Your resulting transaction should contain:
 * One output to `address1` with the change from the transaction.
 * A transaction fee.
 
-![](../.gitbook/assets/transaction-structure%20%283%29.png)
+![](../.gitbook/assets/transaction-structure%20%284%29.png)
 
 In this lab exercise, we will descript the syntax, but it is up to you to construct it. You may copy and paste some of your code from previous exercises to complete this lab exercise if needed, but it's recommended that you try to write as much of the code as possible without looking at previous examples.
 
