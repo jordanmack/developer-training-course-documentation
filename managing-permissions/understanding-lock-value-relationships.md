@@ -18,6 +18,10 @@ A lock arg is a [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%2
 
 A lock hash is a lock script which has been serialized into binary format using the Molecule serialization library, then hashed using Blake2b.
 
+#### Lock Script
+
+A lock script can have two different meanings, depending on the context.
+
 #### CKB Address
 
 An address is a special encoded value that specifies both an identity and how it should be accessed. It also includes a checksum value so it cannot be typed incorrectly. [CKB addresses](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md) have many possible uses which we will cover later. For now, think of it as an encoded form of the lock arg.
