@@ -23,7 +23,7 @@ In this lab exercise, we will descript the syntax, but it is up to you to constr
    ckt1qyqywrwdchjyqeysjegpzw38fvandtktdhrs0zaxl4
    ```
 
-2. Configure the S/R/M/N values to require **any two** of the authorized accounts to sign.
+2. Configure the S/R/M/N values to require **any two** of the authorized accounts to sign, but one of them **must be** `ckt1...xz4e`.
 3. Configure the `multisigScript` as a hex string consisting of the S/R/M/N values, followed by the hashed public keys of the authorized accounts.
    * Hint: You can use Lumos' `addressToScript()` function to convert an address to a lock script object. The \`args\` values are the hashed public keys you need. Make sure your hex string does not include extra "0x" hex prefixes in the middle when you concatenate values.
 4. Generate the `multisigHash` value as a 160-bit Blake2b hash of the multi-sig script.
