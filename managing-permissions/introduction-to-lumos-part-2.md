@@ -2,13 +2,13 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Exercise` by adding code and values as necessary.
 
-You task is to create the multi-sig configuration by filling in the addresses and S/R/M/N values, then create the multi-sig script, calculate the multi-sig hash, and populate the lock script.
+Your task is to create the multi-sig configuration by filling in the addresses and S/R/M/N values, then create the multi-sig script, populate the cell deps, create the proper witness placeholders, then provide the necessary signatures.
 
 Your resulting transaction should contain:
 
-* One or more input cells from `address1` to use as capacity.
-* One multi-sig output with exactly 61 CKBytes of capacity.
-* One output to `address1` with the change from the transaction, if necessary.
+* One multi-sig input cell.
+* One or more additional input cells from `address1` to use as capacity, if necessary.
+* One output to `address1` with the change from the transaction.
 * A transaction fee.
 
 ![](../.gitbook/assets/transaction-structure%20%283%29.png)
