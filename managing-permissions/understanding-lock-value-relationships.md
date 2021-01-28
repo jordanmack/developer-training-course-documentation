@@ -1,6 +1,6 @@
 # Understanding Lock Value Relationships
 
-When talking about the ownership of a cell, a lot of different terms may be used to describe an account. We've used the terms Private Key, Public Key, Lock Arg, Lock Hash, Lock Script, and Address. All of these are used for different purposes in different places to describe ownership, and all of these terms are related to each other.
+When talking about the ownership of a cell, a lot of different terms may be used to describe an account. We've used the terms Private Key, Public Key, Lock Script, Lock Arg, Lock Hash,  and Address. All of these are used for different purposes in different places to describe ownership, and all of these terms are related to each other.
 
 Nervos allows developers to use any cryptography desired to secure accounts, but the default lock uses the [Secp256k1](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) algorithm in tandem with the [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) hashing algorithm. For the terms listed on this page, we will describe them from the context of the default lock 
 
@@ -42,9 +42,9 @@ Addresses are the most common ownership identifier used by end-users in both too
 
 #### Component Relationship
 
-Each one of these components is derived from the previous component in a way that is cryptographically provable. As a developer, you will be working with lock args and CKB addresses often. The important thing to remember is that both of these are identifying values that are derived from a public key, which means they can be used with a locking mechanism that can be unlocked using the private key. 
+As a developer, you will be working with these various formats and structures regularly, so it's important to understand their relationships with each other.
 
-![](../.gitbook/assets/account-components-1.png)
+![](../.gitbook/assets/lock-value-relationships.png)
 
-### 
+This image illustrates how each of these values are related to each other. The generation of each value is one way, meaning you cannot get the original value from the derived value. The exception is the address format, which is specifically designed to be reversible back to a lock script.
 
