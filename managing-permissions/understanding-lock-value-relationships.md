@@ -1,26 +1,32 @@
 # Understanding Lock Value Relationships
 
-When talking about the ownership of a cell, we use a lot of different types of values to describe an account. We've used the terms Private Key, Public Key, Lock Arg, Lock Hash, Lock Script, and Address. All of these are used for different purposes in different places to describe ownership, and all of these terms are ultimately connected.
+When talking about the ownership of a cell, a lot of different terms may be used to describe an account. We've used the terms Private Key, Public Key, Lock Arg, Lock Hash, Lock Script, and Address. All of these are used for different purposes in different places to describe ownership, and all of these terms are related to each other.
+
+Nervos allows developers to use any cryptography desired to secure accounts, but the default lock uses the [Secp256k1](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) algorithm in tandem with the [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) hashing algorithm. 
 
 #### Private Key
 
-A private key is a randomly generated value that is used to secure your accounts. The [Secp256k1](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) algorithm is used to create the key pair. A private key must be kept secret at all times because this is what is used to unlock funds.
+A Secp256k1 private key is a randomly generated sequence that is used to secure your accounts. The private key length is 256 bits long \(32 bytes\). A private key must be kept secret at all times because this is what is used to unlock funds.
 
 #### Public Key
 
-A public key is derived from a private key. The public key does not need to be kept a secret, and it is used as a form of identifier.
+A Secp256k1 public key 256 bits in length and is derived from the private key. The public key does not need to be kept a secret, and it is used as a form of identifier.
 
-#### Lock Arg
-
-A lock arg is a [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) hash of the public key, truncated to 160 bits \(20 bytes\). This is the value that is used on-chain to secure funds.
-
-#### Lock Hash
-
-A lock hash is a lock script which has been serialized into a binary serialization format using the Molecule library, then hashed using a 256-bit Blake2b hash.
+It's important to understand what a public key is and what it's used for, but most of the time you will be working with values that are derived from the public key, rather than the public key itself.
 
 #### Lock Script
 
 A lock script can have two different meanings, depending on the context.
+
+
+
+#### Lock Arg
+
+A lock arg is a 256-bit Blake2b hash of the public key, truncated to 160 bits \(20 bytes\). 
+
+#### Lock Hash
+
+A lock hash is a lock script which has been serialized into a binary serialization format using the Molecule library, then hashed using a 256-bit Blake2b hash.
 
 #### CKB Address
 
