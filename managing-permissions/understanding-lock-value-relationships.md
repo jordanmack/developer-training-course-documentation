@@ -2,7 +2,7 @@
 
 When talking about the ownership of a cell, a lot of different terms may be used to describe an account. We've used the terms Private Key, Public Key, Lock Arg, Lock Hash, Lock Script, and Address. All of these are used for different purposes in different places to describe ownership, and all of these terms are related to each other.
 
-Nervos allows developers to use any cryptography desired to secure accounts, but the default lock uses the [Secp256k1](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) algorithm in tandem with the [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) hashing algorithm. 
+Nervos allows developers to use any cryptography desired to secure accounts, but the default lock uses the [Secp256k1](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) algorithm in tandem with the [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) hashing algorithm. For the terms listed on this page, we will describe them from the context of the default lock 
 
 #### Private Key
 
@@ -16,9 +16,9 @@ It's important to understand what a public key is and what it's used for, but mo
 
 #### Lock Script
 
-A lock script can have two different meanings, depending on the context.
+A lock script can have two different meanings depending on the context. A lock script can refer to the data structure within a cell that indicates the code which should be executed to determine ownership of the cell, or it can refer to the code which is actually executed. Right now, we are talking about the data structure.
 
-
+The lock script contains the `code_hash`, `hash_type`, and `args` fields. The `code_hash` and `hash_type` indicate the lock code that will be executed to determine ownership. The `args` indicates who the owner is.
 
 #### Lock Arg
 
