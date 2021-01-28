@@ -28,7 +28,7 @@ The lock arg is the most common ownership identifier that is used on-chain, beca
 
 #### Lock Hash
 
-A lock hash is a lock script which has been serialized into a binary serialization format using the Molecule library, then hashed using a 256-bit Blake2b hash.
+A lock hash is a lock script which has been serialized into a binary serialization format using the [Molecule](https://github.com/nervosnetwork/molecule) library, then hashed using a 256-bit Blake2b hash.
 
 #### CKB Address
 
