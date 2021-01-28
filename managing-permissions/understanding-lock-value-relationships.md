@@ -22,7 +22,9 @@ The lock script contains the `code_hash`, `hash_type`, and `args` fields. The `c
 
 #### Lock Arg
 
-A lock arg is a 256-bit Blake2b hash of the public key, truncated to 160 bits \(20 bytes\). 
+A lock arg is a 256-bit Blake2b hash of the public key, truncated to 160 bits \(20 bytes\). It's called a "lock arg" because it is most commonly used as the value that is placed into the `args` field of the lock script to indicate the owner of the cell.
+
+The lock arg is the most common ownership identifier that is used on-chain, because it is used with both the default lock and the multi-sig lock. It is also commonly used as an account identifier in tools such as `ckb-cli`.
 
 #### Lock Hash
 
