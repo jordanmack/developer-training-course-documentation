@@ -28,11 +28,17 @@ The lock arg is the most common ownership identifier that is used on-chain, beca
 
 #### Lock Hash
 
-A lock hash is a lock script which has been serialized into a binary serialization format using the [Molecule](https://github.com/nervosnetwork/molecule) library, then hashed using a 256-bit Blake2b hash.
+A lock hash is a lock script data structure which has been serialized into binary using the [Molecule](https://github.com/nervosnetwork/molecule) library, then hashed with Blake2b. A lock script has three fields, and the combination of those three fields are used to determine ownership. A lock hash is a single value that can be used to represent all three field values in a lock script.
+
+A lock hash is another common ownership identifier that is used frequently in dapp development, and occasionally with tools like `ckb-cli`.
 
 #### CKB Address
 
-An address is a special encoded value that specifies both an identity and how it should be accessed. It also includes a checksum value so it cannot be typed incorrectly. [CKB addresses](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md) have many possible uses which we will cover later. For now, think of it as an encoded form of the lock arg.
+An address is a lock script data structure that has been [encoded](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md) in a special format that saves space and includes a checksum to prevent accidental typing mistakes. Similar to a lock hash, an address is a single value that represents all three fields of a lock script. Unlike a lock hash, and address is reversible back to lock script form.
+
+Addresses are most commonly used to represent accounts using the default lock and multi-sig lock, but they are fully capable of being used with any lock. Since all three fields of the lock script are represented, the address format can be used with any form of cryptography available today, or in the future.
+
+Addresses are the most common ownership identifier used by end-users in both tooling and within dapps.
 
 #### Component Relationship
 
