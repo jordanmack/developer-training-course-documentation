@@ -1,10 +1,10 @@
 # Using a Custom Lock Script
 
-Lock Scripts are one of the many powerful features that differentiate Nervos from most other blockchain platforms. A Lock Script is a small on-chain program \(called a script\), that is used to define ownership of a cell. This program has the ability to fully examine the transaction it is included within. This gives the developer a tremendous amount of flexibility on how to manage access to cells.
+Lock scripts are one of the many powerful features that differentiate Nervos from most other blockchain platforms. A lock script is a small on-chain program \(called a script\), that is used to define ownership of a cell. This program has the ability to fully examine the transaction it is included within. This gives the developer a tremendous amount of flexibility on how to manage access to cells.
 
-The default Lock Script is based on Secp256k1 cryptography, making it nearly identical to Bitcoin and Ethereum. This allows a cell to be owned and unlocked by any user who possesses the private key. However, a Lock Script can do much more. A cell can be owned by a single person, by multiple people using a multi-sig lock script, by another script similar to a smart contract, or by no one.
+The default lock script is based on Secp256k1 cryptography, making it nearly identical to Bitcoin and Ethereum. This allows a cell to be owned and unlocked by any user who possesses the private key. However, a lock script can do much more. A cell can be owned by a single person, by multiple people using a multi-sig lock script, by another script similar to a smart contract, or by no one.
 
-When testing dapps and smart contracts, it is often convenient to test transactions using special Lock Scripts which always succeed \(unlock\) or always fail \(never unlock\) in any transaction. We will demonstrate how to create cells with special locks like these, but first, we need to understand the structure of a Lock Script to do so.
+When testing dapps and smart contracts, it is often convenient to test transactions using special lock scripts that always succeed \(unlock\) or always fail \(never unlock\) in any transaction. We will demonstrate how to create cells with special locks like these, but first, we need to understand the structure of a Lock Script to do so.
 
 ### The Structure of a Lock Script
 
