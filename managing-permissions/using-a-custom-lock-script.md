@@ -21,7 +21,7 @@ fn main() -> i8
 }
 ```
 
-The always success lock begins execution, then immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script that created.
+The always success lock begins execution, then immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script that can be created.
 
 When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction.
 
