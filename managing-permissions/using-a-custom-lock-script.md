@@ -25,32 +25,16 @@ The always success lock begins execution, then immediately returns with a value 
 
 When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction.
 
-### 
-
-### Cell Deps
-
-We already learned about input cells and output cells, but there is a third type called cell deps. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
-
-Some of the common uses of cells deps are:
-
-* Script Code - A lock script references the `code_hash` of the code it needs to execute, but it still needs to know where the code resides. This is done by specifying a live cell that contains this code as a cell dep.
-* Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
-* State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
-
-With the addition of cell deps we now have a complete path from the transaction to the code.
-
-![](../.gitbook/assets/transaction-connections-2.png)
-
-Live Cell \#1 has a lock script with a `code_hash` that matches the data in Live Cell \#2. The data in Live Cell \#2 is a RISC-V binary that contains the logic needed to determine if a cell should unlock in a transaction.
-
 ### Using the Always Success Lock in Lumos
+
+Next, we will go through an example to use the always success lock in a transaction using Lumos. We're going to use a precompiled binary for this example to make things simpler. In the next lesson, we will learn how to build and compile scripts.
 
 Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections.
 
 ![](../.gitbook/assets/example-flow.png)
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
-2. Deploy Code - The `deployAlwaysSuccessBinary()` function creates a cell with the contents of the RISC-V binary located in the file `./files/always_success`. This is the always success lock, an on-chain script that always grants permission to the cell in any transaction.
+2. Deploy Code - The `deployAlwaysSuccessBinary()` function creates a cell with the contents of the RISC-V binary located in the file `./files/always_success`. This is the always success lock binary executable.
 3. Create Cell - The `createCellWithAlwaysSuccessLock()` function creates a cell that uses the always success lock.
 4. Consume Cell - The `consumeCellWithAlwaysSuccessLock()` function consumes the cell with the always success lock that we just created.
 
