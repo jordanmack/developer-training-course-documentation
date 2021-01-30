@@ -50,13 +50,7 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: addres
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
-This code should look familiar since we've used it several times before. We're creating a cell that contains the contents of the always success binary.
-
-Here is the transaction path from earlier:
-
-![](../.gitbook/assets/transaction-connections-2.png)
-
-The cell we just created would be Live Cell \#2 in this image. It is the code that will be referenced as a cell dep by it's outpoint.
+This code should look familiar since we've used it several times before. We're reading the always success lock binary into a hex string, then creating a cell with the contents.
 
 At the end of the function you will see this code:
 
@@ -106,6 +100,24 @@ Even though this saves a little bit of space, it isn't practical to use in a pro
 ### Consuming a Cell with the Always Success Lock
 
 Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
+
+
+
+### Cell Deps
+
+We already learned about input cells and output cells, but there is a third type called cell deps. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
+
+Some of the common uses of cells deps are:
+
+* Script Code - A lock script references the `code_hash` of the code it needs to execute, but it still needs to know where the code resides. This is done by specifying a live cell that contains this code as a cell dep.
+* Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
+* State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
+
+With the addition of cell deps we now have a complete path from the transaction to the code.
+
+![](../.gitbook/assets/transaction-connections-2.png)
+
+Live Cell \#1 has a lock script with a `code_hash` that matches the data in Live Cell \#2. The data in Live Cell \#2 is a RISC-V binary that contains the logic needed to determine if a cell should unlock in a transaction.
 
 ```javascript
 // Add the cell dep for the lock script.
