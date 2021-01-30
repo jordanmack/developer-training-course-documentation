@@ -93,27 +93,30 @@ The `args` value here is set to a 160-bit Blake2b hash of the owner's Secp256k1 
 
 When you use the default lock script, the `args` field is always expected to have that 160-bit hash of the public key. However, it's important to recognize that this specific requirement applies only to the default lock script. The `args` field can contain any data in any format. It is the script in use that dictates how the data in the `args` should be formatted, or if it is even needed at all.
 
-This 160-bit lock arg takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.
+This 160-bit lock arg takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason our cell only needs 41 CKBytes instead of the normal 61 CKBytes.
 
 Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
 ### Cell Deps
 
-We already learned about input cells and output cells, but there is a third type called cell deps. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
+Our lock script uses the `code_hash` and `hash_type` to determine **what** code should execute, but it does not specify **where** that code exists in the blockchain. This is where cell deps come into play.
+
+We already learned about input cells and output cells in a transaction. Cell deps are the third type. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
 
 Some of the common uses of cells deps are:
 
 * Script Code - All code that executes on-chain, such as the always success lock, are referenced in a transaction using a cell dep.
-* Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
+* Script Libraries - Just like a library for a normal desktop application, a script library contains commonly used code for different scripts.
 * State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
 
-Starting with a 
-
-With the addition of cell deps we now have a complete path from the transaction to the code.
+With the addition of cell deps we now have a complete path from the transaction to the code, which allows our transaction to execute.
 
 ![](../.gitbook/assets/transaction-connections-2.png)
 
-Live Cell \#1 has a lock script with a `code_hash` that matches the data in Live Cell \#2. The data in Live Cell \#2 is a RISC-V binary that contains the logic needed to determine if a cell should unlock in a transaction.
+* Our transaction has input cells.
+* Each input cell has a lock script.
+* The lock script has a code hash and hash type that tell **what** script code binary should execute.
+* The cell deps tell **where** the script code binary exists resides.
 
 ### Consuming a Cell with the Always Success Lock
 
