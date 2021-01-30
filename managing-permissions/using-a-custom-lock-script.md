@@ -25,31 +25,7 @@ The always success lock begins execution, then immediately returns with a value 
 
 When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction.
 
-### The Structure of a Lock Script
-
-When we talk about a Lock Script, it's important to pay attention to the context. Lock Script can refer to the data structure that is defined within a cell, or the underlying code which defines how the script operates. Right now, we're discussing the data structure.
-
-Here is an image of the output from a `rpc get_live_cell` request in `ckb-cli`.
-
-![](../.gitbook/assets/get-live-cell.png)
-
-In the above image, the `lock` defines the Lock Script and it has three structural elements:
-
-* `args` are short for arguments. This is data provided to the Lock Script similarly to how arguments can be passed to a normal command-line program.
-* `code_hash` is a Blake2b hash of the code that defines the Lock Script. The code itself is a RISC-V binary executable that is stored on-chain in another cell. 
-* `hash_type` controls how the `code_hash` is used in a transaction. It is used in the process of upgrading smart contracts. We will cover more about the usage of `hash_type` in the next lesson.
-
-The `code_hash` value of `0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8` is the default Lock Script which uses Secp256k1 cryptography. When a cell is included in a transaction, the binary code matching the `code_hash` will execute and verify that the proper Secp256k1 signature was provided.
-
-To explain it another way, the `code_hash` value is a way of indicating what code should execute to determine if the cell should grant access and unlock. The `code_hash` value itself does not contain any logic to make this determination. It simply indicates what code should make that determination.
-
-When the default Secp256k1 lock script \(`0x9bd7...cce8`\) executes, it makes that determination by checking if the proper credentials were provided using the Secp256k1 algorithm. To do this, it matches values from the Lock Args with values from the Witnesses. The Lock Args contains a hash of the owner's public key, and the Witnesses contains a value signed with the owner's private key. We will show exactly how this works later, but we will not need these for the always success and always fail lock scripts since they do not rely on those.
-
-So far we know that a transaction has input cells, and each one of these inputs is referenced by an out point to a live cell. Each one of these cells has a lock script that indicates what code should execute using the code hash, but there is still something missing.
-
-![](../.gitbook/assets/transaction-connections-1.png)
-
-The code hash is describing the code that should execute, but it does not indicate where the code is located on the blockchain. To do this, we need to use a cell dep.
+### 
 
 ### Cell Deps
 
