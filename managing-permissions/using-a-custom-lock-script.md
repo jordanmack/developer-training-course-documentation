@@ -23,7 +23,7 @@ fn main() -> i8
 
 The always success lock begins execution, then immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script that can be created.
 
-When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction.
+When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction. It doesn't check any credentials of any kind. Anyone could consume the cell and immediately take the CKBytes without any permission. Since it is completely insecure, this is something we would only use for testing purposes.
 
 ### Using the Always Success Lock in Lumos
 
@@ -66,8 +66,6 @@ return outPoint;
 
 We're returning the out point of the cell we just created so that it can be used in the next transaction.
 
-One important point of note is that this cell is intended for use as a cell dep, not as an input. If you remember from earlier, unlike an input, a cell dep is not consumed. This means that we can use this cell over and over again as a cell dep in multiple transactions. The binary only has to be deployed once, and then it can be used as many times as needed.
-
 ### Creating a Cell with the Always Success Lock
 
 Next, let's look at the `createCellWithAlwaysSuccessLock()` function. Once again, we'll skip straight to the relevant parts.
@@ -97,19 +95,13 @@ This 160-bit `args` value takes up exactly 20 bytes of space. The always success
 
 Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
-### Consuming a Cell with the Always Success Lock
-
-Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
-
-
-
 ### Cell Deps
 
 We already learned about input cells and output cells, but there is a third type called cell deps. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
 
 Some of the common uses of cells deps are:
 
-* Script Code - A lock script references the `code_hash` of the code it needs to execute, but it still needs to know where the code resides. This is done by specifying a live cell that contains this code as a cell dep.
+* Script Code - All code that executes on-chain, such as the always success lock, must be referenced in a transaction using a cell dep.
 * Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
 * State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
 
@@ -118,6 +110,10 @@ With the addition of cell deps we now have a complete path from the transaction 
 ![](../.gitbook/assets/transaction-connections-2.png)
 
 Live Cell \#1 has a lock script with a `code_hash` that matches the data in Live Cell \#2. The data in Live Cell \#2 is a RISC-V binary that contains the logic needed to determine if a cell should unlock in a transaction.
+
+### Consuming a Cell with the Always Success Lock
+
+Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
 
 ```javascript
 // Add the cell dep for the lock script.
