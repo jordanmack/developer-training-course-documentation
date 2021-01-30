@@ -8,9 +8,22 @@ When testing dapps and smart contracts, it is often convenient to test transacti
 
 ### How a Lock Script Determines Ownership
 
-When any script executes, its purpose in doing so is to answer a single question, "Is this transaction valid?" A lock script is referenced by a cell, so the context of the answer is typically \(but not always\) limited to the cell it is attached to.
+When any script executes, its purpose in doing so is to answer a single question, "Is this transaction valid?" A lock script is referenced by a cell, so the context of the answer is typically limited to the cell it is attached to. This simplifies the question to "Is this cell authorized to be used in this transaction?"
 
+All scripts that execute can respond with a simple yes or no answer, in the form of an error code. A value of 0 means success and any other value means failure.
 
+Let's take a look at the always success lock logic in pseudo-code.
+
+```rust
+fn main() -> i8
+{
+    return 0;
+}
+```
+
+The always success lock begins execution, then immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script that created.
+
+When the always success lock is attached to a cell in a transaction, it will always answer "yes" when asked if the cell is authorized to be used in the transaction.
 
 ### The Structure of a Lock Script
 
