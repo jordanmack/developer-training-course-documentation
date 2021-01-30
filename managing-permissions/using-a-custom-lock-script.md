@@ -151,7 +151,7 @@ The `dep_type` can be either `code` or `dep_group`. The value of `code` indicate
 
 If you look closely at the code in `createCellWithAlwaysSuccessLock()` and `consumeCellWithAlwaysSuccessLock()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
 
-A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value can be extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs, and we don't need to provide a cell dep to the always success binary since it isn't executing.
+A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value is extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs, and we don't need to provide a cell dep to the always success binary since it isn't executing.
 
 ```javascript
 // Add the always success cell to the transaction.
