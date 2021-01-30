@@ -85,13 +85,15 @@ transaction = transaction.update("outputs", (i)=>i.push(output1));
 
 There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
-The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script: 
+The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
 
 ![](../.gitbook/assets/get-live-cell.png)
 
-The `args` value is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. Specifically, it is a Blake2b hash with a 256-bit digest size and a personalization string of "ckb-default-hash" that is truncated to 160 bits. This is commonly known as the "lock arg". This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to match the public key against the signature provided in the witnesses of the transaction to verify that the owner gave their permission to use the cell in the transaction.
+The `args` value here is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. This is commonly known as the "lock arg". This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to determine who the owner is, and check if the correct signatures have been provided as proof that authorization was given.
 
-This 160-bit `args` value takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.   
+When you use the default lock script, the `args` field is always expected to have that 160-bit hash of the public key. However, it's important to recognize that this specific requirement applies only to the default lock script. The `args` field can contain any data in any format. It is the script in use that dictates how the data in the `args` should be formatted, or if it is even needed at all.
+
+This 160-bit lock arg takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason out cell only needs 41 CKBytes instead of the normal 61 CKBytes.
 
 Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
@@ -101,9 +103,11 @@ We already learned about input cells and output cells, but there is a third type
 
 Some of the common uses of cells deps are:
 
-* Script Code - All code that executes on-chain, such as the always success lock, must be referenced in a transaction using a cell dep.
+* Script Code - All code that executes on-chain, such as the always success lock, are referenced in a transaction using a cell dep.
 * Script Libraries - Just like a library for a normal application, a script library contains commonly used code in scripts.
 * State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
+
+Starting with a 
 
 With the addition of cell deps we now have a complete path from the transaction to the code.
 
