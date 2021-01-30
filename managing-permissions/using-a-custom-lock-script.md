@@ -6,6 +6,12 @@ The default lock script is based on Secp256k1 cryptography, making it nearly ide
 
 When testing dapps and smart contracts, it is often convenient to test transactions using special lock scripts that always succeed \(unlock\) or always fail \(never unlock\) in any transaction. We will demonstrate how to create cells with special locks like these, but first, we need to understand the structure of a Lock Script to do so.
 
+### How a Lock Script Determines Ownership
+
+When any script executes, its purpose in doing so is to answer a single question, "Is this transaction valid?" A lock script is referenced by a cell, so the context of the answer is typically \(but not always\) limited to the cell it is attached to.
+
+
+
 ### The Structure of a Lock Script
 
 When we talk about a Lock Script, it's important to pay attention to the context. Lock Script can refer to the data structure that is defined within a cell, or the underlying code which defines how the script operates. Right now, we're discussing the data structure.
