@@ -111,7 +111,7 @@ Some of the common uses of cells deps are:
 
 With the addition of cell deps we now have a complete path from the transaction to the code, which allows our transaction to execute.
 
-![](../.gitbook/assets/transaction-connections-2.png)
+![](../.gitbook/assets/transaction-connections-3.png)
 
 * Our transaction has input cells.
 * Each input cell has a lock script.
