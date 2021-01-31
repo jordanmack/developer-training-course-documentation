@@ -178,5 +178,12 @@ The reason that `capacityRequired` in the code above is set to 61 CKBytes + the 
 
 On the left is the transaction we are generating. We are consuming the always success cell and sending the value back to ourselves, so we only need one output.
 
-On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes \(+ tx fee\) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes \(122 - 41\), plus the transaction fee. 
+On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes \(+ tx fee\) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes \(122 - 41\), plus the transaction fee.
+
+```javascript
+	// Sign the transaction.
+	const signedTx = signTransaction(transaction, privateKey1);
+```
+
+This code looks pretty standard, but it's important to point out why it's necessary. The always success lock does not require any kind of signing in order to unlock. If it was the only input cell that existed, then we could skip this step. However, we had to add additional capacity from `address1`, and those cells use the default lock, which requires a standard signature in order to unlock.
 
