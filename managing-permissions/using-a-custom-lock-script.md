@@ -109,14 +109,9 @@ Some of the common uses of cells deps are:
 * Script Libraries - Just like a library for a normal desktop application, a script library contains commonly used code for different scripts.
 * State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
 
-With the addition of cell deps we now have a complete path from the transaction to the code, which allows our transaction to execute.
+With the addition of cell deps, our transaction now knows **what** code is needed, and **where** the code exists, making execution possible.
 
 ![](../.gitbook/assets/transaction-connections-3.png)
-
-* Our transaction has input cells.
-* Each input cell has a lock script.
-* The lock script has a code hash and hash type that tell **what** script code binary should execute.
-* The cell deps tell **where** the script code binary exists resides.
 
 ### Consuming a Cell with the Always Success Lock
 
