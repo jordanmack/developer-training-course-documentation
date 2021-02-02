@@ -113,7 +113,7 @@ With the addition of cell deps, our transaction now knows **what** code is neede
 
 ![](../.gitbook/assets/transaction-connections-3.png)
 
-
+When the transaction is executed, every cell in the inputs will execute its lock script. The `code_hash` identifies what code needs to execute. The code that needs to be executed will be matched against the cell dep with a matching `data_hash`. The data field of the cell from the matching cell dep contains the script code that will be executed.
 
 ### Consuming a Cell with the Always Success Lock
 
