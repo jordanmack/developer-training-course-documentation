@@ -113,6 +113,8 @@ With the addition of cell deps, our transaction now knows **what** code is neede
 
 ![](../.gitbook/assets/transaction-connections-3.png)
 
+
+
 ### Consuming a Cell with the Always Success Lock
 
 Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
