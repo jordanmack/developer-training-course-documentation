@@ -32,5 +32,11 @@ This lock script is conceptually different than the default lock script because 
 
 This code is insecure and unsafe to use outside of a test environment, but it is a good example to demonstrate how funds can be unlocked with smart contract-like conditions instead of signatures.
 
+### Usage in Lumos
 
+Open the `index.js` file from the `Conditional-Unlocking-Example` directory and scroll down to the `main()` function. Just like the code from the previous topic, this code has four main sections.
+
+![](../.gitbook/assets/example-flow.png)
+
+This should look familiar because it is the same basic process. All that is changing is the lock script in use and a few details in the transaction structure which we'll explain.
 
