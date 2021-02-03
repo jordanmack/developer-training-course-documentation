@@ -26,11 +26,11 @@
 
 * [Using a Custom Lock Script](managing-permissions/using-a-custom-lock-script.md)
 * [Conditional Unlocking](managing-permissions/conditional-unlocking.md)
+* [Using the Default Lock Script](managing-permissions/using-the-default-lock-script.md)
 * [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
 * [Lab: Creating a 2/3 Multi-Sig Cell](managing-permissions/lab-multi-sig.md)
 * [Lab: Unlocking a 2/3 Multi-Sig](managing-permissions/introduction-to-lumos-part-2.md)
 * [Understanding Lock Value Relationships](managing-permissions/understanding-lock-value-relationships.md)
-* [Working with Lock Values](managing-permissions/working-with-lock-values.md)
 * [Lab: Construct Necessary Lock Scripts](managing-permissions/lab-construct-necessary-lock-scripts.md)
 
 ## Scripting Basics
