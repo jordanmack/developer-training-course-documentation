@@ -63,7 +63,9 @@ Next, we will look at the relevant parts of the `createCellsWithCkb500Lock()` fu
 
 This is the code that creates the cells using the CKB 500 lock. On line 2 you will see that we are creating cells with a capacity of exactly 250 CKBytes. We chose that number because it will be easy to create a transaction with exactly 500 CKBytes of input capacity.
 
-On lines 5-7 we specify the data hash of the CKB 500 lock for the `code_hash` and once again `args` is empty because it isn't used. The CKB 500 lock only cares about input capacity, so it doesn't read the `args` value at all. 
+On lines 5-7 we specify the data hash of the CKB 500 lock for the `code_hash` and once again `args` is empty because it isn't used. The CKB 500 lock only cares about input capacity, so it doesn't read the `args` value at all.
+
+If you were to put a random value into the `args` it would do nothing. However, if you added a value to the args you would have a higher capacity requirement. It would also make the cell harder to locate later, and we will show you why in the next section.
 
 If you look closely at line 10, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 250 CKBytes each.
 
@@ -92,5 +94,26 @@ Just like the previous example, we have to add our CKB 500 code as a cell dep to
 	transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 ```
 
-Next, we add the CKB 500 cells to the transaction. However, unlike the previous example, we are not directly adding the outpoint. Instead, we are using the `collectCapacity()` library function to locate the cells. By specifying the lock script we need, we can search only for cells that were created with the CKB 500 lock.
+Next, we add the CKB 500 cells to the transaction. However, unlike the previous example, we are not directly adding the outpoint. Instead, we are using the `collectCapacity()` library function to locate the cells. We pass the lock script to the function, which will collect only cells created with the CKB 500 lock.
+
+The lock script we specify to query for these cells is exactly the same as the one used to create the cells. Earlier, we said that `args` isn't used, but that adding a random value may make it harder to locate. This is because you must specify the `code_hash`, `hash_type`, and `args` explicitly in a query. All three values are required, and they cannot be wildcards.
+
+```javascript
+	// Add in the witness placeholders.
+	// transaction = addDefaultWitnessPlaceholders(transaction);
+
+	// Sign the transaction.
+	// const signedTx = signTransaction(transaction, privateKey1);
+	const signedTx = sealTransaction(transaction, []);
+```
+
+On lines 2 and 5 we have commented out the normal code we have been using. Lines 2 adds in the required placeholders for signing using the default lock script, and line 5 signs the transaction using the Secp256k1 algorithm which is required by the default lock script.
+
+We don't need to go through the normal signing process because we are only using the CKB 500 cells as inputs, and they do not check signatures at all.
+
+On line 6 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock requires no signatures at all. 
+
+
+
+
 
