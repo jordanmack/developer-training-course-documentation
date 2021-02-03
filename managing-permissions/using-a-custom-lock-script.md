@@ -187,5 +187,5 @@ On the right is what it would look like if we were sending to someone else. We w
 	const signedTx = signTransaction(transaction, privateKey1);
 ```
 
-This code looks pretty standard, but it's important to point out why it's necessary. The always success lock does not require any kind of signing in order to unlock. If it was the only input cell that existed, then we could skip this step. However, we had to add additional capacity from `address1`, and those cells use the default lock, which requires a standard signature in order to unlock.
+This code looks standard and we've used it many times in the past, but it's important to point out why it's necessary for this transaction. The always success lock does not require any kind of signing in order to unlock. If it was the only input cell that existed, then we could skip this step. However, we had to add additional capacity from `address1`, and those cells use the default lock, which requires a standard signature in order to unlock.
 
