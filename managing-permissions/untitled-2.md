@@ -1,6 +1,6 @@
 # Using the Multi-Sig Lock Script
 
-Multi-sig functionality allows a single cell to be owned and unlocked by multiple users. Just like with the Secp256r1 example, any cell can use a multi-sig lock by specifying a multi-sig binary executable in the lock script and providing the correct arguments.
+Multi-sig functionality allows a single cell to be owned and unlocked by multiple users. Just like with the previous examples, any cell can use a multi-sig lock by specifying a multi-sig binary executable in the lock script and providing the correct arguments.
 
 Open the `index.js` file from the `Using-the-Multi-Sig-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
 
