@@ -48,7 +48,9 @@ Let's look at the `account list` command from `ckb-cli`. The pictured account on
 
 If you look closely at the values, you will notice that the testnet address is the same one used in our code and the `lock_arg` matches the `args` value of our lock script.
 
-When we refer to the "lock arg", we are specifically talking about the `args` value that is used specifically with the default lock script. This is a commonly used term you will see throughout much of Nervos' tooling. Don't confuse this with the `args` of a lock script. A "lock arg" implies we are using the default lock script. If we're not using the default lock script, the lock script will usually still have an `args` value, but this value could be very different, and it depends on exactly what the code expects.
+When we refer to the "lock arg", we are specifically talking about the `args` value that is used specifically with the default lock script. This is a commonly used term you will see throughout much of Nervos' tooling. Don't confuse this with the `args` of a lock script. A "lock arg" implies we are using the default lock script. If we're not using the default lock script, the lock script will usually still have an `args` value, but this value could be very different because the value that is used in the `args` depends on what the lock script code expects.
+
+
 
 
 
