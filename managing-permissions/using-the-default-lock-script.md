@@ -5,8 +5,8 @@ The default lock script uses a combination of the [Secp256k1](https://en.bitcoin
 Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
-2. Create Cell - The `createDefaultLockCell()` function creates a cell that uses the multi-sig lock.
-3. Consume Cell - The `consumeDefaultLockCell()` function consumes the cell with the multi-sig lock that we just created.
+2. Create Cell - The `createDefaultLockCell()` function creates a cell that uses the default lock.
+3. Consume Cell - The `consumeDefaultLockCell()` function consumes the cell with the default lock that we just created.
 
 The code doesn't have a section for deploying code this time. This is because the default lock a well-known script, and it is deployed to the blockchain in the genesis block.
 
