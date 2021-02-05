@@ -4,18 +4,18 @@ When the lock script executes it has access to any values that are provided in t
 
 Let's look at another example lock script in pseudo-code. This one will examine the transaction, and only unlock if the total capacity in all of the inputs is exactly 500 CKBytes.
 
-```rust
-fn main() -> i8
+```javascript
+function main()
 {
-    let mut total_capacity = 0;
+    total_capacity = 0;
     
-    let input_cells = load_input_cells();
-    for cell in cells
+    input_cells = load_input_cells();
+    for(cell in cells)
     {
         total_capacity += cell.capacity;
     }
 
-    if total_capacity == 50_000_000_000 // 500 CKBytes
+    if(total_capacity == 500 * 100000000) // 500 CKBytes in Shannons
     {
         return 0;
     }
@@ -25,6 +25,8 @@ fn main() -> i8
     }
 }
 ```
+
+
 
 This code should be reasonably easy to understand. The input cells are loaded from the transaction, and then the capacity of each input cell is tallied. If the total input capacity is exactly 500 CKBytes, then the lock script will return with 0, indicating success.
 
