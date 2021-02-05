@@ -14,8 +14,8 @@ All scripts that execute can respond with a simple yes or no answer, in the form
 
 Let's take a look at the always success lock logic in pseudo-code.
 
-```rust
-fn main() -> i8
+```javascript
+function main()
 {
     return 0;
 }
