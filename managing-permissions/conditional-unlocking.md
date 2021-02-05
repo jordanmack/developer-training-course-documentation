@@ -30,7 +30,7 @@ This code should be reasonably easy to understand. The input cells are loaded fr
 
 This lock script is conceptually different than the default lock script because it shows how a script can expand its scope of concern. The code is examining all the input cells unconditionally. It doesn't matter if the input cells have a matching lock script, or are even owned by different people. All the code cares about is the input capacity amount.
 
-This code is insecure and unsafe to use outside of a test environment, but it is a good example to demonstrate how funds can be unlocked with smart contract-like conditions instead of signatures.
+This code is a good example to demonstrate how funds can be unlocked with smart contract-like conditions instead of signatures, but it should never be used outside of a test environment. The code does not use signatures to prove ownership in any way, which means that anyone could unlock the cell and take the capacity contained within if they knew that it could be unlocked with 500 CKBytes.
 
 ### Usage in Lumos
 
