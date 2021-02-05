@@ -69,6 +69,10 @@ If you were to put a random value into the `args` it would do nothing. However, 
 
 If you look closely at line 10, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 250 CKBytes each.
 
+Our resulting transaction should look similar this.
+
+![](../.gitbook/assets/create-transaction-structure.png)
+
 ### Consuming the CKB 500 Cells
 
 Next, we will look at the relevant parts of the `consumeCellsWithCkb500Lock()` function.
