@@ -119,7 +119,9 @@ We don't need to go through the normal signing process because we are only using
 
 On line 6 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock is an example of how a lock can require no signatures at all. 
 
+Our resulting transaction will look like this.
 
+![](../.gitbook/assets/consume-transaction-structure.png)
 
 
 
