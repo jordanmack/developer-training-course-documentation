@@ -1,6 +1,12 @@
 # Using the Default Lock Script
 
-The default lock script uses a combination of the [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1) and [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) algorithms to secure cells. The default lock allows a cell to be owned by a single private key. This is the most commonly used lock on Nervos, and it is supported by every wallet.
+The "default lock script" is the primary method of securing cells on Nervos. The code binaries are included in the genesis block and all of the available tooling supports this method of locking. This is the most commonly used lock on Nervos, and it is supported by every wallet.
+
+The default lock script uses a combination of the [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1) and [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) algorithms. Secp256k1 is the same algorithm used in Bitcoin and Ethereum to provide private/public key signature functionality. Blake2b is a hashing algorithm that is also used by projects like Cardano and Sia. The combination of locking using Secp256k1 signatures and Blake2b hashing is also labeled as the "Secp256k1 Blake2b Sighash" lock, or simply the "Sighash" lock.
+
+### Locking and Unlocking
+
+
 
 Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
 
