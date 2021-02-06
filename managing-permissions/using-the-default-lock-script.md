@@ -27,7 +27,7 @@ const lockArg1 = "0x988a9c3e74c09dab76c8e41d481a71f4d36d772f";
 const address1 = "ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e";
 ```
 
-Provided is a private key and the corresponding lock arg and address for that private key. All three of these values are directly related to each other.
+Provided is a private key and the corresponding lock arg and address for that private key. All three of these values are directly related to each other. It's important to know the relationship between all of the values used in order to understand how the default lock works on Nervos.
 
 The private key is a randomly generated 256-bit value \(32 bytes\). This is can be used with the Secp256k1 algorithm to derive a 264-bit public key \(33 bytes\). Below is how this would be done in pseudo-code.
 
@@ -123,6 +123,74 @@ transaction = transaction.update("outputs", (i)=>i.push(output2));
 ```
 
 This code is creating two identical output cells, but the lock script is shown in two different ways. The first method uses the Lumos function `addressToScript()` to convert the address to a lock script. The second method fully defines a lock script. Both lock scripts in this code are identical and use the default lock script.
+
+```javascript
+// Create a change cell for the remaining CKBytes.
+const outputCapacity3 = intToHex(inputCapacity - outputCapacity - txFee);
+const output3 = {cell_output: {capacity: outputCapacity3, lock: addressToScript(address1), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output3));
+```
+
+This block of code creates a change cell for the transaction. There isn't anything special about this code, but it's being pointed out because we're going to use this output later on.
+
+```javascript
+// Add in the witness placeholders.
+transaction = addDefaultWitnessPlaceholders(transaction);
+```
+
+This code adds the witness placeholders to the transaction. We've used this code many times before, but we never described what it actually does.
+
+In Bitcoin, the witness is the part of the transaction where data that is required to prove authorization is provided. In Nervos, this is expanded to include any data that is required for the transaction to succeed. Think of it like an args field for a transaction. 
+
+Let's take a look at what `addDefaultWitnessPlaceholders()` is doing under the hood.
+
+```javascript
+const SECP_SIGNATURE_PLACEHOLDER_DEFAULT = "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+/**
+ * Adds witness placeholders to the transaction for the default lock.
+ * 
+ * This function assumes all cells use the default lock. If a cell is not using
+ * the default lock, the placeholder may need to be altered after this function
+ * is run. This function can only be used on an empty witnesses structure.
+ * 
+ * @param {Object} transaction An instance of a Lumos `TransactionSkelton`.
+ * 
+ * @return {Object} An instance of the transaction skeleton with the placeholders added.
+ */
+function addDefaultWitnessPlaceholders(transaction)
+{
+	if(transaction.witnesses.size !== 0)
+		throw new Error("This function can only be used on an empty witnesses structure.");
+
+	// Cycle through all inputs adding placeholders for unique locks, and empty witnesses in all other places.
+	let uniqueLocks = new Set();
+	for(const input of transaction.inputs)
+	{
+		let witness = "0x";
+
+		const lockHash = computeScriptHash(input.cell_output.lock);
+		if(!uniqueLocks.has(lockHash))
+		{
+			uniqueLocks.add(lockHash);
+			witness = SECP_SIGNATURE_PLACEHOLDER_DEFAULT;
+		}
+
+		witness = new Reader(core.SerializeWitnessArgs(normalizers.NormalizeWitnessArgs({lock: witness}))).serializeJson();
+		transaction = transaction.update("witnesses", (w)=>w.push(witness));
+	}
+
+	return transaction;
+}
+```
+
+This library function adds the necessary placeholder values to the witness of the transaction. This function assumes that all locks are using the default lock, so it should be used for any other lock unless you specifically understand how it works.
+
+The witness is an array structure that can be populated with any data, but there are some general conventions that should be followed for compatibility with the default lock script, and with scripts in general.
+
+Placeholders should be added to the witness at every index that matches the index of an input with the first instance of a unique lock script. These placeholders are zero-filled byte arrays with an equal length to the signatures that will be placed into the witness. Once the placeholders are added the signing message can be generated for the transaction. This message is signed by the required private keys, and then the signatures are placed into the witness, replacing the zero-filled placeholders.
+
+
 
 
 
