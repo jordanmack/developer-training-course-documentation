@@ -35,7 +35,7 @@ The private key is a randomly generated 256-bit value \(32 bytes\). This is can 
 privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
 publicKey = derive_secp256k1_public_key(privateKey);
 print(publicKey);
->> 0x03fe6c6d09d1a0f70255cddf25c5ed57d41b5c08822ae710dc10f8c88290e0acdf
+>> 0x02fdd2f22bb7605479655ef1fc7f55699d5002712cbc7417e3e4a4c86274e709e4
 ```
 
 Now that we have the public key, we can create a lock arg. As we mentioned earlier, a lock arg is a 160-bit Blake2b hash of the public key. Specifically, it is a 256-bit Blake2b hash, with the personalization key `ckb-default-hash`, truncated to 160 bits. Below is the pseudo-code to represent this.
@@ -49,6 +49,52 @@ print(lockArg);
 ```
 
 The "lock arg" was given its name because it is used in the `args` field of the default lock script to identify the owner of a cell. Since it is derived from the public key, it can provide proof of ownership.
+
+```javascript
+privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+publicKey = derive_secp256k1_public_key(privateKey);
+lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
+lockScript = {
+                  "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                  "hash_type": "type",
+                  "args": lockArg
+             };
+```
+
+The `code_hash` value you see in the lock script above is for the default lock on a local development blockchain. The default lock requires the lock arg to be used as the `args` value of the lock script. It is always important to make sure that the formatting of the data in the `args` matches the requirements of the lock that is being used. Failure to do so would result in the cell being unlockable, and the assets contained within the cell would be lost.
+
+```javascript
+privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+publicKey = derive_secp256k1_public_key(privateKey);
+lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
+lockScript = {
+                  "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                  "hash_type": "type",
+                  "args": lockArg
+             };
+lockHash = blake2b(serialize(lockScript), 256, "ckb-default-hash");
+print(lockHash);
+>> 0x6ee8b1ea3db94183c5e5a47fbe82110101f6f8d3e18d1ecd4d6a5425e648da69
+```
+
+A lock hash is a 256-bit Blake2b hash of the lock script after it has been serialized to binary. The [Molecule](https://github.com/nervosnetwork/molecule) library is used by Nervos for most binary serialization operations. All three values of the lock script are required to describe the ownership of a cell. The lock hash is a single value that can represent all three values in a shorter form.
+
+```javascript
+privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+publicKey = derive_secp256k1_public_key(privateKey);
+lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
+lockScript = {
+                  "code_hash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                  "hash_type": "type",
+                  "args": lockArg
+             };
+lockHash = truncate(blake2b(serialize(lockScript), 256, "ckb-default-hash"), 160);
+address = ckb_address_encode(serialize(lockScript));
+print(address);
+>> ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e
+```
+
+an address the [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md) s
 
 Now let's continue through the relevant parts of the `createDefaultLockCell()` function.
 
