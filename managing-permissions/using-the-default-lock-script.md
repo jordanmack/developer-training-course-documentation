@@ -79,6 +79,8 @@ print(lockHash);
 
 A lock hash is a 256-bit Blake2b hash of the lock script after it has been serialized to binary. The [Molecule](https://github.com/nervosnetwork/molecule) library is used by Nervos for most binary serialization operations. All three values of the lock script are required to describe the ownership of a cell. The lock hash is a single value that can represent all three values in a shorter form.
 
+The lock hash is the format that a CKB node uses internally to determine ownership. This is the reason why querying for cells with a specific lock script always requires all three values. All three must be provided in order to generate the lock hash which can be located by the CKB node.
+
 ```javascript
 privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
 publicKey = derive_secp256k1_public_key(privateKey);
@@ -88,13 +90,17 @@ lockScript = {
                   "hash_type": "type",
                   "args": lockArg
              };
-lockHash = truncate(blake2b(serialize(lockScript), 256, "ckb-default-hash"), 160);
+lockHash = blake2b(serialize(lockScript), 256, "ckb-default-hash");
 address = ckb_address_encode(serialize(lockScript));
 print(address);
 >> ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e
 ```
 
-an address the [RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md) s
+An address on Nervos is a lock script that has been serialized with Molecule and encoded using the [CKB address format](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md). An address is a single value that represents all three fields of a lock script, similar to a lock hash. However, unlike a lock hash, an address is a human-readable format that includes a checksum to prevent typos and is reversible back to a lock script since it is an alternate encoding of the data, not a hash of the data.
+
+![](../.gitbook/assets/lock-value-relationships.png)
+
+The above image shows the relationship between these values. All the values are ultimately derived from the initial private key and are used to represent ownership in different ways.
 
 Now let's continue through the relevant parts of the `createDefaultLockCell()` function.
 
@@ -116,21 +122,7 @@ const output2 = {cell_output: {capacity: outputCapacity2, lock: lockScript2, typ
 transaction = transaction.update("outputs", (i)=>i.push(output2));
 ```
 
-
-
-This code creates 10 cells, all of which use the default lock script, and are owned by the account represented by `address1`. To create our lock script, the Lumos function `addressToScript()` is being used. An address and lock script represent the same underlying data, but an address is a single human-readable value that also includes a checksum. Here is what `address1` looks like when it is converted back to a lock script:
-
-```javascript
-{
-  code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-  hash_type: 'type',
-  args: '0xc8328aabcd9b9e8e64fbc566c4385c3bdeb219d7'
-}
-```
-
-The `code_hash` and `hash_type` values indicate the code that should execute, and the `args` field is a piece of data that is being passed to that program. The `args` value represents the owner of the cell, and this is a value that is encoded in a specific way that the default lock is expecting.
-
-You may notice that our `hash_type` has a value of `type`, which is different than we used in previous examples. In the next lesson, we will describe in detail exactly what this means. For now, think of it as meaning that the code that executes can be upgraded in the future.
+This code is creating two identical output cells, but the lock script is shown in two different ways. The first method uses the Lumos function `addressToScript()` to convert the address to a lock script. The second method fully defines a lock script. Both lock scripts in this code are identical and use the default lock script.
 
 Let's look at the `account list` command from `ckb-cli`. The pictured account one of the two genesis account which contains a large amount of CKBytes. 
 
