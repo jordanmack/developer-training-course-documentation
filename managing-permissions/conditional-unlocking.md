@@ -30,7 +30,7 @@ This code should be reasonably easy to understand. The input cells are loaded fr
 
 This lock script is conceptually different than the default lock script because it shows how a script can expand its scope of concern. The code is examining all the input cells unconditionally. It doesn't matter if the input cells have a matching lock script, or are even owned by different people. All the code cares about is the input capacity amount.
 
-This code is a good example to demonstrate how funds can be unlocked with smart contract-like conditions instead of signatures, but it should never be used outside of a test environment. The code does not use signatures to prove ownership in any way, which means that anyone could unlock the cell and take the capacity contained within if they knew that it could be unlocked with 500 CKBytes.
+This code is a good example to demonstrate how funds can be unlocked with smart contract-like conditions instead of signatures, but it should never be used outside of a test environment. The code does not use signatures to prove ownership in any way, which means that anyone could unlock the cell and take the capacity contained within if they knew how the lock works.
 
 ### Usage in Lumos
 
@@ -42,7 +42,7 @@ This should look familiar because it is the same basic process. All that is chan
 
 ### Deploying the CKB 500 Binary
 
-The process begins with deploying the lock script binary that contains our conditional code which only unlocks when the input capacity is exactly 500 CKBytes. We will call this the "CKB 500" lock going forward. This code is contained in `deployCkb500Binary()`. Feel free to go over it if you need to, but we're not going to go through it here since it is nearly identical to the previous examples.
+The process begins with deploying the lock script binary that contains our conditional code which only unlocks when the input capacity is exactly 500 CKBytes. We will call this the "CKB 500" lock going forward. This code is contained in `deployCkb500Binary()`. Feel free to go over it, but we're not going to go through it here since it is nearly identical to the previous examples.
 
 ### Creating the CKB 500 Cells
 
@@ -69,7 +69,7 @@ If you were to put a random value into the `args` it would do nothing. However, 
 
 If you look closely at line 10, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 250 CKBytes each.
 
-Our resulting transaction should look similar this.
+Our resulting transaction should look similar to this.
 
 ![](../.gitbook/assets/create-transaction-structure.png)
 
@@ -100,6 +100,8 @@ Just like the previous example, we have to add our CKB 500 code as a cell dep to
 
 Next, we add the CKB 500 cells to the transaction. However, unlike the previous example, we are not directly adding the outpoint. Instead, we are using the `collectCapacity()` library function to locate the cells. We pass the lock script to the function, which will collect only cells created with the CKB 500 lock.
 
+Normally when cell collection is performed you cannot be assured of the exact capacity value of the cells that are returned. In this example, we specifically created two cells each with 250 CKBytes each. We knew ahead of time that these would be the only two cells that exist with the CKB 500 lock so we can skip some of the extra code to verify. 
+
 The lock script we specify to query for these cells is exactly the same as the one used to create the cells. Earlier, we said that `args` isn't used, but that adding a random value may make it harder to locate. This is because you must specify the `code_hash`, `hash_type`, and `args` explicitly in a query. All three values are required, and they cannot be wildcards.
 
 ```javascript
@@ -113,7 +115,7 @@ The lock script we specify to query for these cells is exactly the same as the o
 
 On lines 2 and 5 we have commented out the normal code we have been using. Lines 2 adds in the required placeholders for signing using the default lock script, and line 5 signs the transaction using the Secp256k1 algorithm which is required by the default lock script.
 
-We don't need to go through the normal signing process because we are only using the CKB 500 cells as inputs, and they do not check signatures at all.
+We don't need to go through the normal signing process because we are only using the CKB 500 cells as inputs. The CKB 500 lock does not check signatures at all, so adding a signature would have no effect on this transaction.
 
 On line 6 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock requires no signatures at all. 
 
