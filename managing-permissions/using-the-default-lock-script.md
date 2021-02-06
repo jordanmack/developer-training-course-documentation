@@ -18,21 +18,59 @@ There is no section for deploying code this time. This is because the default lo
 
 ### Creating a Cell Using the Default Lock
 
-Let's look at the relevant parts of the `createDefaultLockCell()` function.
+Starting near the top of `index.js` we have the following definitions.
 
 ```javascript
-// This is the private key and address which will be used.
-const privateKey1 = "0xd00c06bfd800d27397002dca6fb0993d5ba6399b4238b2f29ee9deb97593d2bc";
-const address1 = "ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37";	
-
-// Create the output cells.
-for(let i = 0; i < 10; i++)
-{
-	const outputCapacity1 = intToHex(ckbytesToShannons(100n));
-	const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: "0x"};
-	transaction = transaction.update("outputs", (i)=>i.push(output1));
-}
+// This is the private key, lock arg, and address which will be used.
+const privateKey1 = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+const lockArg1 = "0x988a9c3e74c09dab76c8e41d481a71f4d36d772f";
+const address1 = "ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e";
 ```
+
+Provided is a private key and the corresponding lock arg and address for that private key. All three of these values are directly related to each other.
+
+The private key is a randomly generated 256-bit value \(32 bytes\). This is can be used with the Secp256k1 algorithm to derive a 264-bit public key \(33 bytes\). Below is how this would be done in pseudo-code.
+
+```javascript
+privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+publicKey = derive_secp256k1_public_key(privateKey);
+print(publicKey);
+>> 0x03fe6c6d09d1a0f70255cddf25c5ed57d41b5c08822ae710dc10f8c88290e0acdf
+```
+
+Now that we have the public key, we can create a lock arg. As we mentioned earlier, a lock arg is a 160-bit Blake2b hash of the public key. Specifically, it is a 256-bit Blake2b hash, with the personalization key `ckb-default-hash`, truncated to 160 bits. Below is the pseudo-code to represent this.
+
+```javascript
+privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
+publicKey = derive_secp256k1_public_key(privateKey);
+lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
+print(lockArg);
+>> 0x988a9c3e74c09dab76c8e41d481a71f4d36d772f
+```
+
+The "lock arg" was given its name because it is used in the `args` field of the default lock script to identify the owner of a cell. Since it is derived from the public key, it can provide proof of ownership.
+
+Now let's continue through the relevant parts of the `createDefaultLockCell()` function.
+
+```javascript
+// Create a cell using the default lock script.
+const outputCapacity1 = intToHex(ckbytesToShannons(61n));
+const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+
+// Create a cell using the default lock script, but expanded this time.
+const outputCapacity2 = intToHex(ckbytesToShannons(61n));
+const lockScript2 =
+{
+	code_hash: "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+	hash_type: "type",
+	args: lockArg1
+}
+const output2 = {cell_output: {capacity: outputCapacity2, lock: lockScript2, type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output2));
+```
+
+
 
 This code creates 10 cells, all of which use the default lock script, and are owned by the account represented by `address1`. To create our lock script, the Lumos function `addressToScript()` is being used. An address and lock script represent the same underlying data, but an address is a single human-readable value that also includes a checksum. Here is what `address1` looks like when it is converted back to a lock script:
 
