@@ -136,3 +136,33 @@ skeleton = skeleton.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({
 
 The code above is how we can quickly add a Cell Dep for the default Lock Script. You don't need to dig into this now. Just know that it is using Lumos to locate an out point for a Live Cell that contains the script code needed to execute the default Lock Script.
 
+
+
+
+
+
+
+
+
+
+
+
+
+Let's look at the `account list` command from `ckb-cli`. The pictured account one of the two genesis account which contains a large amount of CKBytes. 
+
+![](.gitbook/assets/account-list%20%281%29.png)
+
+If you look closely at the values, you will notice that the testnet address is the same one used in our code and the `lock_arg` matches the `args` value of our lock script.
+
+When we refer to the "lock arg", we are specifically talking about the `args` value that is used specifically with the default lock script. This is a commonly used term you will see throughout much of Nervos' tooling. Don't confuse this with the `args` of a lock script. A "lock arg" implies we are using the default lock script. If we're not using the default lock script, the lock script will usually still have an `args` value, but this value could be very different because the value that is used in the `args` depends on what the lock script code expects.
+
+In the case of the default lock script, the `args` is expected to contain a 160-bit Blake2b hash of the Secp256k1 public key that owns the account. 
+
+```text
+Private Key:    0xd00c06bfd800d27397002dca6fb0993d5ba6399b4238b2f29ee9deb97593d2bc (32 bytes)
+Public Key:     0x03fe6c6d09d1a0f70255cddf25c5ed57d41b5c08822ae710dc10f8c88290e0acdf (33 bytes)
+Lock Arg:       0xc8328aabcd9b9e8e64fbc566c4385c3bdeb219d7 (20 bytes)
+```
+
+
+
