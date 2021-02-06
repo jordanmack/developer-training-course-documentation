@@ -186,7 +186,13 @@ function addDefaultWitnessPlaceholders(transaction)
 
 This library function adds the necessary placeholder values to the witness of the transaction. This function assumes that all locks are using the default lock, so it should be used for any other lock unless you specifically understand how it works.
 
-The witness is an array structure that can be populated with any data, but there are some general conventions that should be followed for compatibility with the default lock script, and with scripts in general.
+The witness is an array structure that can be populated with any data, but there are some general conventions that should be followed for compatibility with the default lock script, and with scripts in general. 
+
+The data at index X in the witness should be the data needed by the lock script at index X. Empty values can be added to the witness at indexes that do not require a value when needed to help match index values. The image below will help illustrate this.
+
+![](../.gitbook/assets/witness-indexes.png)
+
+Address 1 and address 2 
 
 Placeholders should be added to the witness at every index that matches the index of an input with the first instance of a unique lock script. These placeholders are zero-filled byte arrays with an equal length to the signatures that will be placed into the witness. Once the placeholders are added the signing message can be generated for the transaction. This message is signed by the required private keys, and then the signatures are placed into the witness, replacing the zero-filled placeholders.
 
