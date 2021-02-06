@@ -4,8 +4,6 @@ The "default lock script" is the most common method of securing cells on Nervos.
 
 The default lock script uses a combination of the [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1) and [Blake2b](https://en.wikipedia.org/wiki/BLAKE_%28hash_function%29#BLAKE2) algorithms. Secp256k1 is the same algorithm used in Bitcoin and Ethereum to provide private/public key signature functionality. Blake2b is a hashing algorithm that is also used by projects like Cardano and Sia. The combination of locking using Secp256k1 signatures and Blake2b hashing is also referred to as the "Secp256k1-Blake2b-Sighash", or simply the "Sighash".
 
-### Locking and Unlocking
-
 ### Usage in Lumos
 
 Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
@@ -16,7 +14,7 @@ Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` direct
 2. Create Cells - The `createDefaultLockCell()` function creates a cell that uses the default lock.
 3. Consume Cells - The `consumeDefaultLockCell()` function consumes the cell with the default lock that we just created.
 
-The code doesn't have a section for deploying code this time. This is because the default lock a well-known script, and it is deployed to the blockchain in the genesis block.
+There is no section for deploying code this time. This is because the default lock a well-known script, and it is deployed to the blockchain in the genesis block.
 
 ### Creating a Cell Using the Default Lock
 
