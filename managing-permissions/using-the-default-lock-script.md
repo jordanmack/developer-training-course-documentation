@@ -16,7 +16,7 @@ Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` direct
 
 There is no section for deploying code this time. This is because the default lock a well-known script, and it is deployed to the blockchain in the genesis block.
 
-### Creating a Cell Using the Default Lock
+### Creating Cells Using the Default Lock
 
 Starting near the top of `index.js` we have the following definitions.
 
@@ -134,27 +134,63 @@ transaction = transaction.update("outputs", (i)=>i.push(output3));
 This block of code creates a change cell for the transaction. There isn't anything special about this code, but it's being pointed out because we're going to use this output later on.
 
 ```javascript
+// Return the out points for outputs 1-3.
+const defaultLockCellOutPoints =
+[
+	{tx_hash: txid, index: "0x0"},
+	{tx_hash: txid, index: "0x1"},
+	{tx_hash: txid, index: "0x2"}
+];
+return defaultLockCellOutPoints;
+```
+
+This block of code returns an array of the outputs which were created in this transaction. We created two outputs and a change cell, and we're going to consume all three in the next function. 
+
+### Consuming Cells Using the Default Lock
+
+Next, we'll go through the relevant parts of the `consumeDefaultLockCells()` function.
+
+```javascript
+// Get a live cell for each out point and add to the transaction.
+for(const outPoint of defaultLockCellOutPoints)
+{
+	const input = await getLiveCell(nodeUrl, outPoint);
+	transaction = transaction.update("inputs", (i)=>i.push(input));	
+}
+
+// Get the capacity sum of the inputs.
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+
+// Create a change Cell for the remaining CKBytes.
+const changeCapacity = intToHex(inputCapacity - txFee);
+let change = {cell_output: {capacity: changeCapacity, lock: addressToScript(address1), type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(change));
+```
+
+This is the main block of cell logic, and the purpose should be fairly clear. We add the three cells from the previous create function, then combine them back into a single cell.
+
+![](../.gitbook/assets/consume-cells-transaction.png)
+
+Combining cells is not absolutely necessary, but it's good practice for a dapp to perform maintenance on the cells it is managing. Remember, every cell that exists has overhead capacity requirements. If the capacity is tied up in overhead then this value is not available for other purposes.
+
+```javascript
 // Add in the witness placeholders.
 transaction = addDefaultWitnessPlaceholders(transaction);
 ```
 
-This code adds the witness placeholders to the transaction. We've used this code many times before, but we never described what it actually does.
+This code adds the witness placeholders for the default lock to the transaction. We've used this code many times before, but we never described what it actually does.
 
-In Bitcoin, the witness is the part of the transaction where data that is required to prove authorization is provided. In Nervos, this is expanded to include any data that is required for the transaction to succeed. Think of it like an args field for a transaction. 
+In Bitcoin, the witness is the part of the transaction where data that is required to prove authorization is provided. In Nervos, this is expanded to include any data that is required for the transaction to succeed. Think of it like an args field for a transaction.
 
-The witness is an array structure that can be populated with any data, but there are some general conventions that should be followed for compatibility with the default lock script, and with scripts in general. The data at index X in the witness should be the data needed by the first occurrence of a unique lock script at index X. Empty values can be added to the witness at indexes that do not require a value when needed to help match index values. The image below will help illustrate this.
+The witness is an array structure that can be populated with any data, but there is one general convention that should be followed for compatibility with the default lock script and with scripts in general: For every unique lock script, the witness should contain the data required by the lock, at the same index. The image below will help illustrate this.
 
 ![](../.gitbook/assets/witness-indexes.png)
 
 In this transaction, Alice and Bob are sending CKBytes to Charlie. Alice has provided input cells at indexes 0 and 1. Since index 0 is the first occurrence of Alice's lock in the inputs, she must add her signature at index 0 of the witness. Index 1 also uses Alice's lock, but it's not the first occurrence, so no data is needed. Bob has input cells at indexes 2 and 3. Index 2 is the first occurrence of Bob's lock in the inputs, so he must add his signature at index 2 of the witness. However, Bob cannot add his signature at index 2 unless there is something at index 1. To align the indexes properly, an empty value is added to the witness at index 1. An empty value could also be added to the witness at index 3, but this is optional.
 
-Placeholders should be added to the witness at every index that matches the index of an input with the first instance of a unique lock script. These placeholders are zero-filled byte arrays with an equal length to the signatures that will be placed into the witness. Once the placeholders are added the signing message can be generated for the transaction. This message is signed by the required private keys, and then the signatures are placed into the witness, replacing the zero-filled placeholders.
-
-Now that we understand the basic witness structure, let's take a look at what `addDefaultWitnessPlaceholders()` is doing under the hood.
+Now that we understand the basic witness structure conventions, let's take a look at what `addDefaultWitnessPlaceholders()` is doing under the hood.
 
 ```javascript
-const SECP_SIGNATURE_PLACEHOLDER_DEFAULT = "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-
 /**
  * Adds witness placeholders to the transaction for the default lock.
  * 
@@ -181,7 +217,7 @@ function addDefaultWitnessPlaceholders(transaction)
 		if(!uniqueLocks.has(lockHash))
 		{
 			uniqueLocks.add(lockHash);
-			witness = SECP_SIGNATURE_PLACEHOLDER_DEFAULT;
+			witness = "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 		}
 
 		witness = new Reader(core.SerializeWitnessArgs(normalizers.NormalizeWitnessArgs({lock: witness}))).serializeJson();
@@ -192,11 +228,60 @@ function addDefaultWitnessPlaceholders(transaction)
 }
 ```
 
-This library function adds placeholder values to the witness. At the first occurrence of each unique lock script, it adds a zero-filled placeholder\]. At every other index, it adds an empty value.
+This library function adds placeholder values to the witness. At the first occurrence of each unique lock script, it adds a zero-filled placeholder. At every other index, it adds an empty value.
 
-Go through lines
+On line 21 you see the empty value, which is just a plain hex string. On line 29 you see the zero-filled placeholder. It is exactly 65 bytes long, which is the length required by a Secp256k1 signature.
 
-Why placeholders instead of signatures
+On lines 30 and 31, the `witness` value is added to another structure called `WitnessArgs`. This is a structure that divides the witness entry into three components: `lock`, `input_type`, and `output_type`. The `lock` is reserved for lock scripts, and that is what is relevant to us since we're dealing with a lock script. The other two are reserved for the inputs and outputs on a type script, which will be covered in a later lesson.
+
+The placeholder length of 65 bytes and the usage of the `WitnessArgs` structure to encapsulate our witness entries are specifically requirements of the default lock. As we mentioned earlier, the witness allows any kind of data to be placed in it, but the default lock requires specific formatting.
+
+Placeholders are put into the witness instead of signatures because this is required to generate the signing message for the transaction in a predictable way. This will be more apparent once we look at how the default lock script works. Below is the default lock script in simplified pseudo-code.
+
+```javascript
+function main()
+{
+    hasher = blake2b_init(256, "ckb-default-hash");
+
+    txHash = load_tx_hash();
+    hasher.update(txHash);
+
+    witnessGroup = load_witness_group();
+    witnessGroupWithPlaceholders = replace_signatures_with_placeholders(witnessGroup);
+
+    for(witness in witnessGroupWithPlaceholders)
+    {
+        hasher.update(lenth(witness));
+        hasher.update(witness);
+    }
+    
+    witnessAuxiliary = load_witness_auxiliary();
+
+    for(witness in witnessAuxiliary)
+    {
+        hasher.update(lenth(witness));
+        hasher.update(witness);
+    }
+    
+    message = hasher.finalize();
+    signature = witnessGroup[0].lock;
+    public_key = secp256k1_recover(signature, message);
+
+    lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
+    scriptArgs = load_script_args();
+
+    if(lockArg == scriptArgs)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+```
 
 
+
+if you want to read through the actual implementation, you can view the production source code on [GitHub](https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_sighash_all.c).
 
