@@ -281,7 +281,11 @@ function main()
 }
 ```
 
+This code 
 
+Starting on line 3, we initialize a Blake2b hasher which will be populated with elements of the transaction. This will be used to generate the original message
+
+On lines 5-6, we load the current transaction hash and add it to the hasher. The tx hash is a hash of the populated transaction structure which includes all inputs and outputs. Adding this  so it ensures that nothing can be changed  
 
 if you want to read through the actual implementation, you can view the production source code on [GitHub](https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_sighash_all.c).
 
