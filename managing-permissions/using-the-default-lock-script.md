@@ -236,7 +236,7 @@ On lines 30 and 31, the `witness` value is added to another structure called `Wi
 
 The placeholder length of 65 bytes and the usage of the `WitnessArgs` structure to encapsulate our witness entries are specifically requirements of the default lock. As we mentioned earlier, the witness allows any kind of data to be placed in it, but the default lock requires specific formatting.
 
-Placeholders are put into the witness instead of signatures because this is required to generate the signing message for the transaction in a predictable way. This will be more apparent once we look at how the default lock script works. Below is the default lock script in simplified pseudo-code.
+Placeholders are put into the witness instead of signatures because this is required to generate the signing message for the transaction in a predictable way. This will be more apparent once we look at how the default lock script works. Below is the default lock script in pseudo-code.
 
 ```javascript
 function main()
