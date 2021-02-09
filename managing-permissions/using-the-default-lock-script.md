@@ -297,7 +297,7 @@ On line 9 we take our witness group and we replace the signatures with zero-fill
 
 On lines 11 to 15, we cycle through each placeholder witness and add it to the hash. This ensures that the witness data withness the witness group has not been modified after signing.
 
-On lines 17 to 23, we cycle through each auxiliary witness and add it to the hash. An auxiliary witness is any witness data that exists at witness indexes beyond the maximum input cell index. In the transaction image, this would be if data was included in the witness at indexes of 4 or higher. This ensures that the auxiliary witness data has not changed if it exists. The default lock does not use auxiliary witness data for any purpose, but other lock scripts or type scripts may chose to use this data area for their own purposes. 
+On lines 17 to 23, we cycle through each auxiliary witness and add it to the hash. An auxiliary witness is any witness data that exists at witness indexes beyond the maximum input cell index. In the transaction image, this would be if data was included in the witness at indexes of 4 or higher. This ensures that the auxiliary witness data has not changed if it exists. The default lock does not use auxiliary witness data for any purpose, but other lock scripts or type scripts may choose to use this data area for their own purposes. 
 
 On line 25, we finalize the hash to generate the signing message for the transaction.
 
