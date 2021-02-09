@@ -144,7 +144,11 @@ const defaultLockCellOutPoints =
 return defaultLockCellOutPoints;
 ```
 
-This block of code returns an array of the outputs which were created in this transaction. We created two outputs and a change cell, and we're going to consume all three in the next function. 
+This block of code returns an array of the outputs which were created in this transaction. We created two outputs and a change cell, and we're going to consume all three in the next function.
+
+Our resulting transaction will look like this.
+
+![](../.gitbook/assets/create-cells-transaction.png)
 
 ### Consuming Cells Using the Default Lock
 
