@@ -234,7 +234,7 @@ On line 21 you see the empty value, which is just a plain hex string. On line 29
 
 On lines 30 and 31, the `witness` value is added to another structure called `WitnessArgs`. This is a structure that divides the witness entry into three components: `lock`, `input_type`, and `output_type`. The `lock` is reserved for lock scripts, and that is what is relevant to us since we're dealing with a lock script. The other two are reserved for the inputs and outputs on a type script, which will be covered in a later lesson.
 
-The placeholder length of 65 bytes and the usage of the `WitnessArgs` structure to encapsulate our witness entries are specifically requirements of the default lock. As we mentioned earlier, the witness allows any kind of data to be placed in it, but the default lock requires specific formatting.
+The placeholder length of 65 bytes and the usage of the `WitnessArgs` structure to encapsulate our witness entries are specific requirements of the default lock. As we mentioned earlier, the witness allows any kind of data to be placed in it, but the default lock requires specific formatting.
 
 Placeholders are put into the witness instead of signatures because this is required to generate the signing message for the transaction in a predictable way. This will be more apparent once we look at how the default lock script works. Below is the default lock script in pseudo-code.
 
@@ -291,7 +291,7 @@ On line 8 we load the witness group. A witness group is the corresponding witnes
 
 ![](../.gitbook/assets/witness-indexes.png)
 
-When the lock script for Alice executes, the input group will include input cell index 0 and 1. Input cells 2 and 3 would not be included because the details of their lock script are different. The witness group for Alice would then be witnesses 0 and 1 because this matches the indexes for the input group. When the lock script for Charlie executes, the input group would include the cells at index 2 and 3. The witness group for Charlie would include only the witness at index 2, because no extra empty data was provided.
+When the lock script for Alice executes, the input group will include input cell index 0 and 1. Input cells 2 and 3 would not be included because the details of their lock script are different. The witness group for Alice would then be witnesses 0 and 1 because this matches the indexes for the input group. When the lock script for Charlie executes, the input group would include the cells at index 2 and 3. The witness group for Charlie would include only the witness at index 2 because no extra empty data was provided.
 
 On line 9 we take our witness group and we replace the signatures with zero-filled placeholders. This is done because a signing message has to be generated from this structure, and you can't include the real signatures since those are generated from the signing message.
 
