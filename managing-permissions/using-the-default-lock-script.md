@@ -171,7 +171,7 @@ This is the main block of cell logic, and the purpose should be fairly clear. We
 
 ![](../.gitbook/assets/consume-cells-transaction.png)
 
-Combining cells is not absolutely necessary, but it's good practice for a dapp to perform maintenance on the cells it is managing. Remember, every cell that exists has overhead capacity requirements. If the capacity is tied up in overhead then this value is not available for other purposes.
+Combining cells is not absolutely necessary, but it's good practice for a dapp to perform maintenance on the cells it is managing to ensure the number of cells in use does not continue to grow endlessly. Remember, every cell that exists has overhead capacity requirements. If the capacity is tied up in overhead then this value is not available for other purposes.
 
 ```javascript
 // Add in the witness placeholders.
@@ -228,7 +228,7 @@ function addDefaultWitnessPlaceholders(transaction)
 }
 ```
 
-This library function adds placeholder values to the witness. At the first occurrence of each unique lock script, it adds a zero-filled placeholder. At every other index, it adds an empty value.
+This library function adds placeholder values to the witness specifically for the default lock script. At the first occurrence of each unique lock script, it adds a zero-filled placeholder. At every other index, it adds an empty value.
 
 On line 21 you see the empty value, which is just a plain hex string. On line 29 you see the zero-filled placeholder. It is exactly 65 bytes long, which is the length required by a Secp256k1 signature.
 
@@ -265,12 +265,12 @@ function main()
     
     message = hasher.finalize();
     signature = witnessGroup[0].lock;
-    public_key = secp256k1_recover(signature, message);
+    publicKey = secp256k1_recover(signature, message);
 
     lockArg = truncate(blake2b(publicKey, 256, "ckb-default-hash"), 160);
     scriptArgs = load_script_args();
 
-    if(lockArg == scriptArgs)
+    if(lockArg == scriptArgs[0..20])
     {
         return 0;
     }
@@ -281,11 +281,37 @@ function main()
 }
 ```
 
-This code 
+This code would execute on-chain to validate ownership of a cell. This is done by comparing the owner that is specified in the lock script args to the signature that is provided in the witness. Let's walk through it to understand how this is performed.
 
-Starting on line 3, we initialize a Blake2b hasher which will be populated with elements of the transaction. This will be used to generate the original message
+Starting on line 3, we initialize a Blake2b hasher which will be populated with elements of the transaction. This will be used to generate the signing message for the transaction. It is being generated directly from the contents of the transaction since this is the only way to ensure the nothing has been changed after the signature was provided.
 
-On lines 5-6, we load the current transaction hash and add it to the hasher. The tx hash is a hash of the populated transaction structure which includes all inputs and outputs. Adding this  so it ensures that nothing can be changed  
+On lines 5-6, we load the current transaction hash and add it to the hasher. The tx hash is a Blake2b hash of the populated transaction structure which includes all inputs and outputs. Adding this ensures that nothing has been changed within these structures. 
 
-if you want to read through the actual implementation, you can view the production source code on [GitHub](https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_sighash_all.c).
+On line 8 we load the witness group. A witness group is the corresponding witnesses for inputs that have the same lock script as the one that is currently executing. Let's look at the transaction image again to better understand what this means.
+
+![](../.gitbook/assets/witness-indexes.png)
+
+When the lock script for Alice executes, the input group will include input cell index 0 and 1. Input cells 2 and 3 would not be included because the details of their lock script are different. The witness group for Alice would then be witnesses 0 and 1 because this matches the indexes for the input group. When the lock script for Charlie executes, the input group would include the cells at index 2 and 3. The witness group for Charlie would include only the witness at index 2, because no extra empty data was provided.
+
+On line 9 we take our witness group and we replace the signatures with zero-filled placeholders. This is done because a signing message has to be generated from this structure, and you can't include the real signatures since those are generated from the signing message.
+
+On lines 11 to 15, we cycle through each placeholder witness and add it to the hash. This ensures that the witness data withness the witness group has not been modified after signing.
+
+On lines 17 to 23, we cycle through each auxiliary witness and add it to the hash. An auxiliary witness is any witness data that exists at witness indexes beyond the maximum input cell index. In the transaction image, this would be if data was included in the witness at indexes of 4 or higher. This ensures that the auxiliary witness data has not changed if it exists. The default lock does not use auxiliary witness data for any purpose, but other lock scripts or type scripts may chose to use this data area for their own purposes. 
+
+On line 25, we finalize the hash to generate the signing message for the transaction.
+
+On line 26, we extract the provided signature. This is expected to be in the first cell of the witness group, which contains a WitnessArgs structure, of which the `lock` contains the data we need.
+
+On line 27, we use the Secp256k1 recovery function to get the original public key. This is only possible when you have a signature that was created with the corresponding private key, and the original signing message. Only if all of this is correct will the proper public key be recovered.
+
+On line 29, we calculate the lock arg from the public key that was recovered.
+
+On line 30, we extract the `args` data from the lock script. This is expected to be the lock arg of the owner.
+
+On lines 32 to 39, we compare the lock arg that was generated by the transaction data and the signature to the first 160-bits of the lock scripts `args` field, which is expected to be the lock arg of the owner. If they match, then the cell will return success and unlock.
+
+If you want to read through the real implementation, you can view the production source code on [GitHub](https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_sighash_all.c).
+
+
 
