@@ -175,6 +175,8 @@ transaction = transaction.update("outputs", (i)=>i.push(change));
 
 This is the main block of cell logic, and the purpose should be fairly clear. We add the three cells from the previous create function, then combine them back into a single cell.
 
+Our resulting transaction for the consumption of these cells will look like this.
+
 ![](../.gitbook/assets/consume-cells-transaction.png)
 
 Combining cells is not absolutely necessary, but it's good practice for a dapp to perform maintenance on the cells it is managing to ensure the number of cells in use does not grow endlessly. Remember, every cell that exists has overhead capacity requirements. If the capacity is tied up in overhead then this value is not available for other purposes.
