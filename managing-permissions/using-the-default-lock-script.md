@@ -11,10 +11,10 @@ Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` direct
 ![](../.gitbook/assets/example-flow%20%281%29.png)
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
-2. Create Cells - The `createDefaultLockCell()` function creates a cell that uses the default lock.
-3. Consume Cells - The `consumeDefaultLockCell()` function consumes the cell with the default lock that we just created.
+2. Create Cells - The `createDefaultLockCell()` function creates cells that use the default lock.
+3. Consume Cells - The `consumeDefaultLockCell()` function consumes the cells with the default lock that we just created.
 
-There is no section for deploying code this time. This is because the default lock a well-known script, and it is deployed to the blockchain in the genesis block.
+There is no section for deploying code this time. This is because the default lock a well-known script, and it is already deployed to the blockchain in the genesis block.
 
 ### Creating Cells Using the Default Lock
 
@@ -48,7 +48,7 @@ print(lockArg);
 >> 0x988a9c3e74c09dab76c8e41d481a71f4d36d772f
 ```
 
-The "lock arg" was given its name because it is used in the `args` field of the default lock script to identify the owner of a cell. Since it is derived from the public key, it can provide proof of ownership.
+The "lock arg" was given its name because it is used in the `args` field of the default lock script to identify the owner of a cell. It is derived from the public key, and therefore it can provide proof of ownership. This process of hashing the public key is similar to Bitcoin's [Pay-to-PublicKey-Hash \(P2PKH\)](https://en.bitcoinwiki.org/wiki/Pay-to-Pubkey_Hash), but it uses different algorithms.
 
 ```javascript
 privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
@@ -77,9 +77,11 @@ print(lockHash);
 >> 0x6ee8b1ea3db94183c5e5a47fbe82110101f6f8d3e18d1ecd4d6a5425e648da69
 ```
 
-A lock hash is a 256-bit Blake2b hash of the lock script after it has been serialized to binary. The [Molecule](https://github.com/nervosnetwork/molecule) library is used by Nervos for most binary serialization operations. All three values of the lock script are required to describe the ownership of a cell. The lock hash is a single value that can represent all three values in a shorter form.
+A lock hash is a 256-bit Blake2b hash of the lock script after it has been serialized to binary.  All three values of the lock script are required to describe the ownership of a cell. The lock hash is a single value that can represent all three values in a shorter form.
 
-The lock hash is the format that a CKB node uses internally to determine ownership. This is the reason why querying for cells with a specific lock script always requires all three values. All three must be provided in order to generate the lock hash which can be located by the CKB node.
+The [Molecule](https://github.com/nervosnetwork/molecule) library is used by Nervos for most binary serialization operations. It is a serialization format that is similar to Google's Protocol Buffers, but designed specifically for the requirements of blockchain. Dapp frameworks like Lumos provide abstractions for serialization, so it is rare that you will have to use Molecule directly.
+
+The lock hash is a format that a CKB node indexes internally, and it's often used with the RPC and tooling. Writing a cell collection query for cells with a specific lock script always requires all three values. This is because all three must be provided in order to generate the lock hash which can then be located by the CKB node.
 
 ```javascript
 privateKey = "0x67842f5e4fa0edb34c9b4adbe8c3c1f3c737941f7c875d18bc6ec2f80554111d";
@@ -96,7 +98,7 @@ print(address);
 >> ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e
 ```
 
-An address on Nervos is a lock script that has been serialized with Molecule and encoded using the [CKB address format](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md). An address is a single value that represents all three fields of a lock script, similar to a lock hash. However, unlike a lock hash, an address is a human-readable format that includes a checksum to prevent typos and is reversible back to a lock script since it is an alternate encoding of the data, not a hash of the data.
+An address on Nervos is a lock script that has been serialized with Molecule and encoded using the [CKB address format](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0021-ckb-address-format/0021-ckb-address-format.md). An address is a single value that represents all three fields of a lock script, similar to a lock hash. However, unlike a lock hash, an address is a human-readable format that includes a checksum to prevent typos and it is reversible back to a lock script since it is an alternate encoding of the data, not a hash of the data.
 
 ![](../.gitbook/assets/lock-value-relationships.png)
 
