@@ -44,7 +44,7 @@ Addresses are the most common ownership identifier used by end-users in both too
 
 As a developer, you will be working with these various formats and structures regularly, so it's important to understand their relationships with each other.
 
-![](../.gitbook/assets/lock-value-relationships.png)
+![](.gitbook/assets/lock-value-relationships.png)
 
 This image illustrates how each of these values are related to each other. The generation of each value is one way, meaning you cannot get the original value from the derived value. The exception is the address format, which is specifically designed to be reversible back to a lock script.
 

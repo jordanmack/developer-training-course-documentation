@@ -31,8 +31,6 @@
 * [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
 * [Lab: Creating a 2/3 Multi-Sig Cell](managing-permissions/lab-multi-sig.md)
 * [Lab: Unlocking a 2/3 Multi-Sig](managing-permissions/introduction-to-lumos-part-2.md)
-* [Understanding Lock Value Relationships](managing-permissions/understanding-lock-value-relationships.md)
-* [Lab: Construct Necessary Lock Scripts](managing-permissions/lab-construct-necessary-lock-scripts.md)
 
 ## Scripting Basics
 
@@ -43,4 +41,5 @@
 ---
 
 * [Unused Content](unused-content.md)
+* [Understanding Lock Value Relationships](understanding-lock-value-relationships.md)
 
