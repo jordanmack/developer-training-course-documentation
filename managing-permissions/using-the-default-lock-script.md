@@ -133,7 +133,7 @@ const output3 = {cell_output: {capacity: outputCapacity3, lock: addressToScript(
 transaction = transaction.update("outputs", (i)=>i.push(output3));
 ```
 
-This block of code creates a change cell for the transaction. There isn't anything special about this code, but it's being pointed out because we're going to use this output later on.
+This block of code creates a change cell for the transaction. There isn't anything special about this code, but it's being pointed out because we're going to use this output immediately instead of treating it as "leftover" capacity.
 
 ```javascript
 // Return the out points for outputs 1-3.
