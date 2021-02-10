@@ -23,6 +23,7 @@ In this lab exercise, we will describe the syntax, but it is up to you to constr
 3. Generate the signing entities and sign them with the correct signatures.
    * Hint: You will need to generate signing entities with `secp256k1Blake160.prepareSigningEntries()` and sign the resulting message will all the required private keys.
 4. Seal the transaction using the `sealTransaction()` function.
+   * Hint: You will need to include all the signatures you generated in the correct order.
 
 Run your code by opening a terminal to the `Lab-Sending-From-Multiple-Accounts-Exercise` folder and running `node index.js`. If you get stuck you can find the solution in the `Lab-Sending-From-Multiple-Accounts-Solution` folder.
 
