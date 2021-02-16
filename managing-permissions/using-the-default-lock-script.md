@@ -6,7 +6,7 @@ The default lock script uses a combination of the [Secp256k1](https://en.bitcoin
 
 ### Usage in Lumos
 
-Open the `index.js` file from the `Using-the-Default-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
+Open the `index.js` file from the `Deconstructing-the-Default-Lock-Script-Example` directory. If you scroll down to the bottom and find the `main()` function you will see that there are three main sections.
 
 ![](../.gitbook/assets/example-flow%20%281%29.png)
 
