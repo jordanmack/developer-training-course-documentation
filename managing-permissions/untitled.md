@@ -1,6 +1,6 @@
 # Using Lock Args
 
-We mentioned before that a lock script's `args` field can contain any data in any format. It is up to the developer on what this data should be, and how it is encoded.
+We mentioned before that a lock script's `args` field can contain any data in any format, and it is up to the developer on what this data should be, and how it is encoded.
 
 ```text
 {
@@ -123,8 +123,6 @@ What if we had created our cells and specified 250 CKBytes in the lock script `a
 ![](../.gitbook/assets/consume-transaction-structure-2.png)
 
 This transaction would complete because `address1` provided a cell with the correct capacity to unlock the CKB Lock cells.
-
-
 
 
 
