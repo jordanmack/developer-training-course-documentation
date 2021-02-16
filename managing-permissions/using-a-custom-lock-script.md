@@ -101,11 +101,13 @@ Even though this saves a little bit of space, it isn't practical to use in a pro
 
 Our lock script uses the `code_hash` and `hash_type` to determine **what** code should execute, but it does not specify **where** that code exists in the blockchain. This is where cell deps come into play.
 
-We already learned about input cells and output cells in a transaction. Cell deps are the third type. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed. They can be used repeatedly by many scripts as a read-only component of the transaction.
+We already learned about input cells and output cells in a transaction. Cell deps are the third type. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed.
+
+Since a cell dep is not consumed, it can be used repeatedly by many scripts as a read-only component of the transaction. This enables any resource specified as a cell dep to be reused repeatedly.
 
 Some of the common uses of cells deps are:
 
-* Script Code - All code that executes on-chain, such as the always success lock, are referenced in a transaction using a cell dep.
+* Script Code - Any code that executes on-chain, such as the always success lock, is referenced in a transaction using a cell dep.
 * Script Libraries - Just like a library for a normal desktop application, a script library contains commonly used code for different scripts.
 * State Data - A cell can contain any data, including state data for a smart contract. Data from an oracle is a good example. The data published by the oracle is read-only and can be utilized by many smart contracts that rely on it.
 
@@ -114,6 +116,8 @@ With the addition of cell deps, our transaction now knows **what** code is neede
 ![](../.gitbook/assets/transaction-connections-3.png)
 
 When the transaction is executed, every cell in the inputs will execute its lock script. The `code_hash` identifies what code needs to execute. The code that needs to be executed will be matched against the cell dep with a matching `data_hash`. The data field of the cell from the matching cell dep contains the script code that will be executed.
+
+This method of providing resources enables code reuse in a way that is not possible on most other blockchains. Millions of cells can exist on-chain and all rely on a single cell dep that provides the code they need. This provides massive on-chain space savings and allows for complete code reuse between smart contracts.
 
 ### Consuming a Cell with the Always Success Lock
 

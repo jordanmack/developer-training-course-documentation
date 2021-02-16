@@ -10,7 +10,7 @@ function main()
     total_capacity = 0;
     
     input_cells = load_input_cells();
-    for(cell in cells)
+    for(cell in input_cells)
     {
         total_capacity += cell.capacity;
     }
