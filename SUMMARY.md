@@ -26,7 +26,8 @@
 
 * [Using a Custom Lock Script](managing-permissions/using-a-custom-lock-script.md)
 * [Conditional Unlocking](managing-permissions/conditional-unlocking.md)
-* [Using the Default Lock Script](managing-permissions/using-the-default-lock-script.md)
+* [Untitled](managing-permissions/untitled.md)
+* [Deconstructing the Default Lock Script](managing-permissions/using-the-default-lock-script.md)
 * [Lab: Sending From Multiple Accounts Using the Default Lock Script](managing-permissions/lab-sending-from-multiple-accounts-using-the-default-lock-script.md)
 * [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
 * [Lab: Creating a 2/3 Multi-Sig Cell](managing-permissions/lab-multi-sig.md)

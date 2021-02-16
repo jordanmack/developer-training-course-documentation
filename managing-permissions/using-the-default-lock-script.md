@@ -1,4 +1,4 @@
-# Using the Default Lock Script
+# Deconstructing the Default Lock Script
 
 The "default lock script" is the most common method of securing cells on Nervos. The code binaries are included in the genesis block. All wallets and all of the available tooling readily support this lock. We have worked with the default lock in many of the previous examples and labs, but this time we will explain how it works in depth.
 
