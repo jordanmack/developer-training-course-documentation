@@ -202,7 +202,8 @@ Now that we understand the basic witness structure conventions, let's take a loo
 /**
  * Adds witness placeholders to the transaction for the default lock.
  * 
- * This function assumes all cells use the default lock. If a cell is not using
+ * This function adds zero-filled placeholders for all cells using the default
+ * lock and empty placeholders for all other cells. If a cell is not using
  * the default lock, the placeholder may need to be altered after this function
  * is run. This function can only be used on an empty witnesses structure.
  * 
@@ -225,7 +226,9 @@ function addDefaultWitnessPlaceholders(transaction)
 		if(!uniqueLocks.has(lockHash))
 		{
 			uniqueLocks.add(lockHash);
-			witness = "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+			if(input.cell_output.lock.hash_type === "type" && input.cell_output.lock.code_hash === DEFAULT_LOCK_HASH)
+				witness = "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 		}
 
 		witness = new Reader(core.SerializeWitnessArgs(normalizers.NormalizeWitnessArgs({lock: witness}))).serializeJson();
