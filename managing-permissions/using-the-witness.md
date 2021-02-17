@@ -118,5 +118,49 @@ When the lock script for Alice executes, the input group will include input cell
 
 On line 9 to 14, we hash our preimage as a Blake2b 256-bit hash with the personalization phrase `ckb-default-hash`, then check if it matches the hash in the `args`. If it is a match, we unlock the cell, otherwise, we return an error.
 
+### Usage in Lumos
 
+Open the `index.js` file from the `Using-the-Witness-Example` directory and scroll down to the `main()` function. Our code has the usual four sections, and we will skip over the initialization and code deploying sections since they are redundant from previous examples.
+
+![](../.gitbook/assets/example-flow.png)
+
+### Creating the Hash Lock Cells
+
+Near the top of `index.js` you will see this code.
+
+```javascript
+// This is the preimage which will be used to lock our cells.  
+const preimage = "0x4f70656e20536573616d65"; // "Open Sesame"
+```
+
+This is the preimage data that we will use to generate our hash. This must remain a secret since anyone who knows the preimage would be able to unlock the cell. 
+
+Next, we will look at the relevant parts of the `createCellsWithHashLock()` function.
+
+```javascript
+// Create cells using the Hash Lock.
+const outputCapacity1 = ckbytesToShannons(500n);
+const lockScript1 =
+{
+	code_hash: dataFileHash1,
+	hash_type: "data",
+	args: ckbHash(preimage)
+};
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
+```
+
+This is the code that creates the cells using the CKB Output Lock. On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
+
+On line 3, we specify the capacity that must be present on any output to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by CKB Output Lock.
+
+On line 4, we specify the minimum number of output cells that must match the capacity on line 3. The value is three, which means the outputs must have three cells with exactly 1,000 CKBytes in order for this input cell to unlock. 
+
+On line 7, we specify the data hash of the CKB Output Lock for the `code_hash`.
+
+On line 8, we add our amount and count values as `args`. They are packed together side by side as a single value as a hex string. The reason the second value uses `.substr(2)` is to remove the `0x` prefix when the hex string is concatenated.
+
+If you look closely at line 12, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 500 CKBytes each.
+
+Our resulting transaction should look similar to this.
 
