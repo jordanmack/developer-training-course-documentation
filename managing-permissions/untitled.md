@@ -77,7 +77,7 @@ If you look closely at line 11, you will notice that we are adding `output1` to 
 
 Our resulting transaction should look similar to this.
 
-![](../.gitbook/assets/create-transaction-structure%20%281%29.png)
+![](../.gitbook/assets/create-transaction-structure%20%282%29.png)
 
 ### Consuming the CKB Lock Cells
 
@@ -120,7 +120,7 @@ In the lock script `args` of our CKB Lock cells we specified 500 CKBytes and eac
 
 What if we had created our cells and specified 250 CKBytes in the lock script `args`? Then the transaction would not go through because the CKB Lock cells would require at least one input cell with exactly 250 CKBytes. To complete the transaction, another input cell would have to be inserted.
 
-![](../.gitbook/assets/consume-transaction-structure-2.png)
+![](../.gitbook/assets/consume-transaction-structure-2%20%281%29.png)
 
 This transaction would complete because `address1` provided a cell with the correct capacity to unlock the CKB Lock cells.
 
