@@ -147,8 +147,20 @@ const lockScript1 =
 	args: ckbHash(preimage)
 };
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
-transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
+transaction = transaction.update("outputs", (i)=>i.concat([output1, output1, output1]));
 ```
+
+This is the code that creates the cells using the Hash Lock. This code should look very similar to the code we have used in previous examples. There is only one line that is different.
+
+On line 7, we add a hash of our preimage to the lock script. The function `ckbHash()` is a Lumos function that creates a 256-bit Blake2b hash with the personalization key `ckb-default-hash`. This is a very common hash method in Nervos, which is why this has been wrapped into this single convenience function.
+
+
+
+
+
+On line 2, we create the cell with exact 
+
+
 
 This is the code that creates the cells using the CKB Output Lock. On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
