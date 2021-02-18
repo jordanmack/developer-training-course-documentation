@@ -38,7 +38,7 @@ On line 3, the `args` data is converted from binary to an integer, and it contai
 
 On lines 5 to 12, the code loads every input cell and checks the capacity. If it finds an input cell with a matching capacity, then it immediately unlocks, otherwise, it will return an error on line 14.
 
-Let's look at how a cell with the ICC Lock is used in the image below.
+Let's look at the lifecycle of a cell with the ICC Lock is used in the image below.
 
 ![](../.gitbook/assets/lifecycle-explainer.png)
 
