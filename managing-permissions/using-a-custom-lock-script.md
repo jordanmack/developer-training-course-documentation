@@ -15,7 +15,7 @@ All scripts that execute can respond with a simple yes or no answer, in the form
 Let's take a look at the always success lock logic in pseudo-code.
 
 ```javascript
-function main()
+function lockScript()
 {
     return 0;
 }

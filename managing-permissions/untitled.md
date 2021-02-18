@@ -1,6 +1,6 @@
 # Using Lock Args
 
-We mentioned before that a lock script's `args` field can contain any data in any format, and it is up to the developer on what this data should be, and how it is encoded.
+We mentioned before that a lock script's `args` field can contain any data in any format. However, it is up to the developer to decide what data should be put into the `args` field, and how it is encoded. Let's take a look at a common lock script example.
 
 ```text
 {
@@ -10,20 +10,19 @@ We mentioned before that a lock script's `args` field can contain any data in an
 }
 ```
 
-The code above is a typical example of a lock script. The `code_hash` and `hash_type` values indicate the default lock, which means the `args` field indicates who the owner is.  The `args` field is providing data to the default lock, so this means that the data has to be formatted to the exact requirements of the default lock.
+The `code_hash` and `hash_type` values define what code will execute. These values match those for the default lock on a local development chain, so we know the default lock is being used. This mean that the data in the`args` field needs to conform to the exact requirements of the default lock in order to function correctly.
 
-If the `code_hash` specified a different lock, then the `args` field would need to contain data that was relevant to that new lock. Let's explore that using a new lock described in the pseudo-code below.
+The `args` field should always contain whatever data is required by the lock that is in use. The code above specifies the default lock, so the `args` field contains a hashed public key that indicates who owns it. We will cover all the details of the default lock later on, but first, let's explore a more simple lock that uses the `args` described in the pseudo-code below.
 
 ```javascript
-function main()
+function lockScript(args)
 {
-    lock_args = load_lock_args();
-    ckb_required = int_from_le_bytes(lock_args[0..8]);
+    capacity_required = integer_from_binary(args);
     
     input_cells = load_input_cells();
     for(cell in input_cells)
     {
-        if(cell.capacity == ckb_required)
+        if(cell.capacity == capacity_required)
         {
             return 0;
         }
@@ -33,11 +32,19 @@ function main()
 }
 ```
 
-This lock is similar to the "CKB 500" example from the previous topic, but there are a few changes. This code will unlock only if there is at least one input cell in the transaction that has a capacity equal to a specific amount. That specific amount is contained within the lock's `args` field. We will call this the "CKB Lock" going forward.
+This lock is similar to the "CKB 500" example from the previous topic, but there are a few changes. This code will unlock only if there is at least one input cell in the transaction that has a capacity equal to a specific amount. That specific amount is contained within the lock's `args` field. We will call this the "Input Capacity Check Lock" going forward, or "ICC Lock" for short.
 
-On lines 3 and 4, the `args` data is loaded, and then it is converted from raw bytes to an integer. It's reading exactly 8 bytes because it is a 64-bit integer.
+On line 3, the `args` data is converted from binary to an integer, and it contains the capacity amount required. The `args` data that we are reading is that which was added to the cell's lock script when it was created. We'll come back to this subject in a moment.
 
-On lines 6 to 13, the code loads every input cell and checks the capacity. If it finds an input cell with a matching capacity, then it immediately unlocks, otherwise, it will return an error on line 15.
+On lines 5 to 12, the code loads every input cell and checks the capacity. If it finds an input cell with a matching capacity, then it immediately unlocks, otherwise, it will return an error on line 14.
+
+Let's look at how a cell with the ICC Lock is used in the image below.
+
+![](../.gitbook/assets/lifecycle-explainer.png)
+
+The transaction on the left creates a cell with the ICC Lock. In the lock script, the `args` field has a value of 500. We are just setting the value here, but it is not being enforced because lock scripts only execute on inputs, not outputs. Once this transaction confirms, the cell will be added to the blockchain and will be immutable. The `args` value is stored in the cell, and it cannot be changed until the cell is unlocked when it's used in a transaction.
+
+The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock would execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs and finds a cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
 
 ### Usage in Lumos
 

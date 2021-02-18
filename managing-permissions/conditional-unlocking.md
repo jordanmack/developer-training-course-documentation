@@ -5,7 +5,7 @@ When the lock script executes it has access to any values that are provided in t
 Let's look at another example lock script in pseudo-code. This one will examine the transaction, and only unlock if the total capacity in all of the inputs is exactly 500 CKBytes.
 
 ```javascript
-function main()
+function lockScript()
 {
     total_capacity = 0;
     
