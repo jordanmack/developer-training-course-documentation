@@ -158,21 +158,3 @@ On line 7, we add a hash of our preimage to the lock script. The function `ckbHa
 
 
 
-On line 2, we create the cell with exact 
-
-
-
-This is the code that creates the cells using the CKB Output Lock. On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
-
-On line 3, we specify the capacity that must be present on any output to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by CKB Output Lock.
-
-On line 4, we specify the minimum number of output cells that must match the capacity on line 3. The value is three, which means the outputs must have three cells with exactly 1,000 CKBytes in order for this input cell to unlock. 
-
-On line 7, we specify the data hash of the CKB Output Lock for the `code_hash`.
-
-On line 8, we add our amount and count values as `args`. They are packed together side by side as a single value as a hex string. The reason the second value uses `.substr(2)` is to remove the `0x` prefix when the hex string is concatenated.
-
-If you look closely at line 12, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 500 CKBytes each.
-
-Our resulting transaction should look similar to this.
-
