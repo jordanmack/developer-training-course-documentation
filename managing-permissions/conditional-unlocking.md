@@ -46,7 +46,7 @@ The process begins with deploying the lock script binary that contains our condi
 
 ### Creating the CKB 500 Cells
 
-Next, we will look at the relevant parts of the `createCellsWithCkb500Lock()` function.
+Next, we will look at the relevant parts of the `createCellsWithCkb500Lock()` function. This function generates and executes a transaction that will create cells using the CKB 500 lock.
 
 ```javascript
 	// Create cells using the CKB 500 lock.
@@ -75,7 +75,7 @@ Our resulting transaction should look similar to this.
 
 ### Consuming the CKB 500 Cells
 
-Next, we will look at the relevant parts of the `consumeCellsWithCkb500Lock()` function.
+Next, we will look at the relevant parts of the `consumeCellsWithCkb500Lock()` function. This function generates and executes a transaction that will consume the cells we just created that use the CKB 500 Lock.
 
 ```javascript
 	// Add the cell dep for the lock script.

@@ -40,7 +40,7 @@ Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. I
 
 ### Deploying the Always Success Binary
 
-Let's go through the `deployAlwaysSuccessBinary()` function. Some of the code at the beginning and end is redundant from previous topics, so we will only cover the relevant code.
+Let's go through the `deployAlwaysSuccessBinary()` function. This function generates and executes and transaction that will deploy the always success binary to a cell so it can be executed on-chain in lock scripts. Some of the code at the beginning and end is redundant from previous topics, so we will only cover the relevant code.
 
 ```javascript
 // Create a cell with data from the specified file.
@@ -68,7 +68,7 @@ We're returning the out point of the cell we just created so that it can be used
 
 ### Creating a Cell with the Always Success Lock
 
-Next, let's look at the `createCellWithAlwaysSuccessLock()` function. Once again, we'll skip straight to the relevant parts.
+Next, let's look at the `createCellWithAlwaysSuccessLock()` function. This function generates and executes a transaction that will create a cell using the always success lock. Once again, we'll skip straight to the relevant parts.
 
 ```javascript
 // Create a cell using the always success lock.
@@ -121,7 +121,7 @@ This method of providing resources enables code reuse in a way that is not possi
 
 ### Consuming a Cell with the Always Success Lock
 
-Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function.
+Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success lock.
 
 ```javascript
 // Add the cell dep for the lock script.
