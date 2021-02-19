@@ -130,7 +130,7 @@ What if we had created our cells and specified 250 CKBytes in the lock script `a
 
 ![](../.gitbook/assets/consume-transaction-structure-2%20%281%29.png)
 
-This transaction would complete because `address1` provided a cell with the correct capacity to unlock the ICC Lock cells.
+Now that `address1` provided a cell with the correct capacity to unlock the ICC Lock cells, this transaction would be able to complete successfully.
 
 
 
