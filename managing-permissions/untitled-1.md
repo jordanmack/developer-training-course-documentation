@@ -54,6 +54,8 @@ count_required = integer_from_binary(lock_args[8..16]);
 
 Instead of using an array, we just read byte offsets directly. Our lock is using 64-bit integer values, so we know the length of the data we need is always 8 bytes for each value. These values will not vary in size, so they can safely be packed next to each other in the `args` field.
 
+This code is an example of how to use `args` to create smart contract-like conditions to unlock a cell, but this exact lock should never be used outside of a test environment. The code does not use signatures to prove ownership in any way, which means that anyone could unlock the cell and take the capacity contained within if they knew how the lock works.
+
 ### Usage in Lumos
 
 Next, we will use the OCC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the OCC Lock, then consume those cells that we just created to reclaim that capacity.
@@ -66,7 +68,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 ### Creating the OCC Lock Cells
 
-Next, we will look at the relevant parts of the `createCellsWithOccLock()` function.
+Next, we will look at the relevant parts of the `createCellsWithOccLock()` function. This function generates and executes a transaction that will create cells using the OCC Lock.
 
 ```javascript
 // Create cells using the OCC Lock.
@@ -103,7 +105,7 @@ Our resulting transaction should look similar to this.
 
 ### Consuming the OCC Lock Cells
 
-Next, we will look at the relevant parts of the `consumeCellsWithOccLock()` function.
+Next, we will look at the relevant parts of the `consumeCellsWithOccLock()` function. This function generates and executes a transaction that will consume the cells we just created that use the OCC Lock.
 
 ```javascript
 // Add the OCC Lock cells to the transaction. 
@@ -173,7 +175,7 @@ transaction = addDefaultWitnessPlaceholders(transaction);
 const signedTx = signTransaction(transaction, privateKey1);
 ```
 
-Lastly, we add the necessary witness placeholders and sign the transaction. In the last topic, we didn't need to add signatures because the CKB Lock does not check them. The OCC Lock also does not check signatures. Do you know why we need to add signatures to this transaction?
+Lastly, we add the necessary witness placeholders and sign the transaction. In the last topic, we didn't need to add signatures because the ICC Lock does not check them. The OCC Lock also does not check signatures. Do you know why we need to add signatures to this transaction?
 
 The reason is that we added more input cells owned by `address1` because we need additional capacity to complete the transaction. These cells use the default lock script, and therefore always require a signature.
 

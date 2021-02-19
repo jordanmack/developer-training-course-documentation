@@ -45,6 +45,8 @@ The transaction on the left creates a cell with the ICC Lock. In the lock script
 
 The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock will execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs looking for a match. It finds a single cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
 
+This code is an example of how to use `args` to create smart contract-like conditions to unlock a cell, but this exact lock should never be used outside of a test environment. The code does not use signatures to prove ownership in any way, which means that anyone could unlock the cell and take the capacity contained within if they knew how the lock works.
+
 ### Usage in Lumos
 
 Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created to reclaim that capacity.
