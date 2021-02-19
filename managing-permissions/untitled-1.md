@@ -83,7 +83,9 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockSc
 transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 ```
 
-This is the code that creates the cells using the OCC Lock. On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
+This is the code that creates the cells that use the OCC Lock.
+
+On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
 On line 3, we specify the capacity that must be present on any output to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by OCC Lock.
 

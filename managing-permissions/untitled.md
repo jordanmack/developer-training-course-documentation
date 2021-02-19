@@ -73,7 +73,7 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockSc
 transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 ```
 
-This is the code that creates the cells using the ICC Lock.
+This is the code that creates the cells that use the ICC Lock.
 
 Starting with line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
