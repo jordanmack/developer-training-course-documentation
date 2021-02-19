@@ -28,7 +28,7 @@
 * [Conditional Unlocking](managing-permissions/conditional-unlocking.md)
 * [Using Lock Args](managing-permissions/untitled.md)
 * [Using Multiple Lock Args](managing-permissions/untitled-1.md)
-* [Using the Witness](managing-permissions/using-the-witness.md)
+* [Using a Witness](managing-permissions/using-the-witness.md)
 * [Deconstructing the Default Lock Script](managing-permissions/using-the-default-lock-script.md)
 * [Lab: Sending From Multiple Accounts Using the Default Lock Script](managing-permissions/lab-sending-from-multiple-accounts-using-the-default-lock-script.md)
 * [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)

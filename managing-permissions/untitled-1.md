@@ -101,7 +101,7 @@ If you look closely at line 12, you will notice that we are adding `output1` to 
 
 Our resulting transaction should look similar to this.
 
-![](../.gitbook/assets/create-transaction-structure%20%281%29.png)
+![](../.gitbook/assets/create-transaction-structure%20%283%29.png)
 
 ### Consuming the OCC Lock Cells
 
