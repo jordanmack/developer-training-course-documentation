@@ -48,6 +48,8 @@ The transaction on the right consumes the cell with the ICC Lock. The cell is be
 
 ### Usage in Lumos
 
+Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created.
+
 Open the `index.js` file from the `Using-Lock-Args-Example` directory and scroll down to the `main()` function. Our code has the usual four sections.
 
 ![](../.gitbook/assets/example-flow.png)

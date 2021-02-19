@@ -26,7 +26,7 @@ function lockScript()
 }
 ```
 
-This code should be reasonably easy to understand. The input cells are loaded from the transaction, and then the capacity of each input cell is tallied. If the total input capacity is exactly 500 CKBytes, then the lock script will return with 0, indicating success.
+This code should be reasonably easy to understand. The input cells are loaded from the transaction, and then the capacity of each input cell is tallied. If the total input capacity is exactly 500 CKBytes, then the lock script will return with 0, indicating success. We will call this the "CKB 500" lock going forward.
 
 This lock script is conceptually different than the default lock script because it shows how a script can expand its scope of concern. The code is examining all the input cells unconditionally. It doesn't matter if the input cells have a matching lock script, or are even owned by different people. All the code cares about is the input capacity amount.
 
@@ -42,7 +42,7 @@ This should look familiar because it is the same basic process. All that is chan
 
 ### Deploying the CKB 500 Binary
 
-The process begins with deploying the lock script binary that contains our conditional code which only unlocks when the input capacity is exactly 500 CKBytes. We will call this the "CKB 500" lock going forward. This code is contained in `deployCkb500Binary()`. Feel free to go over it, but we're not going to go through it here since it is nearly identical to the previous examples.
+The process begins with deploying the lock script binary that contains our conditional code which only unlocks when the input capacity is exactly 500 CKBytes. This code is contained in `deployCkb500Binary()`. Feel free to go over it, but we're not going to go through it here since it is nearly identical to the previous examples.
 
 ### Creating the CKB 500 Cells
 
