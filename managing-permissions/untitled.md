@@ -43,7 +43,7 @@ Let's look at the lifecycle of a cell with the ICC Lock is used in the image bel
 
 The transaction on the left creates a cell with the ICC Lock. In the lock script, the `args` field has a value of 500. We are just setting the value here, but it is not being enforced because lock scripts only execute on inputs, not outputs. Once this transaction confirms, the cell will be added to the blockchain and will be immutable.
 
-The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock would execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs looking for a match. It finds a single cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
+The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock will execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs looking for a match. It finds a single cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
 
 ### Usage in Lumos
 
@@ -57,29 +57,31 @@ The initialization and deployment code is nearly identical to the previous examp
 
 ### Creating the ICC Lock Cells
 
-Let's look at the relevant parts of the `createCellsWithCkbLock()` function.
+Let's look at the relevant parts of the `createCellsWithIccLock()` function. This function generates and executes a transaction that will create cells using the ICC Lock.
 
 ```javascript
 // Create cells using the ICC Lock.
 const outputCapacity1 = ckbytesToShannons(500n);
-const ckbLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
+const iccLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
 const lockScript1 =
 {
 	code_hash: dataFileHash1,
 	hash_type: "data",
-	args: ckbLockAmount1
+	args: iccLockAmount1
 };
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 ```
 
-This is the code that creates the cells using the ICC Lock. Starting with line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
+This is the code that creates the cells using the ICC Lock.
+
+Starting with line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
 On line 3, we specify the number of CKBytes that must be present on any input to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by ICC Lock. This is inserted into the lock script on line 8.
 
 On line 6, we specify the data hash of the ICC Lock for the `code_hash`. On line 8, we put the value created on line 3.
 
-If you look closely at line 11, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 500 CKBytes each.
+If you look closely at line 11, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with ICC Lock.
 
 Our resulting transaction should look similar to this.
 
@@ -87,17 +89,17 @@ Our resulting transaction should look similar to this.
 
 ### Consuming the ICC Lock Cells
 
-Next, we will look at the relevant parts of the `consumeCellsWithCkbLock()` function.
+Next, we will look at the relevant parts of the `consumeCellsWithIccLock()` function. This function generates and executes a transaction that will consume the cells we created that use the ICC Lock.
 
 ```javascript
 // Add the ICC Lock cells to the transaction. 
 const capacityRequired = ckbytesToShannons(1_000n);
-const ckbLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
+const iccLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
 const lockScript1 =
 {
 	code_hash: dataFileHash1,
 	hash_type: "data",
-	args: ckbLockAmount1
+	args: iccLockAmount1
 };
 const collectedCells = await collectCapacity(indexer, lockScript1, capacityRequired);
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
