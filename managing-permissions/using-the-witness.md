@@ -75,7 +75,9 @@ This code is an example of how to use witnesses to provide proof data to unlock 
 
 Next, we will use the Hash Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the Hash Lock, then consume those cells that we just created to reclaim that capacity.
 
-Open the `index.js` file from the `Using-a-Witness-Example` directory and scroll down to the `main()` function. Our code has the usual four sections.
+The code we will be covering here is located in the `index.js` file in the `Using-a-Witness-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+Starting with the `main()` function, you will see our code has the usual four sections.
 
 ![](../.gitbook/assets/example-flow.png)
 
@@ -152,6 +154,8 @@ Just like our previous example, we are skipping the placeholders and signing bec
 Our resulting transaction will look like this.
 
 ![](../.gitbook/assets/consume-transaction-structure%20%283%29.png)
+
+The preimage is in the witnesses at index 0. As we explained earlier, this the same index as the first occurrence of the OCC Lock in the inputs, which means it is also the first index of the witness group, `witnessGroup[0]`. This will allow the OCC Lock to locate the data quickly when it executes, because it is in the expected location. 
 
 
 
