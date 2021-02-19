@@ -89,7 +89,7 @@ Our resulting transaction should look similar to this.
 
 ### Consuming the ICC Lock Cells
 
-Next, we will look at the relevant parts of the `consumeCellsWithIccLock()` function. This function generates and executes a transaction that will consume the cells we created that use the ICC Lock.
+Next, we will look at the relevant parts of the `consumeCellsWithIccLock()` function. This function generates and executes a transaction that will consume the cells we just created that use the ICC Lock.
 
 ```javascript
 // Add the ICC Lock cells to the transaction. 
@@ -124,7 +124,7 @@ Our resulting transaction will look like this.
 
 ![](../.gitbook/assets/consume-transaction-structure%20%281%29.png)
 
-In the lock script `args` of our ICC Lock cells we specified 500 CKBytes and each of our cells were also created with exactly 500 CKBytes. This makes it very easy to form this transaction since they will always unlock.
+In the lock script `args` of our ICC Lock cells we specified 500 CKBytes and each of our cells was also created with exactly 500 CKBytes. This makes it very easy to form this transaction since they will always unlock.
 
 What if we had created our cells and specified 250 CKBytes in the lock script `args`? Then the transaction would not go through because the ICC Lock cells would require at least one input cell with exactly 250 CKBytes. To complete the transaction, another input cell would have to be inserted.
 
