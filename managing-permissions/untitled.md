@@ -51,7 +51,9 @@ This code is an example of how to use `args` to create smart contract-like condi
 
 Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created to reclaim that capacity.
 
-Open the `index.js` file from the `Using-Lock-Args-Example` directory and scroll down to the `main()` function. Our code has the usual four sections.
+The code we will be covering here is located in the `index.js` file in the `Using-a-Witness-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+Starting with the `main()` function, you will see our code has the usual four sections.
 
 ![](../.gitbook/assets/example-flow.png)
 
@@ -59,7 +61,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 ### Creating the ICC Lock Cells
 
-Let's look at the relevant parts of the `createCellsWithIccLock()` function. This function generates and executes a transaction that will create cells using the ICC Lock.
+Next, let's look at the relevant parts of the `createCellsWithIccLock()` function. This function generates and executes a transaction that will create cells using the ICC Lock.
 
 ```javascript
 // Create cells using the ICC Lock.
