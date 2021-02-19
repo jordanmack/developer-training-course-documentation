@@ -55,7 +55,7 @@ Open the `index.js` file from the `Using-Lock-Args-Example` directory and scroll
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
-### Creating the CKB Lock Cells
+### Creating the ICC Lock Cells
 
 Let's look at the relevant parts of the `createCellsWithCkbLock()` function.
 
@@ -75,9 +75,9 @@ transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 
 This is the code that creates the cells using the ICC Lock. Starting with line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
-On line 3, we specify the number of CKBytes that must be present on any input to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by CKB Lock. This is inserted into the lock script on line 8.
+On line 3, we specify the number of CKBytes that must be present on any input to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by ICC Lock. This is inserted into the lock script on line 8.
 
-On line 6, we specify the data hash of the CKB Lock for the `code_hash`. On line 8, we put the value created on line 3.
+On line 6, we specify the data hash of the ICC Lock for the `code_hash`. On line 8, we put the value created on line 3.
 
 If you look closely at line 11, you will notice that we are adding `output1` to the transaction two times, therefore creating two cells with 500 CKBytes each.
 
@@ -85,12 +85,12 @@ Our resulting transaction should look similar to this.
 
 ![](../.gitbook/assets/create-transaction-structure%20%282%29.png)
 
-### Consuming the CKB Lock Cells
+### Consuming the ICC Lock Cells
 
 Next, we will look at the relevant parts of the `consumeCellsWithCkbLock()` function.
 
 ```javascript
-// Add the CKB Lock cells to the transaction. 
+// Add the ICC Lock cells to the transaction. 
 const capacityRequired = ckbytesToShannons(1_000n);
 const ckbLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
 const lockScript1 =
@@ -103,9 +103,9 @@ const collectedCells = await collectCapacity(indexer, lockScript1, capacityRequi
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 ```
 
-Here we add the CKB Lock cells to the transaction. We are using the `collectCapacity()` library function to locate the cells, and specifying the `capacityRequired` as 1,000 CKBytes. This should pull in the two cells we just created.
+Here we add the ICC Lock cells to the transaction. We are using the `collectCapacity()` library function to locate the cells, and specifying the `capacityRequired` as 1,000 CKBytes. This should pull in the two cells we just created.
 
-Normally when cell collection is performed you cannot be assured of the exact capacity value of the cells that are returned. In this example, we specifically created two cells each with 500 CKBytes each. We knew ahead of time that these would be the only two cells that exist with the CKB Lock so we can skip some of the extra code to verify. 
+Normally when cell collection is performed you cannot be assured of the exact capacity value of the cells that are returned. In this example, we specifically created two cells each with 500 CKBytes each. We knew ahead of time that these would be the only two cells that exist with the ICC Lock so we can skip some of the extra code to verify. 
 
 ```javascript
 	// Add in the witness placeholders.
@@ -116,19 +116,19 @@ Normally when cell collection is performed you cannot be assured of the exact ca
 	const signedTx = sealTransaction(transaction, []);
 ```
 
-Just like our previous example, we are skipping the placeholders and signing because only the CKB Lock cells were used as inputs and the CKB Lock does not check signatures.
+Just like our previous example, we are skipping the placeholders and signing because only the ICC Lock cells were used as inputs and the ICC Lock does not check signatures.
 
 Our resulting transaction will look like this.
 
 ![](../.gitbook/assets/consume-transaction-structure%20%281%29.png)
 
-In the lock script `args` of our CKB Lock cells we specified 500 CKBytes and each of our cells were also created with exactly 500 CKBytes. This makes it very easy to form this transaction since they will always unlock.
+In the lock script `args` of our ICC Lock cells we specified 500 CKBytes and each of our cells were also created with exactly 500 CKBytes. This makes it very easy to form this transaction since they will always unlock.
 
-What if we had created our cells and specified 250 CKBytes in the lock script `args`? Then the transaction would not go through because the CKB Lock cells would require at least one input cell with exactly 250 CKBytes. To complete the transaction, another input cell would have to be inserted.
+What if we had created our cells and specified 250 CKBytes in the lock script `args`? Then the transaction would not go through because the ICC Lock cells would require at least one input cell with exactly 250 CKBytes. To complete the transaction, another input cell would have to be inserted.
 
 ![](../.gitbook/assets/consume-transaction-structure-2%20%281%29.png)
 
-This transaction would complete because `address1` provided a cell with the correct capacity to unlock the CKB Lock cells.
+This transaction would complete because `address1` provided a cell with the correct capacity to unlock the ICC Lock cells.
 
 
 
