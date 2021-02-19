@@ -41,21 +41,19 @@ Let's look at the lifecycle of a cell with the ICC Lock is used in the image bel
 
 ![](../.gitbook/assets/lifecycle-explainer.png)
 
-The transaction on the left creates a cell with the ICC Lock. In the lock script, the `args` field has a value of 500. We are just setting the value here, but it is not being enforced because lock scripts only execute on inputs, not outputs. Once this transaction confirms, the cell will be added to the blockchain and will be immutable. The `args` value is stored in the cell, and it cannot be changed until the cell is unlocked when it's used in a transaction.
+The transaction on the left creates a cell with the ICC Lock. In the lock script, the `args` field has a value of 500. We are just setting the value here, but it is not being enforced because lock scripts only execute on inputs, not outputs. Once this transaction confirms, the cell will be added to the blockchain and will be immutable.
 
-The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock would execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs and finds a cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
+The transaction on the right consumes the cell with the ICC Lock. The cell is being used as an input, so the ICC Lock would execute and read the `args` value just as our pseudo-code indicated above. The ICC Lock sees that the `args` value is 500, then it checks the inputs looking for a match. It finds a single cell with a matching 500 CKByte capacity. The unlock is successful, and the transaction completes successfully.
 
 ### Usage in Lumos
 
-Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created.
+Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created to reclaim that capacity.
 
 Open the `index.js` file from the `Using-Lock-Args-Example` directory and scroll down to the `main()` function. Our code has the usual four sections.
 
 ![](../.gitbook/assets/example-flow.png)
 
-### Deploying the CKB Lock Binary
-
-The process begins with deploying the lock script binary that contains our new lock code. This code is contained in `deployCkbLockBinary()`. Feel free to go over it, but we're not going to go through it here since it is nearly identical to the previous examples.
+The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
 ### Creating the CKB Lock Cells
 
