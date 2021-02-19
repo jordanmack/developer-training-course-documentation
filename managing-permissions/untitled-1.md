@@ -101,7 +101,7 @@ Our resulting transaction should look similar to this.
 
 ### Consuming the OCC Lock Cells
 
-Next, we will look at the relevant parts of the `consumeCellsWithCkbOutputLock()` function.
+Next, we will look at the relevant parts of the `consumeCellsWithOccLock()` function.
 
 ```javascript
 // Add the OCC Lock cells to the transaction. 
