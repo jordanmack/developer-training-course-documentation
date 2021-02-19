@@ -57,10 +57,10 @@ The initialization and deployment code is nearly identical to the previous examp
 
 ### Creating the CKB Lock Cells
 
-Next, we will look at the relevant parts of the `createCellsWithCkbLock()` function.
+Let's look at the relevant parts of the `createCellsWithCkbLock()` function.
 
 ```javascript
-// Create cells using the CKB Lock lock.
+// Create cells using the ICC Lock.
 const outputCapacity1 = ckbytesToShannons(500n);
 const ckbLockAmount1 = intToU64LeHexBytes(ckbytesToShannons(500n));
 const lockScript1 =
@@ -73,7 +73,7 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockSc
 transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 ```
 
-This is the code that creates the cells using the CKB Lock. On line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
+This is the code that creates the cells using the ICC Lock. Starting with line 2, you will see that we are creating cells with a capacity of exactly 500 CKBytes.
 
 On line 3, we specify the number of CKBytes that must be present on any input to unlock the cell. We are specifying 500 CKBytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by CKB Lock. This is inserted into the lock script on line 8.
 
