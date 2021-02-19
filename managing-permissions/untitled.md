@@ -15,11 +15,10 @@ The `code_hash` and `hash_type` values define what code will execute. These valu
 The `args` field should always contain whatever data is required by the lock that is in use. The code above specifies the default lock, so the `args` field contains a hashed public key that indicates who owns it. We will cover all the details of the default lock later on, but first, let's explore a more simple lock that uses the `args` described in the pseudo-code below.
 
 ```javascript
-function lockScript(args)
+function lockScript(args, input_cells)
 {
     capacity_required = integer_from_binary(args);
-    
-    input_cells = load_input_cells();
+
     for(cell in input_cells)
     {
         if(cell.capacity == capacity_required)
