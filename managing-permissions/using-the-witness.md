@@ -155,7 +155,7 @@ Our resulting transaction will look like this.
 
 ![](../.gitbook/assets/consume-transaction-structure%20%283%29.png)
 
-The preimage is in the witnesses at index 0. As we explained earlier, this the same index as the first occurrence of the OCC Lock in the inputs, which means it is also the first index of the witness group, `witnessGroup[0]`. This will allow the OCC Lock to locate the data quickly when it executes, because it is in the expected location. 
+The preimage is in the witnesses at index 0. As we explained earlier, this the same index as the first occurrence of the OCC Lock in the inputs, which means it is also the first index of the witness group, `witnessGroup[0]`. This will allow the OCC Lock to locate the data quickly when it executes because it is in the expected location. 
 
 
 
