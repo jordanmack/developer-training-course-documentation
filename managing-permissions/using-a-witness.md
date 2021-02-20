@@ -103,7 +103,7 @@ const lockScript1 =
 {
 	code_hash: dataFileHash1,
 	hash_type: "data",
-	args: blake2b(32).update(preimage).digest("hex")
+	args: blake2b(32).update(hexToUint8Array(preimage)).digest("hex")
 };
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
@@ -130,7 +130,7 @@ const lockScript1 =
 {
 	code_hash: dataFileHash1,
 	hash_type: "data",
-	args: blake2b(32).update(preimage).digest("hex")
+	args: blake2b(32).update(hexToUint8Array(preimage)).digest("hex")
 };
 const collectedCells = await collectCapacity(indexer, lockScript1, capacityRequired1);
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
@@ -142,11 +142,14 @@ Here we add the Hash Lock cells to the transaction. We are using the `collectCap
 // Add in the witness placeholders.
 // transaction = addDefaultWitnessPlaceholders(transaction);
 
+// Add our preimage to the witnesses.
+transaction = transaction.update("witnesses", (w)=>w.push(preimage));
+
 // Sign the transaction.
 // const signedTx = signTransaction(transaction, privateKey1);
 
-// Add our preimage to the witnesses.
-transaction = transaction.update("witnesses", (w)=>w.push(preimage));
+// Seal the transaction.
+const signedTx = sealTransaction(transaction, []);
 ```
 
 Just like our previous example, we are skipping the placeholders and signing because only the OCC Lock cells were used as inputs and the OCC Lock does not check signatures. Instead, we add our preimage directly to the witnesses structure. This will be located at index 0.
