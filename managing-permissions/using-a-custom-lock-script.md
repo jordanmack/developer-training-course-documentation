@@ -58,8 +58,8 @@ At the end of the function you will see this code:
 // Return the out point for the always success binary so it can be used in the next transaction.
 const outPoint =
 {
-	tx_hash: txid,
-	index: "0x0"
+    tx_hash: txid,
+    index: "0x0"
 };
 return outPoint;
 ```
@@ -75,9 +75,9 @@ Next, let's look at the `createCellWithAlwaysSuccessLock()` function. This funct
 const outputCapacity1 = ckbytesToShannons(41n);
 const lockScript1 =
 {
-	code_hash: dataFileHash1,
-	hash_type: "data",
-	args: "0x"
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
 }
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
@@ -135,7 +135,7 @@ This code adds cell deps to our transaction skeleton. On line 2 you see the func
 ```javascript
 function addDefaultCellDeps(transaction)
 {
-	return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
 }
 ```
 
