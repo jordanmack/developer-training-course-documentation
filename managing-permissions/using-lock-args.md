@@ -114,12 +114,14 @@ Here we add the ICC Lock cells to the transaction. We are using the `collectCapa
 Normally when cell collection is performed you cannot be assured of the exact capacity value of the cells that are returned. In this example, we specifically created two cells each with 500 CKBytes each. We knew ahead of time that these would be the only two cells that exist with the ICC Lock so we can skip some of the extra code to verify. 
 
 ```javascript
-	// Add in the witness placeholders.
-	// transaction = addDefaultWitnessPlaceholders(transaction);
+// Add in the witness placeholders.
+// transaction = addDefaultWitnessPlaceholders(transaction);
 
-	// Sign the transaction.
-	// const signedTx = signTransaction(transaction, privateKey1);
-	const signedTx = sealTransaction(transaction, []);
+// Sign the transaction.
+// const signedTx = signTransaction(transaction, privateKey1);
+
+// Seal the transaction.
+const signedTx = sealTransaction(transaction, []);
 ```
 
 Just like our previous example, we are skipping the placeholders and signing because only the ICC Lock cells were used as inputs and the ICC Lock does not check signatures.

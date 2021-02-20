@@ -49,16 +49,16 @@ The process begins with deploying the lock script binary that contains our condi
 Next, we will look at the relevant parts of the `createCellsWithCkb500Lock()` function. This function generates and executes a transaction that will create cells using the CKB 500 lock.
 
 ```javascript
-	// Create cells using the CKB 500 lock.
-	const outputCapacity1 = ckbytesToShannons(250n);
-	const lockScript1 =
-	{
-		code_hash: dataFileHash1,
-		hash_type: "data",
-		args: "0x"
-	}
-	const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
-	transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
+// Create cells using the CKB 500 lock.
+const outputCapacity1 = ckbytesToShannons(250n);
+const lockScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+}
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.concat([output1, output1]));
 ```
 
 This is the code that creates the cells using the CKB 500 lock. On line 2 you will see that we are creating cells with a capacity of exactly 250 CKBytes. We chose that number because it will be easy to create a transaction with exactly 500 CKBytes of input capacity.
@@ -78,24 +78,24 @@ Our resulting transaction should look similar to this.
 Next, we will look at the relevant parts of the `consumeCellsWithCkb500Lock()` function. This function generates and executes a transaction that will consume the cells we just created that use the CKB 500 Lock.
 
 ```javascript
-	// Add the cell dep for the lock script.
-	const cellDep = {dep_type: "code", out_point: ckb500CodeOutPoint};
-	transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+// Add the cell dep for the lock script.
+const cellDep = {dep_type: "code", out_point: ckb500CodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
 Just like the previous example, we have to add our CKB 500 code as a cell dep to the transaction. It is only added to the consume function because this is the only place where the CKB 500 lock script is executing.
 
 ```javascript
-	// Add the CKB 500 cells to the transaction. 
-	const capacityRequired = ckbytesToShannons(500n);
-	const lockScript1 =
-	{
-		code_hash: dataFileHash1,
-		hash_type: "data",
-		args: "0x"
-	};
-	const collectedCells = await collectCapacity(indexer, lockScript1, capacityRequired);
-	transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
+// Add the CKB 500 cells to the transaction. 
+const capacityRequired = ckbytesToShannons(500n);
+const lockScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const collectedCells = await collectCapacity(indexer, lockScript1, capacityRequired);
+transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 ```
 
 Next, we add the CKB 500 cells to the transaction. However, unlike the previous example, we are not directly adding the outpoint. Instead, we are using the `collectCapacity()` library function to locate the cells. We pass the lock script to the function, which will collect only cells created with the CKB 500 lock.
@@ -105,19 +105,21 @@ Normally when cell collection is performed you cannot be assured of the exact ca
 The lock script we specify to query for these cells is exactly the same as the one used to create the cells. Earlier, we said that `args` isn't used, but that adding a random value may make it harder to locate. This is because you must specify the `code_hash`, `hash_type`, and `args` explicitly in a query. All three values are required, and they cannot be wildcards.
 
 ```javascript
-	// Add in the witness placeholders.
-	// transaction = addDefaultWitnessPlaceholders(transaction);
+// Add in the witness placeholders.
+// transaction = addDefaultWitnessPlaceholders(transaction);
 
-	// Sign the transaction.
-	// const signedTx = signTransaction(transaction, privateKey1);
-	const signedTx = sealTransaction(transaction, []);
+// Sign the transaction.
+// const signedTx = signTransaction(transaction, privateKey1);
+
+// Seal the transaction.
+const signedTx = sealTransaction(transaction, []);
 ```
 
 On lines 2 and 5 we have commented out the normal code we have been using. Lines 2 adds in the required placeholders for signing using the default lock script, and line 5 signs the transaction using the Secp256k1 algorithm which is required by the default lock script.
 
 We don't need to go through the normal signing process because we are only using the CKB 500 cells as inputs. The CKB 500 lock does not check signatures at all, so adding a signature would have no effect on this transaction.
 
-On line 6 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock is an example of how a lock can require no signatures at all. 
+On line 8 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock is an example of how a lock can require no signatures at all. 
 
 Our resulting transaction will look like this.
 
