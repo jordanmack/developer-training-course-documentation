@@ -36,6 +36,13 @@ Use the command below to clone the Developer Training Course materials, which in
 git clone https://github.com/jordanmack/developer-training-course.git
 ```
 
+Then enter the directory and install the Node.js dependencies.
+
+```bash
+cd developer-training-course
+npm i
+```
+
 ### Setup a CKB Dev Blockchain
 
 You will need to have a CKB Dev Blockchain node running locally for our code to interact with. This is a full Nervos CKB node that will run on your computer with a private testnet.
