@@ -2,11 +2,11 @@
 
 This lesson plan is designed to teach developers, who are familiar with blockchain, how to build common application components on Nervos. We will walk through a series of examples and lab exercises designed to help you learn the essentials through practical hands-on experience.
 
-These exercises are designed to be completed in sequential order. Each new exercise builds upon the previous, so it is not recommended that you do not skip any sections. 
+These exercises are designed to be completed in sequential order. Each new exercise builds upon the previous, so it is recommended that you do not skip any sections. 
 
 ### Prerequisite Knowledge
 
-These are the technologies used in this lesson series which a developer needs to be familiar with in order to have a complete understanding of all concepts and tooling. If you're unfamiliar with one of these technologies, it is recommended that you use the provided links to learn about the topic as needed so you can fully complete the course.
+These are the technologies used in this lesson series that a developer needs to be familiar with in order to have a complete understanding of all concepts and tooling. If you're unfamiliar with one of these technologies, it is recommended that you use the provided links to learn about the topic as needed so you can fully complete the course.
 
 #### Blockchain Basics
 
