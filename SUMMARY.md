@@ -37,6 +37,8 @@
 
 ## Scripting Basics
 
+* [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
+
 ## Token Basics
 
 ## Dapp Basics
