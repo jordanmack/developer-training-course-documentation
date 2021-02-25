@@ -10,7 +10,7 @@ We mentioned before that a lock script's `args` field can contain any data in an
 }
 ```
 
-The `code_hash` and `hash_type` values define what code will execute. These values match those for the default lock on a local development chain, so we know the default lock is being used. This mean that the data in the`args` field needs to conform to the exact requirements of the default lock in order to function correctly.
+The `code_hash` and `hash_type` values define what code will execute. These values match those for the default lock on a local development chain, so we know the default lock is being used. This means that the data in the`args` field needs to conform to the exact requirements of the default lock in order to function correctly.
 
 The `args` field should always contain whatever data is required by the lock that is in use. The code above specifies the default lock, so the `args` field contains a hashed public key that indicates who owns it. We will cover all the details of the default lock later on, but first, let's explore a more simple lock that uses the `args` described in the pseudo-code below.
 
@@ -51,7 +51,7 @@ This code is an example of how to use `args` to create smart contract-like condi
 
 Next, we will use the ICC Lock in a Lumos transaction example. Our code will deploy the lock, create some cells using the ICC Lock, then consume those cells that we just created to reclaim that capacity.
 
-The code we will be covering here is located in the `index.js` file in the `Using-a-Witness-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional. You can execute this code in a console by entering the directory and executing `node index.js`.
+The code we will be covering here is located in the `index.js` file in the `Using-a-Witness-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional. You can run this code in a console by entering the directory and executing `node index.js`.
 
 Starting with the `main()` function, you will see our code has the usual four sections.
 
