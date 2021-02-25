@@ -119,7 +119,7 @@ On lines 2 and 5 we have commented out the normal code we have been using. Lines
 
 We don't need to go through the normal signing process because we are only using the CKB 500 cells as inputs. The CKB 500 lock does not check signatures at all, so adding a signature would have no effect on this transaction.
 
-On line 8 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be coving all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock is an example of how a lock can require no signatures at all. 
+On line 8 we use `sealTransaction()`, which replaces the placeholders with the required signatures. The array passed to the function is empty because we didn't create any signatures. We will be covering all of this in much greater detail later on. What is important to understand now is that different locks scripts have different requirements for signing and the CKB 500 lock is an example of how a lock can require no signatures at all. 
 
 Our resulting transaction will look like this.
 
