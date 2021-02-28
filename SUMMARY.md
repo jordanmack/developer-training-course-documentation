@@ -37,6 +37,7 @@
 
 ## Scripting Basics
 
+* [Introduction to Scripting](scripting-basics/introduction-to-scripting.md)
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
 
 ## Token Basics
