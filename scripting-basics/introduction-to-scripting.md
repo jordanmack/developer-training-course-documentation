@@ -18,7 +18,7 @@ Ethereum's programming model is sometimes described as being part of a contract-
 
 Nervos' programming model is transaction-oriented. There are no methods on a contract to call. The developer builds programs, known as scripts, which validate how an on-chain state change is allowed to occur. A developer initiates a state change by submitting a transaction that describes a valid state change.
 
-
+![](../.gitbook/assets/contract-vs-transaction.png)
 
 If this seems confusing or counter-intuitive, don't be discouraged. This is a brand new way of creating smart contracts, so it may be difficult to understand at first, but it will become clear as we continue to work with it.
 
