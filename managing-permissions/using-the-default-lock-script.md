@@ -329,7 +329,7 @@ Our pseudo-code should be sufficient for gaining an understanding of the process
 const signedTx = signTransaction(transaction, privateKey1);
 ```
 
-This code adds signs the transaction with a private key. We've also used this code many times before, but let's look at the source in the shared library to see what it is actually doing.
+This code signs the transaction with a private key. We've also used this code many times before, but let's look at the source in the shared library to see what it is actually doing.
 
 ```javascript
 /**
