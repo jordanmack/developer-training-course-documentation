@@ -33,7 +33,7 @@ The `multisigAddresses` variable contains the accounts that have permission to u
 The next four variables are referred to as S, R, M, and N in the multi-sig RFC. Each one is an unsigned integer ranging from 0 to 255. They have the following meaning:
 
 * `multisigReserved` \(S\) - This is the format version number. As of the current specification, it should always be set to 0.
-* `multisigMustMatch` \(R\) - These are the accounts that must sign as approvers, regardless of however other accounts have provided signatures. The value of R represents the "first R accounts must sign". If R is 1, then account `ckt1...xz4e` must always sign as the approver even if one of the other two accounts provided signatures.
+* `multisigMustMatch` \(R\) - These are the accounts that must sign as approvers, regardless of whether other accounts have provided signatures. The value of R represents the "first R accounts must sign". If R is 1, then account `ckt1...xz4e` must always sign as the approver even if one of the other two accounts provided signatures.
 * `multisigThreshold` \(M\) - This is the number of signatures that are needed to unlock the cell. If M is set to 1, then any of the three accounts can unlock the cell. If M is set to 2, then a combination of any two accounts will unlock the cell.
 * `multisigPublicKeys` \(N\) - This is the number of public keys that are authorized to unlock the cell. 
 
