@@ -77,3 +77,22 @@ This approach is less intuitive at first, but it has several distinct advantages
 * **Deterministic** - The resulting state is created by the generator and exists in the transaction before it is sent to the network. There is no possibility of side-effects, and there are no surprises. We can always be assured of the desired outcome once the transaction is executed on-chain.
 * **No Erroneous Transactions** - Any transaction that does not validate is immediately rejected by the network. The invalid transaction is not stored on-chain, and no transaction fees are paid. This reduces the storage cost of the blockchain and eliminates scenarios where a user submits a transaction that results in an error, but they still had to pay a transaction fee that isn't refunded.
 
+### Scripts as Identification
+
+Lock scripts and type scripts are used to add functionality to cells, but they also provide a second purpose, to provide a means of identifying and locating cells.
+
+A cell is a relatively simple structure that contains the four fields we mentioned earlier:
+
+* Capacity
+* Data
+* Lock Script
+* Type Script
+
+Looking at these four fields, it might seem like there is no way of distinguishing one type of cell from another. Every cell has an out point, but that is a location in the blockchain. There are millions of cells in the blockchain, and searching through all the out points would be infeasible.
+
+When searching for cells that exist on the blockchain, the lock script and type script are the most common way of locating cells.
+
+The lock script validates authority. In more simplistic terms, a lock script represents a particular owner. If we search for cells with a specific lock script, we are searching for cells with a specific owner.
+
+The lock script validates state transitions. In simplistic terms, a type script defines the behavior of a cell. If we search for cells with a specific type script, we are searching for cells that all exhibit common behavior; a specific type of cell.
+
