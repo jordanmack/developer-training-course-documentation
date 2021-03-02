@@ -106,9 +106,52 @@ The tests ran successfully! 🎉
 
 Next, we will look at how a project is structured. Open the `myproject/contracts/myproject/src` folder, which contains the source files for the `myproject` contract. You will see the following files.
 
-* **entry.rs** - This file contains the logic of the smart contract. This is the main file we will work with.
+* **entry.rs** - This file contains the logic of the smart contract.
 * **error.rs** - This file contains error codes used in the project.
 * **main.rs** - This file contains boilerplate code for the contract.
+
+Every Rust program begins with `main.rs`. Feel free to open it and take a look at what it contains, but we're not going to go through it here. This file is all boilerplate code that is needed to build a script. We won't need to touch anything in this file. 
+
+Next, let's look at the contents of `entry.rs`.
+
+```rust
+// Import from `core` instead of from `std` since we are in no-std mode
+use core::result::Result;
+
+// Import heap related library from `alloc`
+// https://doc.rust-lang.org/alloc/index.html
+use alloc::{vec, vec::Vec};
+
+// Import CKB syscalls and structures
+// https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/index.html
+use ckb_std::{
+    debug,
+    high_level::{load_script, load_tx_hash},
+    ckb_types::{bytes::Bytes, prelude::*},
+};
+
+use crate::error::Error;
+
+pub fn main() -> Result<(), Error> {
+    // remove below examples and write your code here
+
+    let script = load_script()?;
+    let args: Bytes = script.args().unpack();
+    debug!("script args is {:?}", args);
+
+    // return an error if args is invalid
+    if args.is_empty() {
+        return Err(Error::MyError);
+    }
+
+    let tx_hash = load_tx_hash()?;
+    debug!("tx hash is {:?}", tx_hash);
+
+    let _buf: Vec<_> = vec![0u8; 32];
+
+    Ok(())
+}
+```
 
 
 
