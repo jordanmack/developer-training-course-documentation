@@ -1,6 +1,6 @@
 # Introduction to Capsule
 
-Capsule is a development framework for used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project.
+Capsule is a development framework for used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project. We will give a quickstart here to cover the basics.
 
 ![](../.gitbook/assets/capsule.jpg)
 
@@ -99,6 +99,16 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
+
+The tests ran successfully! 🎉
+
+### Project Structure
+
+Next, we will look at how a project is structured. Open the `myproject/contracts/myproject/src` folder, which contains the source files for the `myproject` contract. You will see the following files.
+
+* **entry.rs** - This file contains the logic of the smart contract. This is the main file we will work with.
+* **error.rs** - This file contains error codes used in the project.
+* **main.rs** - This file contains boilerplate code for the contract.
 
 
 
