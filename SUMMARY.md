@@ -38,6 +38,7 @@
 ## Scripting Basics
 
 * [Introduction to Scripting](scripting-basics/introduction-to-scripting.md)
+* [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
 
 ## Token Basics
