@@ -108,9 +108,9 @@ On line 40, if no errors were detected, we return success.
 
 ### Usage in Lumos
 
-Next, we will use the Data10 type script in a Lumos example. Our code will deploy the lock, create some cells using the Data10 script, then consume those cells that we just created to reclaim that capacity.
+Next, we will use the DataCap type script in a Lumos example. Our code will deploy the lock, create some cells using the DataCap script, then consume those cells that we just created to reclaim that capacity.
 
-The code we will be covering here is located in the `index.js` file in the `Creating-a-Limited-Data-Cell-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
+The code we will be covering here is located in the `index.js` file in the `Using-Script-Args-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
 
 Starting with the `main()` function, you will see our code has the usual four sections.
 
@@ -118,31 +118,33 @@ Starting with the `main()` function, you will see our code has the usual four se
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
-### Creating Cells with the Data 10 Type Script
+### Creating Cells with the Data Cap Type Script
 
-Next, we will look at the relevant parts of the `createCellsWithData10Type()` function. This function generates and executes a transaction that will create cells using the Data10 type script.
+Next, we will look at the relevant parts of the `createCellsWithDataCapType()` function. This function generates and executes a transaction that will create cells using the Data10 type script.
 
 ```javascript
-// Add the cell deps for the default lock script and Data10 type script.
+// Add the cell deps for the default lock script and DataCap type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
+const cellDep = {dep_type: "code", out_point: dataCapCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-This is the code that adds cell deps to the transaction. On line 2, the cells deps are added for the default lock. On lines 3 and 4, the cell dep is added for the Data10 type script. You may remember from some of the previous lock script examples that we only added the cells deps for the default lock when we were creating cells. This is because lock scripts only execute on inputs, not outputs. When we are creating a cell we do not need a cell dep for the lock script because it doesn't execute. However, type scripts execute both on inputs and outputs, so a cell dep is always needed.
+This is the code that adds cell deps to the transaction. On line 2, the cells deps are added for the default lock. On lines 3 and 4, the cell dep is added for the DataCap type script. You may remember from some of the previous lock script examples that we only added the cells deps for the default lock when we were creating cells. This is because lock scripts only execute on inputs, not outputs. When we are creating a cell we do not need a cell dep for the lock script because it doesn't execute. However, type scripts execute both on inputs and outputs, so a cell dep is always needed.
 
 ```javascript
-// Create cells using the Data10 type script.
+// Create cells using the DataCap type script.
 const messages = ["HelloWorld", ["Foo Bar"], "1234567890"];
-for(let message of messages)
+const limit = 20;
+for(let [i, message] of messages.entries())
 {
 	const outputCapacity1 = ckbytesToShannons(500n);
 	const lockScript1 = addressToScript(address1);
+	const dataCapSize1 = intToU64LeHexBytes(limit);
 	const typeScript1 =
 	{
 		code_hash: dataFileHash1,
 		hash_type: "data",
-		args: "0x"
+		args: dataCapSize1
 	};
 	const data1 = stringToHex(message);
 	const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
@@ -150,7 +152,7 @@ for(let message of messages)
 }
 ```
 
-This is the code logic that creates the cells that use the Data10 type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
+This is the code logic that creates the cells that use the DataCap type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
 
 On lines 7 to 12, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 14.
 
