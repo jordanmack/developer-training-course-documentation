@@ -120,7 +120,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 ### Creating Cells with the Data Cap Type Script
 
-Next, we will look at the relevant parts of the `createCellsWithDataCapType()` function. This function generates and executes a transaction that will create cells using the Data10 type script.
+Next, we will look at the relevant parts of the `createCellsWithDataCapType()` function. This function generates and executes a transaction that will create cells using the DataCap type script.
 
 ```javascript
 // Add the cell deps for the default lock script and DataCap type script.
@@ -134,71 +134,75 @@ This is the code that adds cell deps to the transaction. On line 2, the cells de
 ```javascript
 // Create cells using the DataCap type script.
 const messages = ["HelloWorld", ["Foo Bar"], "1234567890"];
-const limit = 20;
 for(let [i, message] of messages.entries())
 {
-	const outputCapacity1 = ckbytesToShannons(500n);
-	const lockScript1 = addressToScript(address1);
-	const dataCapSize1 = intToU64LeHexBytes(limit);
-	const typeScript1 =
-	{
-		code_hash: dataFileHash1,
-		hash_type: "data",
-		args: dataCapSize1
-	};
-	const data1 = stringToHex(message);
-	const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
-	transaction = transaction.update("outputs", (i)=>i.push(output1));
+    const outputCapacity1 = ckbytesToShannons(500n);
+    const lockScript1 = addressToScript(address1);
+    const dataCapSize1 = intToU64LeHexBytes(20);
+    const typeScript1 =
+    {
+        code_hash: dataFileHash1,
+        hash_type: "data",
+        args: dataCapSize1
+    };
+    const data1 = stringToHex(message);
+    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
 
 This is the code logic that creates the cells that use the DataCap type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
 
-On lines 7 to 12, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 14.
+On line 7 we convert our limit of 20 as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by DataCap type script. This value is added to the type script on line 12.
 
-On line 13, we convert our message to a hex string, and then add it to the structure on line 14. 
+On lines 9 to 13, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 15.
 
-The resulting transaction will look similar to this. We are creating three cells using the Data10 type script, and all are the same except for the data contained within. 
+On line 14 we convert our message to a hex string, and then add it to the structure on line 15. 
 
-![](../.gitbook/assets/create-transaction-structure%20%285%29.png)
+The resulting transaction will look similar to this. We are creating three cells using the DataCap type script, and all are the same except for the data contained within. 
 
-### Consuming Cells with the Data10 Type Script
+![](../.gitbook/assets/create-transaction-structure%20%286%29.png)
 
-Next, we will look at the relevant parts of the `consumeCellsWithData10Type()` function. This function generates and executes a transaction that will consume the cells we just created that use the Data10 type script.
+### Consuming Cells with the DataCap Type Script
+
+Next, we will look at the relevant parts of the `consumeCellsWithDataCapType()` function. This function generates and executes a transaction that will consume the cells we just created that use the DataCap type script.
 
 ```javascript
-// Add the cell deps for the default lock script and Data10 type script.
+// Add the cell deps for the default lock script and DataCap type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
+const cellDep = {dep_type: "code", out_point: dataCapCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-Just like with the creation function, we add cell deps for the default lock script and the Data10 type script. The cells we created use the Data10 type script, but they are secured by the default lock. Both will execute on the inputs, so both require cell deps.
+Just like with the creation function, we add cell deps for the default lock script and the DataCap type script. The cells we created use the DataCap type script, but they are secured by the default lock. Both will execute on the inputs, so both require cell deps.
 
 ```javascript
-// Add the Data10 cells to the transaction. 
+// Add the DataCap cells to the transaction. 
 const lockScript1 = addressToScript(address1);
+const dataCapSize1 = intToU64LeHexBytes(20);
 const typeScript1 =
 {
-	code_hash: dataFileHash1,
-	hash_type: "data",
-	args: "0x"
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: dataCapSize1
 };
 const query = {lock: lockScript1, type: typeScript1};
 const cellCollector = new CellCollector(indexer, query);
 for await (const cell of cellCollector.collect())
-	transaction = transaction.update("inputs", (i)=>i.push(cell));
+    transaction = transaction.update("inputs", (i)=>i.push(cell));
 ```
 
-Here we add the cells with the Data10 type script to the transaction. Instead of using the `collectCapacity()` library function to locate the cells, we are using the `CellCollector()` directly. We're doing this because the `collectCapacity()` function allows us to specify the lock script, but not the type script. We want to query using both so we only collect cells that are owned by us and use that specific type script.
+Here we add the cells with the DataCap type script to the transaction. Instead of using the `collectCapacity()` library function to locate the cells, we are using the `CellCollector()` directly. We're doing this because the `collectCapacity()` function allows us to specify the lock script, but not the type script. We want to query using both so we only collect cells that are owned by us and use that specific type script.
 
-On line 9, we specify the `lock` and `type`. We could also specify `data` here, but then we would have to use three different queries to locate our cells. We're more interested in using a single query to find all the cells.
+On line 10, we specify the `lock` and `type`. We could also specify `data` here, but then we would have to use three different queries to locate our cells. We're more interested in using a single query to find all the cells.
 
-On lines 11 and 12, we add all the cells found to the transaction. This will add the three cells we created, but if there were more cells it would continue to loop, adding them all.
+On lines 12 and 13, we add all the cells found to the transaction. This will add the three cells we created, but if there were more cells it would continue to loop, adding them all.
 
 The resulting transaction will look similar to this.
 
-![](../.gitbook/assets/consume-transaction-structure%20%285%29.png)
+![](../.gitbook/assets/consume-transaction-structure%20%286%29.png)
 
-A type script executes on both inputs and outputs, so the Data10 type script will execute here. It will query the output group, but it won't find anything. There is one output, but that doesn't have the same type script, so it will not be included when the output group is queried. Since there are no Data10 cells to validate, it will exit with success, allowing the cells to be consumed.
+In the image, the three input DataCap cells are the same, except for the data contained within. Only one type script is pictured due to space considerations, but all three are the same.
+
+A type script executes on both inputs and outputs, so the DataCap type script will execute here. It will query the output group, but it won't find anything. There is one output, but that doesn't have the same type script, so it will not be included when the output group is queried. Since there are no DataCap cells to validate, it will exit with success, allowing the cells to be consumed.
 
