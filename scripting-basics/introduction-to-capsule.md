@@ -1,6 +1,6 @@
 # Introduction to Capsule
 
-Capsule is a development framework for used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project. We will give a quickstart here to cover the basics.
+Capsule is a development framework for used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project. We will give a quickstart here to cover the basics of how a project is structured, and how testing is performed.
 
 ![](../.gitbook/assets/capsule.jpg)
 
@@ -46,7 +46,7 @@ Rewrite ckb_capsule.toml
 Done
 ```
 
-This initializes a capsule project called `myproject` and creates a single contract in the project called `myproject` within it. You can create as many contracts as you would like within a project, but we will start with just one.
+This initializes a capsule project called `myproject` and creates a single contract in the project called `myproject` within it. You can create as many contracts as you would like within a project using the `capsule new-contract` command, but we will start with the included default script.
 
 Enter the project directory using `cd myproject`, then use the following command to build the project.
 
