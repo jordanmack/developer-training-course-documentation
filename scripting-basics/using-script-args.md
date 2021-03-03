@@ -6,9 +6,9 @@ In an earlier lesson, we created the Data10 type script, which only allows cells
 
 ![](../.gitbook/assets/valid-invalid%20%282%29.png)
 
-On the left of the image is a cell that uses the `datacap` type script. In the type script args, the size has been set to `11` bytes. The data area of the cell contains a string that is 11 bytes. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
+On the left of the image is a cell that uses the `datacap` type script. In the type script args, the size has been set to `11` bytes. The data area of the cell contains a string that is exactly 11 bytes. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
 
-On the right is a similar cell using the `datacap` type script, but the data area contains a string much larger than 10 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
+On the right is a similar cell using the `datacap` type script, but the data limit has been set to 20 bytes in the args. The data area contains a string larger than 20 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 
 ### Script Logic
 
@@ -34,13 +34,15 @@ function main()
 }
 ```
 
-On line 3, we load the output group. When this is called from a type script, the output group only includes only the output cells that have the same type script. The outputs could contain many different cells, but this script is only concerned with those using the Data10 type script, which is why we use the output group instead of just the outputs.
+On line 3, we load the max data size limit from the args.
 
-On lines 4 to 10, we cycle through every cell in the output group, checking the data field of each one. If any of them have data larger than 10 bytes, an error is returned immediately. We only check the outputs, because that is when the cell is created. When the cell is used as an input, we don't need to check again. This is because we already checked when the cell was created, and cells are immutable once created.
+On line 5, we load the output group. When this is called from a type script, the output group only includes only the output cells that have the same type script. The outputs could contain many different cells, but this script is only concerned with those using the DataCap type script, which is why we use the output group instead of just the outputs.
 
-On line 12, we return successfully after no errors are found.
+On lines 6 to 12, we cycle through every cell in the output group, checking the data field of each one. If any of them have data larger than `max_data_size` bytes, an error is returned. We only check the outputs, because that is when the cell is created. When the cell is used as an input, we don't need to check again. This is because we already checked when the cell was created, and cells are immutable once created.
 
-Now let's look at the real version of the type script, written in Rust. This is located in the `entry.rs` file within the directory `developer-training-course-scripts/contracts/data10/src`.
+On line 14, we return successfully after no errors are found.
+
+Now let's look at the real version of the type script, written in Rust. This is located in the `entry.rs` file within the directory `developer-training-course-scripts/contracts/datacap/src`.
 
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
@@ -49,7 +51,8 @@ use core::result::Result;
 // Import CKB syscalls and structures.
 // https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/index.html
 use ckb_std::ckb_constants::Source;
-use ckb_std::high_level::{load_cell_data, QueryIter};
+use ckb_std::ckb_types::{bytes::Bytes, prelude::*};
+use ckb_std::high_level::{load_cell_data, load_script, QueryIter};
 
 // Import our local error codes.
 use crate::error::Error;
@@ -57,10 +60,25 @@ use crate::error::Error;
 // Main entry point.
 pub fn main() -> Result<(), Error>
 {
+    // Load arguments from the current script.
+    let script = load_script()?;
+    let args: Bytes = script.args().unpack();
+    
+    // Verify that correct length of arguments was given.
+    if args.len() != 8
+    {
+        return Err(Error::ArgsLen);
+    }
+    
+    // Load the cell_data_limit from the script args.
+    let mut buffer = [0u8; 8];
+    buffer.copy_from_slice(&args[0..8]);
+    let cell_data_limit = u64::from_le_bytes(buffer);
+    
     // Load the cell data from each cell.
     for data in QueryIter::new(load_cell_data, Source::GroupOutput)
     {
-        if data.len() as u64 > 10u64
+        if data.len() as u64 > cell_data_limit
         {
             return Err(Error::DataLimitExceeded);
         }
@@ -70,19 +88,23 @@ pub fn main() -> Result<(), Error>
 }
 ```
 
-Lines 1 to 10 are all imports of dependencies.
+Lines 1 to 11 are all imports of dependencies.
 
 * The `core` library is an alternative to the Rust standard library that has some basic structures and types that work in `no_std` mode.
 * The `ckb_std` library is the standard library used for developing Nervos scripts in Rust.
-* Line 10 imports the custom error codes we have created for our script.
+* Line 11 imports the custom error codes we have created for our script.
 
-Lines 13 to 25 contain the main logic for our type script. The Rust syntax is a little more complex than our pseudo-code, but code flow is very similar, and the length of the code isn't much longer.
+Lines 13 to 41 contain the main logic for our type script. The Rust syntax is a little more complex than our pseudo-code since we have to do more validation, but the code flow is very similar.
 
- On line 16, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
+On line 17 and 18 we load the raw bytes from the script's `args`. On lines 21 to 24 verify that the data in the `args` is exactly 8 bytes. Our script expects a u64 value, which is always 8 bytes. If the `args` length is not the expected size, we return an `ArgsLen` error. The data we retrieved from the `args` is still raw data at this point.
 
-On line 18, we check the length of the data. If the data is longer than 10, we return the error `DataLimitExceeded`.
+On lines 27 to 29 we convert the data from the `args` to a u64 value. We don't need to do any kind of validation here because we know that the data is exactly 8 bytes, and this can always convert into an u64 successfully.
 
-On line 24, if no errors were detected, we return success.
+ On line 32, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
+
+On line 34, we check the length of the data. If the data is longer than `cell_data`\_`limit`, we return the error `DataLimitExceeded`.
+
+On line 40, if no errors were detected, we return success.
 
 ### Usage in Lumos
 

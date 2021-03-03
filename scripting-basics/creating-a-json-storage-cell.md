@@ -32,7 +32,7 @@ function main()
 
 On line 3, we load the output group. When this is called from a type script, it includes only the output cells that have the same type script. The outputs could contain many different cells, but this script is only concerned with those using the `jsoncell` type script.
 
-On lines 4 to 10, we cycle through every cell in the output group, checking the data field of each one. If any of them contain invalid JSON data, an error is returned immediately. We only check the outputs, because that is when the cell is created. When the cell is used as an input, we don't need to check again. This is because we already checked when the cell was created, and cells are immutable once created.
+On lines 4 to 10, we cycle through every cell in the output group, checking the data field of each one. If any of them contain invalid JSON data, an error is returned. We only check the outputs, because that is when the cell is created. When the cell is used as an input, we don't need to check again. This is because we already checked when the cell was created, and cells are immutable once created.
 
 On line 12, we return successfully after no errors are found.
 
