@@ -4,7 +4,7 @@ Using a type script, we can create a cell that only allows a limited amount of d
 
 ![](../.gitbook/assets/valid-invalid%20%281%29.png)
 
-On the left of the image is a cell that uses the `data10` type script. The data area of the cell contains a string that is 10 bytes or less. If this cell were put into a transaction as an output, meaning we are creating this cell, the type script would execute without error, allowing the transaction to proceed.
+On the left of the image is a cell that uses the `data10` type script. The data area of the cell contains a string that is 10 bytes or less. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
 
 On the right is a similar cell using the `data10` type script, but the data area contains a string much larger than 10 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 

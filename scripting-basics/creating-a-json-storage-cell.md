@@ -4,7 +4,7 @@ Using a type script, we can create a cell that only allows valid JSON strings to
 
 ![](../.gitbook/assets/valid-invalid.png)
 
-On the left of the image is a cell that uses the `jsoncell` type script. The data area of the cell contains a valid JSON string. If this cell were put into a transaction as an output, meaning we are creating this cell, the type script would execute without error, allowing the transaction to proceed.
+On the left of the image is a cell that uses the `jsoncell` type script. The data area of the cell contains a valid JSON string. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
 
 On the right is a similar cell using the `jsoncell` type script, but the data area contains invalid JSON. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 

@@ -1,12 +1,14 @@
 # Using Script Args
 
-Using a type script, we can create a cell that only allows a limited amount of data to be stored within it. Any time a cell is created, the type script will read the data that the cell is being created with and validate the size of data as being 10 bytes or less. Trying to create a cell containing more than 10 bytes of data will result in the transaction being rejected. We will call this the "Data10" type script.
+In the previous chapter, we learned how to use lock script args in a Lumos transaction. Now we will learn how a script uses args. Lock scripts and type scripts both use args the exact same way. We will use a type script for this example. 
 
-![](../.gitbook/assets/valid-invalid%20%281%29.png)
+In an earlier lesson, we created the Data10 type script, which only allows cells to be created with a maximum of 10 bytes of data. In the script, we hardcoded the limit to 10 bytes. This works, but we have to create a new script if we want to change the size limit. We can avoid this limitation by reading the limit from the script's args field. We will call this the "DataCap" type script.
 
-On the left of the image is a cell that uses the `data10` type script. The data area of the cell contains a string that is 10 bytes or less. If this cell were put into a transaction as an output, meaning we are creating this cell, the type script would execute without error, allowing the transaction to proceed.
+![](../.gitbook/assets/valid-invalid%20%282%29.png)
 
-On the right is a similar cell using the `data10` type script, but the data area contains a string much larger than 10 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
+On the left of the image is a cell that uses the `datacap` type script. In the type script args, the size has been set to `11` bytes. The data area of the cell contains a string that is 11 bytes. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
+
+On the right is a similar cell using the `datacap` type script, but the data area contains a string much larger than 10 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 
 ### Script Logic
 
@@ -17,10 +19,12 @@ Let's take a look at it in pseudo-code first to understand the logic.
 ```javascript
 function main()
 {
+    max_data_size = integer_from_binary(args);
+
     outputGroup = load_output_group();
     for cell in outputGroup
     {
-        if(cell.data.length() > 10)
+        if(cell.data.length() > max_data_size)
         {
             return 1;
         }
