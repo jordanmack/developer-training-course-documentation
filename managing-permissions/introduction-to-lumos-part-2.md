@@ -2,9 +2,9 @@
 
 Complete the transaction in `index.js` found in the folder `Lab-Unlocking-a-2-3-Multi-Sig-Cell-Exercise` by adding code and values as necessary.
 
-Your task is to create the multi-sig configuration by filling in the addresses and S/R/M/N values, then create the multi-sig script, populate the cell deps, create the proper witness placeholders, then provide the necessary signatures.
+You have two tasks in this lab. Firstly, create the multi-sig configuration by filling in the addresses and S/R/M/N values, then prepare the multi-sig script and deploy it. Secondly, consume this newly created multi-sig cell - populate the cell deps, create the proper witness placeholders, then provide the necessary signatures.
 
-Your resulting transaction should contain:
+Your second resulting transaction should contain:
 
 * One multi-sig input cell.
 * One or more additional input cells from `address1` to use as capacity.
@@ -20,10 +20,10 @@ In this lab exercise, we will describe the syntax, but it is up to you to constr
    ```text
    ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e
    ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37
-   ckt1qyqywrwdchjyqeysjegpzw38fvandtktdhrs0zaxl4
+   ckt1qyq2a6ymy7fjntsc2q0jajnmljt690g4xpdsyw4k5f
    ```
 
-2. Configure the S/R/M/N values to require **any two** of the authorized accounts to sign, but one of them **must be** `ckt1...xz4e`.
+2. Configure the S/R/M/N values to require **any two** of the authorized accounts to sign, but one of them **must be** `ckt1...4k5f`.
 3. Configure the `multisigScript` as a hex string consisting of the S/R/M/N values, followed by the hashed public keys of the authorized accounts.
    * Hint: You can use Lumos' `addressToScript()` function to convert an address to a lock script object. The \`args\` values are the hashed public keys you need. Make sure your hex string does not include extra "0x" hex prefixes in the middle when you concatenate values.
 4. Configure the cell deps as needed.
