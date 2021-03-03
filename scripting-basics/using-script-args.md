@@ -134,7 +134,7 @@ This is the code that adds cell deps to the transaction. On line 2, the cells de
 ```javascript
 // Create cells using the DataCap type script.
 const messages = ["HelloWorld", ["Foo Bar"], "1234567890"];
-for(let [i, message] of messages.entries())
+for(let message of messages)
 {
     const outputCapacity1 = ckbytesToShannons(500n);
     const lockScript1 = addressToScript(address1);
