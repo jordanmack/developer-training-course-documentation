@@ -29,11 +29,6 @@
 * [Using Lock Args](managing-permissions/using-lock-args.md)
 * [Using Multiple Lock Args](managing-permissions/using-multiple-lock-args.md)
 * [Using a Witness](managing-permissions/using-a-witness.md)
-* [Deconstructing the Default Lock Script](managing-permissions/using-the-default-lock-script.md)
-* [Lab: Sending From Multiple Accounts Using the Default Lock Script](managing-permissions/lab-sending-from-multiple-accounts-using-the-default-lock-script.md)
-* [Using the Multi-Sig Lock Script](managing-permissions/untitled-2.md)
-* [Lab: Creating a 2/3 Multi-Sig Cell](managing-permissions/lab-multi-sig.md)
-* [Lab: Unlocking a 2/3 Multi-Sig](managing-permissions/introduction-to-lumos-part-2.md)
 
 ## Scripting Basics
 
@@ -43,9 +38,15 @@
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
 
-## Token Basics
+## Diving Into Lock Scripts
 
-## Dapp Basics
+* [Deconstructing the Default Lock Script](diving-into-lock-scripts/using-the-default-lock-script.md)
+* [Lab: Sending From Multiple Accounts Using the Default Lock Script](diving-into-lock-scripts/lab-sending-from-multiple-accounts-using-the-default-lock-script.md)
+* [Using the Multi-Sig Lock Script](diving-into-lock-scripts/untitled-2.md)
+* [Lab: Creating a 2/3 Multi-Sig Cell](diving-into-lock-scripts/lab-multi-sig.md)
+* [Lab: Unlocking a 2/3 Multi-Sig](diving-into-lock-scripts/introduction-to-lumos-part-2.md)
+
+## Unused
 
 ---
 
