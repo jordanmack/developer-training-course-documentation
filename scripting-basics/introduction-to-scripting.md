@@ -9,7 +9,7 @@ Nervos is based on the Cell Model, which we first introduced earlier. This is si
 
 Ethereum uses the Account Model, which is similar to having an account at the bank. Your account has a single number that represents your balance. You can also have balances for other tokens. Ultimately, every balance amounts to a single number that is attached to an account and every account is a representation of a user's public key or an on-chain smart contract. Every action that occurs on the blockchain can be described in a simplified way as a change to a balance on an account.
 
-Nervos uses the Cell Model, which cannot be compared to an account at the bank. It's more like having multiple smaller sums of money stored in multiple different safes. Each safe might have a different amount of money, and there isn't a single number that represents the total amount you have. Just as we demonstrated earlier, your total balance is the total amount of value that is stored in all cells.
+Nervos uses the Cell Model, which cannot be compared to an account at the bank. It's more like having multiple smaller sums of money stored in multiple different safes. Each safe might have a different amount of money, and there isn't a single number that represents the total amount you have. Your total balance is the total amount of value that is stored in all the safes \(known as cells\). Every cell has an owner, that could be linked to a user's public key or an on-chain script. Every action that occurs on the blockchain can be described in a simplified way as a change to the balance of a cell.
 
 ### Contract Oriented vs. Transaction Oriented
 
@@ -19,7 +19,7 @@ Nervos' programming model is transaction-oriented. There are no methods on a con
 
 ![](../.gitbook/assets/contract-vs-transaction.png)
 
-This image shows how a basic counter would be implemented on a contract-oriented model vs a transaction-oriented model. In both models, the counter can be increased by exactly 1 per transaction. In the contract-oriented model, a transaction contains a function call, and that call is executed on-chain to change the state. In the transaction-oriented model, the transaction contains both the old state and the new state that we want to change it to. The transaction is validated on-chain, and if it passes the state is updated.
+This image shows how a basic counter would be implemented on a contract-oriented model vs. a transaction-oriented model. In both models, the counter can be increased by exactly 1 per transaction. In the contract-oriented model, a transaction contains a function call, and that call is executed on-chain to change the state. In the transaction-oriented model, the transaction contains both the old state and the new state that we want to change it to. The transaction is validated on-chain, and if it passes the state is updated.
 
 In the example image, we don't use cells or talk about inputs and outputs. This is because we are describing the process at a high conceptual level so it can be more easily compared. On Nervos, the transaction would look more like this.
 
@@ -94,5 +94,5 @@ When searching for cells that exist on the blockchain, the lock script and type 
 
 The lock script validates authority. In more simplistic terms, a lock script represents a particular owner. If we search for cells with a specific lock script, we are searching for cells with a specific owner.
 
-The lock script validates state transitions. In simplistic terms, a type script defines the behavior of a cell. If we search for cells with a specific type script, we are searching for cells that all exhibit common behavior; a specific type of cell.
+The type script validates state transitions. In simplistic terms, a type script defines the behavior of a cell. If we search for cells with a specific type script, we are searching for cells that all exhibit common behavior; a specific _type_ of cell.
 
