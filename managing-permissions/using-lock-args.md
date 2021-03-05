@@ -31,7 +31,7 @@ function lockScript(args, input_cells)
 }
 ```
 
-This lock is similar to the "CKB 500" example from the previous topic, but there are a few changes. This code will unlock only if there is at least one input cell in the transaction that has a capacity equal to a specific amount. That specific amount is contained within the lock's `args` field. We will call this the "Input Capacity Check Lock" going forward, or "ICC Lock" for short.
+This lock is similar to the "CKB 500" example from the previous lesson, but there are a few changes. This code will unlock only if there is at least one input cell in the transaction that has a capacity equal to a specific amount. That specific amount is contained within the lock's `args` field. We will call this the "Input Capacity Check Lock" going forward, or "ICC Lock" for short.
 
 On line 3, the `args` data is converted from binary to an integer, and it contains the capacity amount required. The `args` data that we are reading is that which was added to the cell's lock script when it was created. We'll come back to this subject in a moment.
 

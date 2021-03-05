@@ -56,7 +56,7 @@ Lumos must be initialized with a configuration file before it can be used for th
 const indexer = await initializeLumosIndexer(nodeUrl);
 ```
 
-Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. In the next topic, we will look at what this is doing under the hood.
+Next, we initialize the Lumos Indexer. The Indexer is a tool that is used to locate cells quickly. We will be covering the Indexer in more depth later. The library function `initializeLumosIndexer()` is a facade that simplifies the code to improve readability. In the next lesson, we will look at what this is doing under the hood.
 
 ```javascript
 // Create a transaction skeleton.

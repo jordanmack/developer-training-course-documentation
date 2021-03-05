@@ -80,7 +80,7 @@ This function is used to collect cells for use as capacity in a transaction. It 
 Looking at line 15, it takes the following arguments:
 
 * `indexer` is an instance of the Lumos indexer that is initialized and fully synced with a Nervos CKB node.
-* `lockScript` is something we will cover in one of the next topics. For now, think of it as the owner of a cell.
+* `lockScript` is something we will cover in one of the next lessons. For now, think of it as the owner of a cell.
 * `capacityRequired` is the amount of CKBytes, in Shannons, that are needed to complete our transaction.
 
 Looking at line 17 we see this:

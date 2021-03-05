@@ -177,7 +177,7 @@ transaction = addDefaultWitnessPlaceholders(transaction);
 const signedTx = signTransaction(transaction, privateKey1);
 ```
 
-Lastly, we add the necessary witness placeholders and sign the transaction. In the last topic, we didn't need to add signatures because the ICC Lock does not check them. The OCC Lock also does not check signatures. Do you know why we need to add signatures to this transaction?
+Lastly, we add the necessary witness placeholders and sign the transaction. In the last lesson, we didn't need to add signatures because the ICC Lock does not check them. The OCC Lock also does not check signatures. Do you know why we need to add signatures to this transaction?
 
 The reason is that we added more input cells owned by `address1` because we need additional capacity to complete the transaction. These cells use the default lock script, and therefore always require a signature.
 

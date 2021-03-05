@@ -40,7 +40,7 @@ Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. I
 
 ### Deploying the Always Success Binary
 
-Let's go through the `deployAlwaysSuccessBinary()` function. This function generates and executes and transaction that will deploy the always success binary to a cell so it can be executed on-chain in lock scripts. Some of the code at the beginning and end is redundant from previous topics, so we will only cover the relevant code.
+Let's go through the `deployAlwaysSuccessBinary()` function. This function generates and executes and transaction that will deploy the always success binary to a cell so it can be executed on-chain in lock scripts. Some of the code at the beginning and end is redundant from previous lessons, so we will only cover the relevant code.
 
 ```javascript
 // Create a cell with data from the specified file.
@@ -148,7 +148,7 @@ const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future topic.
+The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
 If you look closely at the code in `createCellWithAlwaysSuccessLock()` and `consumeCellWithAlwaysSuccessLock()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
 
