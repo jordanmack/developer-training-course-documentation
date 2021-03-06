@@ -203,5 +203,5 @@ Lines 6 to 9 are the standard errors that could be returned from the CKB node. L
 
 Line 11 is our custom error. We can add as many as are needed here. Any time a script fails an error code will be returned. This is very useful for debugging and testing.
 
-### 
+Now that you understand the basic structure of a project, you will be able to better understand the example scripts. We will cover more of Capsule's features in another lesson.
 
