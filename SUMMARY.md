@@ -52,4 +52,5 @@
 
 * [Unused Content](unused-content.md)
 * [Understanding Lock Value Relationships](understanding-lock-value-relationships.md)
+* [Capsule Testing](capsule-testing.md)
 
