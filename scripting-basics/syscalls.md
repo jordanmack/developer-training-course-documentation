@@ -1,5 +1,7 @@
 # Syscalls
 
+
+
 | CKB-STD High-Level Function | CKB-STD Syscall Function | Syscall RFC |
 | :--- | :--- | :--- |
 |  | [debug\(\)](https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/syscalls/fn.debug.html) | [ckb\_debug\(\)](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0009-vm-syscalls/0009-vm-syscalls.md#debug) |
