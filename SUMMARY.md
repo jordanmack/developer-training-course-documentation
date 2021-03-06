@@ -46,11 +46,3 @@
 * [Lab: Creating a 2/3 Multi-Sig Cell](diving-into-lock-scripts/lab-multi-sig.md)
 * [Lab: Unlocking a 2/3 Multi-Sig](diving-into-lock-scripts/introduction-to-lumos-part-2.md)
 
-## Unused
-
----
-
-* [Unused Content](unused-content.md)
-* [Understanding Lock Value Relationships](understanding-lock-value-relationships.md)
-* [Capsule Testing](capsule-testing.md)
-
