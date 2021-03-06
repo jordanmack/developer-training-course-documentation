@@ -22,13 +22,13 @@
 * [Updating Data in a Cell](transactions/updating-data-in-a-cell.md)
 * [Lab: Updating Data in a Cell](transactions/lab-updating-data-in-a-cell.md)
 
-## Managing Permissions
+## Using Lock Scripts
 
-* [Using a Custom Lock Script](managing-permissions/using-a-custom-lock-script.md)
-* [Conditional Unlocking](managing-permissions/conditional-unlocking.md)
-* [Using Lock Args](managing-permissions/using-lock-args.md)
-* [Using Multiple Lock Args](managing-permissions/using-multiple-lock-args.md)
-* [Using a Witness](managing-permissions/using-a-witness.md)
+* [Using a Custom Lock Script](using-lock-scripts/using-a-custom-lock-script.md)
+* [Conditional Unlocking](using-lock-scripts/conditional-unlocking.md)
+* [Using Lock Args](using-lock-scripts/using-lock-args.md)
+* [Using Multiple Lock Args](using-lock-scripts/using-multiple-lock-args.md)
+* [Using a Witness](using-lock-scripts/using-a-witness.md)
 
 ## Scripting Basics
 
