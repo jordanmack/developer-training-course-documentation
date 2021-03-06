@@ -37,6 +37,7 @@
 * [Creating a Limited Data Cell](scripting-basics/creating-a-limited-data-cell.md)
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
+* [Syscalls](scripting-basics/syscalls.md)
 
 ## Diving Into Lock Scripts
 
