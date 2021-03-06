@@ -1,6 +1,12 @@
 # Syscalls
 
+Scripts can access any information about the transaction that it was included in. This information is retrieved by the script during execution by using [CKB-VM syscalls](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0009-vm-syscalls/0009-vm-syscalls.md).
 
+Scripts written in C will directly use the syscalls referenced in the RFC. Scripts written in Rust will use the CKB-STD library that provides both [high-level functions](https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/high_level/index.html) and [syscalls](https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/syscalls/index.html). Developers are recommended to use Rust whenever possible.
+
+In the table below, you will see the relationship between the available syscall functions. Rust developers will want to use the high-level functions most of the time, but on occasion using a syscall may be necessary.
+
+You don't need to memorize all the functions below, but it's a good idea to read through them so you have a general idea about what kind of information is available.   
 
 | CKB-STD High-Level Function | CKB-STD Syscall Function | Syscall RFC |
 | :--- | :--- | :--- |
