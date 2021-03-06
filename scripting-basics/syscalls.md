@@ -6,7 +6,7 @@ Scripts written in C will directly use the syscalls referenced in the RFC. Scrip
 
 In the table below, you will see the relationship between the available syscall functions. Rust developers will want to use the high-level functions most of the time, but on occasion using a syscall may be necessary.
 
-You don't need to memorize all the functions below, but it's a good idea to read through them so you have a general idea about what kind of information is available.   
+You don't need to memorize all the functions below, but it's a good idea to read through them so you have a general idea about what kind of information is available. We will introduce the most commonly used functions in the lessons to follow. 
 
 | CKB-STD High-Level Function | CKB-STD Syscall Function | Syscall RFC |
 | :--- | :--- | :--- |
