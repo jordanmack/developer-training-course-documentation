@@ -72,3 +72,104 @@ This image is of the AF binary being used in type script transactions. Transacti
 
 All three transactions would fail. In transaction \#1, \#2, and \#3 the AF script binary would execute and return an error that would cause the transaction to be rejected.
 
+### Usage in Lumos
+
+Next, we will use the always success binary as a type script in a Lumos transaction example. We have used the always success binary as a lock script previously. Our code will deploy the binary, create some cells using the always success binary, then consume those cells that we just created to reclaim that capacity.
+
+The code we will be covering here is located in the `index.js` file in the `Using-Type-Scripts-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+Starting with the `main()` function, you will see our code has the usual four sections.
+
+![](../.gitbook/assets/example-flow.png)
+
+The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
+
+### Creating the Always Success Type Script Cells
+
+Next, let's look at the `createCellWithAlwaysSuccessTypeScript()` function. This function generates and executes a transaction that will create cells using the always success type script. We'll skip straight to the relevant parts.
+
+```javascript
+// Add the cell deps for the lock script and type script.
+transaction = addDefaultCellDeps(transaction);
+const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+```
+
+This is the code that adds cell deps to the transaction. On lines 3 and 4 the code is adding the always success binary as a cell dep. In the last chapter, we used the always success binary as a lock script, and we didn't have to add it as a cell dep while creating the cells. This is because lock scripts do not execute on outputs, so the cell dep isn't needed. Now we are using the always success binary as a type script, and type scripts execute on inputs and outputs. Therefore, we need to add it as a cell dep here.
+
+```javascript
+// Create cells using the always success type script.
+const outputCapacity1 = ckbytesToShannons(94n);
+const lockScript1 =
+{
+    code_hash: DEFAULT_LOCK_HASH,
+    hash_type: "type",
+    args: lockArg1
+};
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output1, output1, output1));
+```
+
+This is the code that generates the cells using the always success type script. There are several things interesting about this code.
+
+On line 2, you see we are creating the cells with a capacity of 94 CKBytes. This number was picked because it is the bare minimum for this cell to be created. Most basic cells only require 61 CKBytes, because they don't use a type script. Remember, the structure of the cell itself is included in the overhead capacity requirements. A type script consists of a 32 byte code hash, a 1 byte hash type, and any args. If we look at lines 11 to 13, we see that it has a code hash, a hash type, and no args. This means our capacity requirements are `61 + 32 + 1 + 0 = 94`. When a cell uses a type script, 94 CKBytes is generally the minimum, and more may be required depending on the type script `args`. Remember, when creating a cell, the type script is optional, but the lock script is always required. It isn't possible to create a cell with only a type script, which is why the capacity requirements have a lower bound of 94 CKBytes.
+
+On lines 3 to 8 and 9 to 14, we define the lock script and type script that will be used. We are using the default lock script and the always success type script for this cell. Notice that the structure of the scripts is exactly the same, but with different information.
+
+On line 15, we create the cell structure. The type script is added as the value to the `type` key. If you compare it to previous examples, you will see that the `type` value was `null` when a type script was not used. 
+
+On line 16, we add our cell structure to the outputs three times, creating three cells.
+
+The resulting transaction will look similar to this.
+
+### Consuming Cells Using the Always Success Type Script
+
+Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessTypeScript()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success type script.
+
+```javascript
+// Add the cell deps for the lock script and type script.
+transaction = addDefaultCellDeps(transaction);
+const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+```
+
+This code is adding the cell deps to the transaction. It is identical to the code for when we create the cells.  Both the default lock script and the always success type script will be executing here, just like before, so we need both included in the cell deps.
+
+```javascript
+// Add the always success cell to the transaction.
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const query = {lock: lockScript1, type: typeScript1};
+const cellCollector = new CellCollector(indexer, query);
+for await (const cell of cellCollector.collect())
+    transaction = transaction.update("inputs", (i)=>i.push(cell));
+```
+
+This is the code that locates the cells we just created and adds them to our transaction.
+
+On lines 2 to 8, we are creating the lock script and type scripts that we will query for. These are exactly the same as when we created the cells.
+
+On line 9, we create the cell collection query that includes both the lock script and type script. On lines 10 to 12, we collect all the relevant cells and add them to the transaction.
+
+```javascript
+// Add input capacity cells.
+// const capacityRequired = ckbytesToShannons(61n) + txFee;
+// const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
+// transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
+```
+
+You may notice this code is still included, but it's commented out. This would add more capacity to the cell, but omitted it because we know it isn't necessary. We are consuming our always success type script cells that have 94 CKBytes of capacity each and converting them back into a single change cell that only requires 61 CKBytes of capacity. There will be more than enough capacity available for this transaction.
+
+The resulting transaction will look similar to this.
+
