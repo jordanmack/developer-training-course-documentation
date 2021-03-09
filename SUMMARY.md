@@ -33,8 +33,8 @@
 ## Scripting Basics
 
 * [Introduction to Scripting](scripting-basics/introduction-to-scripting.md)
-* [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Using Type Scripts](scripting-basics/using-type-scripts.md)
+* [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Syscalls](scripting-basics/syscalls.md)
 * [Creating a Limited Data Cell](scripting-basics/creating-a-limited-data-cell.md)
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
