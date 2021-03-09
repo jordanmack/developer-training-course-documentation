@@ -40,5 +40,21 @@ In the last chapter, we introduced the always success \(AS\) and always fail \(A
 
 The AS and AF scripts are two examples of script binaries that will function identically if they are used for the lock script or the type script. However, due to the difference of _when_ execution occurs, the end result will be different.
 
-Let's look at a lock script first
+Let's look at the AS binary being used in a lock script first.
+
+![](../.gitbook/assets/always-success-lock-script.png)
+
+Once again, we're using a simplified transaction representation that omits CKBytes and TX fees to make it easier to understand on a conceptual basis. Focus only on how the lock script would execute.
+
+Transaction \#1 is a minting operation. We are creating a cell with the AS lock script.
+
+Transaction \#2 is a transfer operation. We are transferring a cell using the AS lock script.
+
+Transaction \#3 is a burn operation. We are destroying a cell using the AS lock script.
+
+All three of these transactions would be successful. In transaction \#1, the AS lock script would not execute because lock scripts do not execute on outputs. In transactions \#2 and \#3, the AS lock script would execute successfully.
+
+![](../.gitbook/assets/always-fail-lock-script.png)
+
+
 
