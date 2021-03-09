@@ -40,7 +40,7 @@ In the last chapter, we introduced the always success \(AS\) and always fail \(A
 
 The AS and AF scripts are two examples of script binaries that will function identically if they are used for the lock script or the type script. However, due to the difference in _when_ execution occurs, the end results may be different.
 
-Let's take a look at these scenarios visually. Once again, we will use simplified transaction representations that omit CKBytes and TX fees to make it easier to understand on a conceptual basis. Focus only on how the lock script would execute.
+Let's take a look at these scenarios visually. Once again, we will use simplified transaction representations that omit requirements, such as CKBytes and TX fees, to make it easier to understand on a conceptual basis. Focus only on how the lock scripts and type scripts would execute.
 
 ![](../.gitbook/assets/always-success-lock-script.png)
 
@@ -69,4 +69,6 @@ Unlike the two previous examples, not all the transactions will have the same re
 ![](../.gitbook/assets/always-fail-type-script.png)
 
 This image is of the AF binary being used in type script transactions. Transactions \#1, \#2, and \#3 represent minting, transfer, and burn operations respectively.
+
+All three transactions would fail. In transaction \#1, \#2, and \#3 the AF script binary would execute and return an error that would cause the transaction to be rejected.
 
