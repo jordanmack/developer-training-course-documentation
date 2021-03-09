@@ -128,6 +128,8 @@ On line 16, we add our cell structure to the outputs three times, creating three
 
 The resulting transaction will look similar to this.
 
+![](../.gitbook/assets/create-transaction-structure%20%287%29.png)
+
 ### Consuming Cells Using the Always Success Type Script
 
 Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessTypeScript()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success type script.
@@ -172,4 +174,6 @@ On line 9, we create the cell collection query that includes both the lock scrip
 You may notice this code is still included, but it's commented out. This would add more capacity to the cell, but omitted it because we know it isn't necessary. We are consuming our always success type script cells that have 94 CKBytes of capacity each and converting them back into a single change cell that only requires 61 CKBytes of capacity. There will be more than enough capacity available for this transaction.
 
 The resulting transaction will look similar to this.
+
+![](../.gitbook/assets/consume-transaction-structure%20%287%29.png)
 
