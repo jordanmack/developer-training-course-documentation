@@ -38,13 +38,13 @@ Type scripts execute on both inputs and outputs. What if type scripts were like 
 
 In the last chapter, we introduced the always success \(AS\) and always fail \(AF\) scripts. These are the most simple scripts that can be created. The AS script will always execute successfully, and the AF script will always result in an error.
 
-The AS and AF scripts are two examples of script binaries that will function identically if they are used for the lock script or the type script. However, due to the difference of _when_ execution occurs, the end result will be different.
+The AS and AF scripts are two examples of script binaries that will function identically if they are used for the lock script or the type script. However, due to the difference in _when_ execution occurs, the end results may be different.
 
-Let's look at the AS binary being used in a lock script first.
+Let's take a look at these scenarios visually. Once again, we will use simplified transaction representations that omit CKBytes and TX fees to make it easier to understand on a conceptual basis. Focus only on how the lock script would execute.
 
 ![](../.gitbook/assets/always-success-lock-script.png)
 
-Once again, we're using a simplified transaction representation that omits CKBytes and TX fees to make it easier to understand on a conceptual basis. Focus only on how the lock script would execute.
+This image is of the AS binary being used in lock script transactions.
 
 Transaction \#1 is a minting operation. We are creating a cell with the AS lock script.
 
@@ -54,7 +54,19 @@ Transaction \#3 is a burn operation. We are destroying a cell using the AS lock 
 
 All three of these transactions would be successful. In transaction \#1, the AS lock script would not execute because lock scripts do not execute on outputs. In transactions \#2 and \#3, the AS lock script would execute successfully.
 
+![](../.gitbook/assets/always-success-type-script.png)
+
+This image is of the AS binary being used in type script transactions. Transactions \#1, \#2, and \#3 represent minting, transfer, and burn operations respectively.
+
+Once again, all three transactions would be successful. In transactions \#1, \#2, and \#3 the AS lock script would execute successfully.
+
 ![](../.gitbook/assets/always-fail-lock-script.png)
 
+This image is of the AF binary being used in lock script transactions. Transactions \#1, \#2, and \#3 represent minting, transfer, and burn operations respectively.
 
+Unlike the two previous examples, not all the transactions will have the same result. In transaction \#1, the AF lock script would not execute because lock scripts do not execute on outputs. In transactions \#2 and \#3, the AF lock script would execute with an error. Only transaction \#1 would be successful because the AF lock script would not execute. However, once this cell is created it would remain locked and unchangeable forever.
+
+![](../.gitbook/assets/always-fail-type-script.png)
+
+This image is of the AF binary being used in type script transactions. Transactions \#1, \#2, and \#3 represent minting, transfer, and burn operations respectively.
 
