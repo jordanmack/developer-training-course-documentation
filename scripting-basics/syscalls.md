@@ -88,3 +88,5 @@ When TokenA uses `GroupInput` and `GroupOutput`, it will only see the cells of T
 
 When TokenB uses `GroupInput` and `GroupOutput`, it will only see the cells of TokenB type. These are the single input cell with a green border, and the single output cell with a green border. This is shown in the two right columns of the above image.
 
+The use of `GroupInput` and `GroupOutput` works for type scripts as described, but it is slightly different for lock scripts. When a lock script uses `GroupInput`, the input cells with the same lock script will be returned. **When a lock script uses the `GroupOutput`, no cells will be returned.** The reason for this is that these groups are related to how scripts are being executed in CKB-VM, and lock scripts do not execute on outputs. We will describe exactly why this is later on. 
+
