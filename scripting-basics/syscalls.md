@@ -49,7 +49,7 @@ Using `QueryIter` is the preferred method of calling these functions because it 
 
 ## Sources
 
-Most of the syscalls also require a source. Here are the available sources:
+Most of the syscalls also require a source to be provided as an argument. Here are the available sources:
 
 ```rust
 pub enum Source {
