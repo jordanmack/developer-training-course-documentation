@@ -36,7 +36,7 @@
 * [Using Type Scripts](scripting-basics/using-type-scripts.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Validating Cells in a Transaction](scripting-basics/validating-cells-in-a-transaction.md)
-* [Syscalls](scripting-basics/syscalls.md)
+* [Syscalls and Sources](scripting-basics/syscalls.md)
 * [Creating a Limited Data Cell](scripting-basics/creating-a-limited-data-cell.md)
 * [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
