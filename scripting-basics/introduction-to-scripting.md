@@ -1,13 +1,12 @@
 # Introduction to Scripting
 
-Nervos allows for on-chain programmability using small programs known as   
-"scripts". This is what allows Nervos to achieve smart contract functionality that is similar to other blockchain platforms. However, Nervos' approach is significantly different than most other platforms.
+Nervos allows for on-chain programmability using small programs known as "scripts". This is what allows Nervos to achieve smart contract functionality that is similar to other blockchain platforms. However, Nervos' approach is significantly different than most other platforms.
 
 Nervos is based on the Cell Model, which we first introduced earlier. This is significantly different than the Account Model, which is used by most other platforms, including Ethererum. Both models can be used to create the same type of functionality, and build many of the same applications, but the approach that must be taken is conceptually very different.
 
 ### Account Model vs. Cell Model
 
-Ethereum uses the Account Model, which is similar to having an account at the bank. Your account has a single number that represents your balance. You can also have balances for other tokens. Ultimately, every balance amounts to a single number that is attached to an account and every account is a representation of a user's public key or an on-chain smart contract. Every action that occurs on the blockchain can be described in a simplified way as a change to a balance on an account.
+Ethereum uses the Account Model, which is similar to having an account at the bank. Your account has a single number that represents your balance. You can also have balances for other tokens. Every balance amounts to a single number that is attached to an account and every account is a representation of a user's public key or an on-chain smart contract. Every action that occurs on the blockchain can be described in a simplified way as a change to a balance on an account.
 
 Nervos uses the Cell Model, which cannot be compared to an account at the bank. It's more like having multiple smaller sums of money stored in multiple different safes. Each safe might have a different amount of money, and there isn't a single number that represents the total amount you have. Your total balance is the total amount of value that is stored in all the safes \(known as cells\). Every cell has an owner, that could be linked to a user's public key or an on-chain script. Every action that occurs on the blockchain can be described in a simplified way as a change to the balance of a cell.
 
