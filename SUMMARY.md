@@ -33,7 +33,7 @@
 ## Scripting Basics
 
 * [Introduction to Scripting](scripting-basics/introduction-to-scripting.md)
-* [Using Type Scripts](scripting-basics/using-type-scripts.md)
+* [Using Scripts](scripting-basics/using-type-scripts.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Counting Cells in a Transaction](scripting-basics/validating-cells-in-a-transaction.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)

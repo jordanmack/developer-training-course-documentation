@@ -1,4 +1,4 @@
-# Using Type Scripts
+# Using Scripts
 
 Nervos has two types of scripts, lock scripts and type scripts. We've worked with many lock scripts in the previous examples, and now we will start working with type scripts.
 
