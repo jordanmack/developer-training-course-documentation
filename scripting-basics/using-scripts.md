@@ -113,6 +113,10 @@ The always success script code does not use `args` in any way, so it doesn't nee
 
 Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
+The resulting generated transaction will look something like this.
+
+![](../.gitbook/assets/create-transaction-structure%20%288%29.png)
+
 ### Cell Deps
 
 Our lock script uses the `code_hash` and `hash_type` to determine **what** code should execute, but it does not specify **where** that code exists in the blockchain. This is where cell deps come into play.
