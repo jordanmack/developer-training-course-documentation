@@ -22,25 +22,28 @@
 * [Updating Data in a Cell](transactions/updating-data-in-a-cell.md)
 * [Lab: Updating Data in a Cell](transactions/lab-updating-data-in-a-cell.md)
 
-## Using Lock Scripts
-
-* [Using a Custom Lock Script](using-lock-scripts/using-a-custom-lock-script.md)
-* [Conditional Unlocking](using-lock-scripts/conditional-unlocking.md)
-* [Using Lock Args](using-lock-scripts/using-lock-args.md)
-* [Using Multiple Lock Args](using-lock-scripts/using-multiple-lock-args.md)
-* [Using a Witness](using-lock-scripts/using-a-witness.md)
-
 ## Scripting Basics
 
 * [Introduction to Scripting Part 1](scripting-basics/introduction-to-scripting.md)
 * [Introduction to Scripting Part 2](scripting-basics/introduction-to-scripting-part-2.md)
-* [Using Scripts](scripting-basics/using-type-scripts.md)
-* [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
-* [Counting Cells in a Transaction](scripting-basics/validating-cells-in-a-transaction.md)
-* [Syscalls and Sources](scripting-basics/syscalls.md)
-* [Creating a Limited Data Cell](scripting-basics/creating-a-limited-data-cell.md)
-* [Creating a JSON Storage Cell](scripting-basics/creating-a-json-storage-cell.md)
-* [Using Script Args](scripting-basics/using-script-args.md)
+
+## Using Lock Scripts \(Old\)
+
+* [Using a Custom Lock Script](using-lock-scripts-old/using-a-custom-lock-script.md)
+* [Conditional Unlocking](using-lock-scripts-old/conditional-unlocking.md)
+* [Using Lock Args](using-lock-scripts-old/using-lock-args.md)
+* [Using Multiple Lock Args](using-lock-scripts-old/using-multiple-lock-args.md)
+* [Using a Witness](using-lock-scripts-old/using-a-witness.md)
+
+## Scripting Basics \(Old\)
+
+* [Using Scripts](scripting-basics-old/using-type-scripts.md)
+* [Introduction to Capsule](scripting-basics-old/introduction-to-capsule.md)
+* [Counting Cells in a Transaction](scripting-basics-old/validating-cells-in-a-transaction.md)
+* [Syscalls and Sources](scripting-basics-old/syscalls.md)
+* [Creating a Limited Data Cell](scripting-basics-old/creating-a-limited-data-cell.md)
+* [Creating a JSON Storage Cell](scripting-basics-old/creating-a-json-storage-cell.md)
+* [Using Script Args](scripting-basics-old/using-script-args.md)
 
 ## Diving Into Lock Scripts
 
