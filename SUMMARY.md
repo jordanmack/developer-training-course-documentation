@@ -26,6 +26,7 @@
 
 * [Introduction to Scripting Part 1](scripting-basics/introduction-to-scripting.md)
 * [Introduction to Scripting Part 2](scripting-basics/introduction-to-scripting-part-2.md)
+* [Using Scripts](scripting-basics/using-scripts.md)
 
 ## Using Lock Scripts \(Old\)
 
