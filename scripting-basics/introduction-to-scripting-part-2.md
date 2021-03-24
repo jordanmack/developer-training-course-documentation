@@ -4,7 +4,7 @@
 
 We already mentioned that a script is a small program, but it is important to understand exactly what this means. In Nervos, a "script" is a very general term that indicates the code being executed to validate a transaction. This could refer to the data structure within a cell that indicates what script code should be executed or the script code binary that is executed. Often times "script" is used interchangeably with "smart contract" when speaking in a general sense.
 
-When we talk about a script as data structure, we're talking about the structure that contains the `code_hash`, `hash_type`, and `args` fields. You've used this structure several times in the Lumos examples. This is indicating what script code should be executed during transaction validation.
+When we talk about a script as data structure, we are talking about a structure that indicates what script code should execute, and what arguments should be passed to it. This script structure is used in every transaction. You already used it many times in the previous Lumos examples without realizing it. The `addressToScript()` function used to specify the owner of the cell generates this for us. In the next lesson, we will cover the details about this structure.
 
 When we talk about a script in terms of the script code, we're talking about a binary executable. This is a small program that is executed during transaction validation. The executable itself is Linux ELF executable that uses the RISC-V architecture. This means that if you have Linux installed on a computer with a RISC-V CPU you can execute this same binary natively without any modification. When executed on the blockchain, script code is executed in CKB-VM, a high-performance virtual machine that is emulating a RISC-V CPU.
 
