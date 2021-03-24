@@ -84,7 +84,7 @@ return outPoint;
 
 We're returning the out point of the cell we just created so that it can be used in the next transaction.
 
-### Creating a Cell with the Always Success Script
+### Creating a Cell with the Always Success Lock
 
 Next, let's look at the `createCells()` function. This function generates and executes a transaction that will create a cell using the always success script code as a lock script. Once again, we'll skip straight to the relevant parts.
 
