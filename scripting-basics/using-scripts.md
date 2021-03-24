@@ -1,14 +1,34 @@
 # Using Scripts
 
+In the previous chapter, we used the `addressToScript()` function to specify the owner of a cell. As the name indicates, this function converts an address into a script. Specifically, this function generates a lock script. This is possible because an address is actually just a lock script encoded in a way to make it human-readable. Let's take a deeper look at what is being generated when we run the following code.
 
+```javascript
+let lockScript = addressToScript("ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e");
+```
 
+When the above code is executed, `lockScript` will be set to the following.
 
+```javascript
+{
+    code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
+    hash_type: 'type',
+    args: '0x988a9c3e74c09dab76c8e41d481a71f4d36d772f'
+}
+```
 
+The `code_hash` and `hash_type` fields indicate what code should be executed. The `code_hash` value is a Blake2b hash that indicates what script code we need to execute, and `hash_type` indicates how we need to treat code hash in order to match it up properly. The combination of the two together specifies **what** code should execute. If this doesn't make sense yet, don't worry. Later in this lesson, we will use it in an example that will make it perfectly clear.
 
+The `args` value specifies the data that will be passed to the script when it executes. This is just like passing a few arguments to a command-line program. The value of the `args` field can be set to any value, and what is placed there is determined by the requirements of the script that is executing. 
 
+In the example above, the `code_hash` and `hash_type` values specify the script code for the default lock. The `args` value is Blake2b hash of the owner's public key. When the transaction is submitted to the network, the default lock's script code will be executed and passed the `args` value. Using the `args` value in combination with the other values in the transaction, the default lock can make the determination if proper credentials were provided for this cell. If proper credentials were provided, a value of `0` is returned, indicating that execution was successful. If improper credentials were provided, then an error code will be returned, indicating that execution was not successful and that the transaction is invalid.
 
+### The Always Success Script
 
-Let's take a look at the always success lock logic in pseudo-code.
+When any script executes, its purpose in doing so is to answer the question, "Is this transaction valid?" All scripts respond with a simple yes or no answer, in the form of an error code. A value of 0 means success and any other value means failure.
+
+When building and testing scripts, it is very common to use a special script known as the "always success" script. This script will always give a "yes" answer when executed.  
+
+Let's take a look at the always success script logic in pseudo-code.
 
 ```javascript
 function script()
@@ -17,30 +37,28 @@ function script()
 }
 ```
 
-The always success lock begins execution, then immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script that can be created.
+When the always success script is executed, it immediately returns with a value of 0, indicating success. There are no conditions here of any kind. This is the most simple script code that can be created.
 
+The always success script is particularly useful for development and testing because it allows the developer to focus their scope and not have to worry about all the details that would be required in a production environment. When building a type script, it is very common for developers to specify the always success script as the lock script. This allows the developer to ignore typical lock script requirements in a transaction since they know it will always unlock the cell. This allows the developer to focus their attention on the type script.
 
+The always success script should never be used as a lock script in a production environment. Anyone could consume the cell and immediately take the CKBytes without any permission. Since it is completely insecure, this is something we would only use for testing purposes.
 
+### Using the Always Success Script in Lumos
 
+Next, we will go through an example to use the always success script as a lock script in a transaction using Lumos. We're going to use a precompiled binary for this example to make things simpler. We will learn how to build and compile scripts our own scripts in a later lesson.
 
-
-
-### Using the Always Success Lock in Lumos
-
-Next, we will go through an example to use the always success lock in a transaction using Lumos. We're going to use a precompiled binary for this example to make things simpler. In the next lesson, we will learn how to build and compile scripts.
-
-Open the `index.js` file from the `Using-a-Custom-Lock-Script-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections.
+Open the `index.js` file from the `Using-Scripts-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections.
 
 ![](../.gitbook/assets/example-flow.png)
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
-2. Deploy Code - The `deployAlwaysSuccessBinary()` function creates a cell with the contents of the RISC-V binary located in the file `./files/always_success`. This is the always success lock binary executable.
-3. Create Cell - The `createCellWithAlwaysSuccessLock()` function creates a cell that uses the always success lock.
-4. Consume Cell - The `consumeCellWithAlwaysSuccessLock()` function consumes the cell with the always success lock that we just created.
+2. Deploy Code - The `deployCode()` function creates a cell with the contents of the RISC-V binary located in the file `./files/always_success`. This is the always success lock binary executable.
+3. Create Cells - The `createCells()` function creates a cell that uses the always success lock.
+4. Consume Cell - The `consumeCells()` function consumes the cell with the always success lock that we just created.
 
 ### Deploying the Always Success Binary
 
-Let's go through the `deployAlwaysSuccessBinary()` function. This function generates and executes and transaction that will deploy the always success binary to a cell so it can be executed on-chain in lock scripts. Some of the code at the beginning and end is redundant from previous lessons, so we will only cover the relevant code.
+Let's go through the `deployCode()` function. This function generates and executes and transaction that will deploy the always success binary to a cell so it can be executed on-chain in lock scripts. Some of the code at the beginning and end is redundant from previous lessons, so we will only cover the relevant code.
 
 ```javascript
 // Create a cell with data from the specified file.
@@ -50,7 +68,7 @@ const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: addres
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
-This code should look familiar since we've used it several times before. We're reading the always success lock binary into a hex string, then creating a cell with the contents.
+This code should look familiar since we've used it several times before. We're reading the always success binary into a hex string, then creating a cell with the contents.
 
 At the end of the function you will see this code:
 
@@ -66,19 +84,19 @@ return outPoint;
 
 We're returning the out point of the cell we just created so that it can be used in the next transaction.
 
-### Creating a Cell with the Always Success Lock
+### Creating a Cell with the Always Success Script
 
-Next, let's look at the `createCellWithAlwaysSuccessLock()` function. This function generates and executes a transaction that will create a cell using the always success lock. Once again, we'll skip straight to the relevant parts.
+Next, let's look at the `createCells()` function. This function generates and executes a transaction that will create a cell using the always success script code as a lock script. Once again, we'll skip straight to the relevant parts.
 
 ```javascript
 // Create a cell using the always success lock.
 const outputCapacity1 = ckbytesToShannons(41n);
 const lockScript1 =
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
-    args: "0x"
-}
+	code_hash: dataFileHash1,
+	hash_type: "data",
+	args: "0x"
+};
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
