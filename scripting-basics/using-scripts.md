@@ -103,7 +103,7 @@ transaction = transaction.update("outputs", (i)=>i.push(output1));
 
 There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
-The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
+The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. You may have noticed that the `hash_type` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
 
 ![](../.gitbook/assets/get-live-cell.png)
 
@@ -137,7 +137,7 @@ This method of providing resources enables code reuse in a way that is not possi
 
 ### Consuming a Cell with the Always Success Lock
 
-Now let's look at the relevant parts of the `consumeCellWithAlwaysSuccessLock()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success lock.
+Now let's look at the relevant parts of the `consumeCells()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success lock.
 
 ```javascript
 // Add the cell dep for the lock script.
@@ -155,7 +155,7 @@ function addDefaultCellDeps(transaction)
 }
 ```
 
-We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default Secp256k1 lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
+We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
 
 However, we will not be able to use the `locateCellDep` function with the always success binary we just loaded, because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
 
@@ -166,7 +166,7 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep))
 
 The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
-If you look closely at the code in `createCellWithAlwaysSuccessLock()` and `consumeCellWithAlwaysSuccessLock()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
+If you look closely at the code in `createCells()` and `consumeCells()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
 
 A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value is extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs, and we don't need to provide a cell dep to the always success binary since it isn't executing.
 
@@ -175,7 +175,7 @@ A lock script executes when we need to check permissions to access a cell. We on
 const input = await getLiveCell(nodeUrl, alwaysSuccessCellOutPoint);
 transaction = transaction.update("inputs", (i)=>i.push(input));
 
-// Add input cells.
+// Add input capacity cells.
 const capacityRequired = ckbytesToShannons(61n) + txFee;
 const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
