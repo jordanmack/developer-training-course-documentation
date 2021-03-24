@@ -27,6 +27,7 @@
 * [Introduction to Scripting Part 1](scripting-basics/introduction-to-scripting.md)
 * [Introduction to Scripting Part 2](scripting-basics/introduction-to-scripting-part-2.md)
 * [Using Scripts](scripting-basics/using-scripts.md)
+* [Lab: Use the Always Success Lock](scripting-basics/lab-use-the-always-success-lock.md)
 
 ## Using Lock Scripts \(Old\)
 

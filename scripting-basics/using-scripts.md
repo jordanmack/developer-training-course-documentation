@@ -115,7 +115,7 @@ Even though this saves a little bit of space, it isn't practical to use in a pro
 
 The resulting generated transaction will look something like this.
 
-![](../.gitbook/assets/create-transaction-structure%20%288%29.png)
+![](../.gitbook/assets/create-transaction-structure%20%289%29.png)
 
 ### Cell Deps
 
