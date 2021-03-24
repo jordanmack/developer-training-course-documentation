@@ -107,11 +107,9 @@ The `lockScript1` variable defines the lock script for the cell. The `code_hash`
 
 ![](../.gitbook/assets/get-live-cell.png)
 
-The `args` value here is set to a 160-bit Blake2b hash of the owner's Secp256k1 public key. This is commonly known as the "lock arg". This identifies the owner of the cell, and their Secp256k1 private key is required to unlock it. Having this information allows the default lock script to determine who the owner is, and check if the correct signatures have been provided as proof that authorization was given.
+When you use the default lock script, the `args` field is always expected to have a hash of the public key. However, this specific requirement applies only to the default lock script. The `args` field can contain any data in any format. It is the script in use that dictates how the data in the `args` should be formatted, or if it is even needed at all.
 
-When you use the default lock script, the `args` field is always expected to have that 160-bit hash of the public key. However, it's important to recognize that this specific requirement applies only to the default lock script. The `args` field can contain any data in any format. It is the script in use that dictates how the data in the `args` should be formatted, or if it is even needed at all.
-
-This 160-bit lock arg takes up exactly 20 bytes of space. The always success lock does no validation of any kind, and therefore we don't need to put anything in the args at all. This saves that 20 bytes of space, and is the reason our cell only needs 41 CKBytes instead of the normal 61 CKBytes.
+The always success script code does not use `args` in any way, so it doesn't need to be included. This saves that 20 bytes of space, and is the reason our cell only needs 41 CKBytes instead of the normal 61 CKBytes.
 
 Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
 
