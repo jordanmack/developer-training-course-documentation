@@ -32,7 +32,8 @@
 
 ## Scripting Basics
 
-* [Introduction to Scripting](scripting-basics/introduction-to-scripting.md)
+* [Introduction to Scripting Part 1](scripting-basics/introduction-to-scripting.md)
+* [Introduction to Scripting Part 2](scripting-basics/introduction-to-scripting-part-2.md)
 * [Using Scripts](scripting-basics/using-type-scripts.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Counting Cells in a Transaction](scripting-basics/validating-cells-in-a-transaction.md)
