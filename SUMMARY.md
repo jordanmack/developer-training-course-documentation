@@ -28,6 +28,7 @@
 * [Introduction to Scripting Part 2](scripting-basics/introduction-to-scripting-part-2.md)
 * [Using Scripts](scripting-basics/using-scripts.md)
 * [Lab: Use the Always Success Lock](scripting-basics/lab-use-the-always-success-lock.md)
+* [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 
 ## Using Lock Scripts \(Old\)
 
@@ -40,7 +41,6 @@
 ## Scripting Basics \(Old\)
 
 * [Using Scripts](scripting-basics-old/using-type-scripts.md)
-* [Introduction to Capsule](scripting-basics-old/introduction-to-capsule.md)
 * [Counting Cells in a Transaction](scripting-basics-old/validating-cells-in-a-transaction.md)
 * [Syscalls and Sources](scripting-basics-old/syscalls.md)
 * [Creating a Limited Data Cell](scripting-basics-old/creating-a-limited-data-cell.md)

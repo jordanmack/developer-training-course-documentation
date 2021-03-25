@@ -205,12 +205,12 @@ Line 11 is our custom error. We can add as many as are needed here. Any time a s
 
 Now that you understand the basic structure of a project, you will be able to better understand the example scripts. We will cover more of Capsule's features in another lesson.
 
-### Clone the Developer Training Course Scripts
+### Clone the Developer Training Course Script Examples
 
-Our lessons going forward will make use of a number of example lock scripts and type scripts. These are contained in a separate GitHub repo. Use the command below to clone the Develop Training Course Scripts into a directory of your choosing.
+Our lessons going forward will make use of a number of example lock scripts and type scripts. These are contained in a separate GitHub repo. Use the command below to clone the Develop Training Course Script Examples into a directory of your choosing.
 
 ```bash
-git clone https://github.com/jordanmack/developer-training-course-scripts.git
+git clone https://github.com/jordanmack/developer-training-course-script-examples.git
 ```
 
 Next, enter the directory and build all the script binaries.
@@ -226,5 +226,15 @@ After the build is completed, run all the tests to verify that the scripts built
 capsule test
 ```
 
-These scripts are intended to be used with the lessons, but feel free to experiment with any of these examples. 
+These scripts are intended to be used with the lessons, but feel free to experiment with any of these examples.
+
+### Clone the Developer Training Course Script Labs
+
+Our lessons will also have labs that utilize Capsule. These labs can be found in a separate GitHub repo. Use the command below to clone the Develop Training Course Script Labs into a directory of your choosing.
+
+```bash
+git clone https://github.com/jordanmack/developer-training-course-script-labs.git
+```
+
+There is no need to build at this time. This step will be done during the lab exercises. 
 
