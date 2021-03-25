@@ -30,6 +30,7 @@
 * [Lab: Use the Always Success Lock](scripting-basics/lab-use-the-always-success-lock.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Examining a Transaction](scripting-basics/examining-a-transaction.md)
+* [Syscalls and Sources](scripting-basics/syscalls.md)
 
 ## Using Lock Scripts \(Old\)
 
@@ -43,7 +44,6 @@
 
 * [Using Scripts](scripting-basics-old/using-type-scripts.md)
 * [Counting Cells in a Transaction](scripting-basics-old/validating-cells-in-a-transaction.md)
-* [Syscalls and Sources](scripting-basics-old/syscalls.md)
 * [Creating a Limited Data Cell](scripting-basics-old/creating-a-limited-data-cell.md)
 * [Creating a JSON Storage Cell](scripting-basics-old/creating-a-json-storage-cell.md)
 * [Using Script Args](scripting-basics-old/using-script-args.md)
