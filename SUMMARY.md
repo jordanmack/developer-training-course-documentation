@@ -29,6 +29,7 @@
 * [Using Scripts](scripting-basics/using-scripts.md)
 * [Lab: Use the Always Success Lock](scripting-basics/lab-use-the-always-success-lock.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
+* [Examining a Transaction](scripting-basics/examining-a-transaction.md)
 
 ## Using Lock Scripts \(Old\)
 
