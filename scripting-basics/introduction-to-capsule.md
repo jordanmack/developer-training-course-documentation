@@ -1,6 +1,6 @@
 # Introduction to Capsule
 
-Capsule is a development framework for used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project. We will give a quickstart here to cover the basics of how Capsule is installed, and how a project is structured.
+Capsule is a development framework used to create on-chain scripts using the Rust and C programming languages. This includes both lock scripts and type scripts. Capsule provides the necessary tools to bootstrap, compile, test, debug, and deploy a new project. We will give a quickstart here on Rust development to cover the basics of how Capsule is installed, and how a project is structured.
 
 ![](../.gitbook/assets/capsule.jpg)
 

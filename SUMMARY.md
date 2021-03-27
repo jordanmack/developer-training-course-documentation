@@ -31,6 +31,8 @@
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Examining a Transaction](scripting-basics/examining-a-transaction.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)
+* [Untitled](scripting-basics/untitled.md)
+* [Untitled](scripting-basics/untitled-1.md)
 
 ## Using Lock Scripts \(Old\)
 
