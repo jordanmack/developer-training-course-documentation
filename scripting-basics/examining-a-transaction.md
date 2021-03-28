@@ -86,3 +86,5 @@ On lines 36 to 39, we check if the cell count matches the cells required, and re
 
 On line 42, we return an error if the cell count didn't match. The error `Unauthorized` is a custom error code that is defined in the `contracts/ic3type/src/error.rs` file. Error codes are defined by the individual script, meaning you can define as many error codes as you need here.
 
+
+
