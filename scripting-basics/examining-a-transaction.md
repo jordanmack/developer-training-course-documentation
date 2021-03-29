@@ -111,7 +111,7 @@ const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-This code adds the required cell deps to the transaction. On line 2, we add the cells dep for the default lock, which is used on the input cells we need for capacity. On lines 3 and 4, we add the IC3Type binary. We will be creating IC3Type cells in the outputs, and these cells are using the IC3Type 
+This code adds the required cell deps to the transaction. On line 2, we add the cells dep for the default lock, which is used on the input cells we need for capacity. On lines 3 and 4, we add the IC3Type binary. We will be creating IC3Type cells in the outputs, and these cells are using the IC3Type script as a type script. Remember, type scripts execute on inputs and outputs, which means we must provide the cell dep here so that execution can proceed.
 
 ```javascript
 // Create a cell using the IC3Type script as a type script.
@@ -139,7 +139,20 @@ On line 10, we create the cell structure for our output cell. Note that we now d
 
 On line 11, we add cells to the transaction. We push output1 three times, which creates three identical cells as outputs. 
 
-The resulting generated transaction will look something like this.
+```javascript
+// Add input capacity cells.
+const query = {lock: lockScript1, type: "empty"};
+const cellCollector = (new CellCollector(indexer, query)).collect();
+for(let i = 0; i < 3; ++i)
+{
+    const cell = (await cellCollector.next()).value;
+    transaction = transaction.update("inputs", (i)=>i.push(cell));
+}
+```
+
+This code adds capacity to our transaction. We're not using the usual `collectCapacity()` function here because the IC3Type script requires exactly three input cells. Ensuring that we have enough capacity for the transaction and including exactly three input cells would take more complex logic, so we cheated a little bit here. Our `initializeLab()` function setup the cell configuration so we knew ahead of time that we would have three large cells available.
+
+The resulting generated transaction will look similar to this.
 
 ![](../.gitbook/assets/create-transaction-structure%20%2810%29.png)
 
