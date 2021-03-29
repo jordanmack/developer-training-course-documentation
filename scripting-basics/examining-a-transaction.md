@@ -1,6 +1,6 @@
-# Examining a Transaction
+# Validating a Transaction
 
-Every lock script and type script has the ability to evaluate the transaction that it is included in. One of the most common ways to do this is to inspect the cells that were included in the transaction. This is done by using syscalls \(system calls\) to load cells from the transaction. 
+Every lock script and type script has the ability to evaluate the complete transaction that it is included in. One of the most common ways to do this is to inspect the cells that were included in the transaction. This is done by using syscalls \(system calls\) to load cells from the transaction. 
 
 Let's create a type script that counts the number of input cells available, and succeeds only when that count is 3. We will call this the "IC3Type" for short. Here is the psuedo-code for this type script.
 
@@ -71,7 +71,6 @@ pub fn main() -> Result<(), Error>
     // Return an error if the cell count is incorrect.
     Err(Error::Unauthorized)
 }
-
 ```
 
 The beginning of the file is all imports, so we will skip straight to line 14. This is the number of input cells required to unlock the cell. We hard-coded this to keep the code simple.
@@ -90,7 +89,7 @@ On line 42, we return an error if the cell count didn't match. The error `Unauth
 
 Next, we will use the IC3Type script in a transaction using Lumos. We'll use a precompiled binary for this example to make things easy.
 
-Open the `index.js` file from the `Using-Examining-a-Transaction-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections. These are the same four sections as the previous Lumos example, and you will see this pattern often.
+Open the `index.js` file from the `Examining-a-Transaction-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections. These are the same four sections as the previous Lumos example, and you will see this pattern often.
 
 ![](../.gitbook/assets/example-flow.png)
 
@@ -101,40 +100,50 @@ Open the `index.js` file from the `Using-Examining-a-Transaction-Example` folder
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it again unless there is specifically something different we need to point out. Feel free to review that code on your own if you need a refresher.
 
-### Creating a Cell with the Always Success Lock
+### Creating Cells
 
-Next, let's look at the `createCells()` function. This function generates and executes a transaction that will create a cell using the always success script code as a lock script. Once again, we'll skip straight to the relevant parts.
+Next, let's look at the `createCells()` function. This function generates and executes a transaction that will create a cell using the always success script code as a type script. Once again, we'll skip straight to the relevant parts.
 
 ```javascript
-// Create a cell using the always success lock.
-const outputCapacity1 = ckbytesToShannons(41n);
-const lockScript1 =
-{
-	code_hash: dataFileHash1,
-	hash_type: "data",
-	args: "0x"
-};
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
-transaction = transaction.update("outputs", (i)=>i.push(output1));
+// Add the cell dep for the lock script.
+transaction = addDefaultCellDeps(transaction);
+const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
+This code adds the required cell deps to the transaction. On line 2, we add the cells dep for the default lock, which is used on the input cells we need for capacity. On lines 3 and 4, we add the IC3Type binary. We will be creating IC3Type cells in the outputs, and these cells are using the IC3Type 
 
-The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. You may have noticed that the `hash_type` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
+```javascript
+// Create a cell using the IC3Type script as a type script.
+const outputCapacity1 = ckbytesToShannons(94n);
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: "0x"};
+transaction = transaction.update("outputs", (i)=>i.push(output1, output1, output1));
+```
 
-![](../.gitbook/assets/get-live-cell.png)
+This code is used to generate the cells that use the IC3Type script. There are a few important things to point out.
 
-When you use the default lock script, the `args` field is always expected to have a hash of the public key. However, this specific requirement applies only to the default lock script. The `args` field can contain any data in any format. It is the script in use that dictates how the data in the `args` should be formatted, or if it is even needed at all.
+On line 2, the value of `outputCapacity1` is set to 96 CKBytes. The reason for this is that this cell is using a type script. Looking at lines 6 to 8, we see the structure of the type script. The `code_hash` field requires 32 bytes, the `hash_type` field requires 1 byte, and the `args` field is empty. This is a total of 33 bytes, and 61 + 33 = 94.
 
-The always success script code does not use `args` in any way, so it doesn't need to be included. This saves that 20 bytes of space, and is the reason our cell only needs 41 CKBytes instead of the normal 61 CKBytes.
+On line 3, we create the lock script. We can see it is using the `addressToScript()` function from Lumos, so we know it is using the default lock script.
 
-Even though this saves a little bit of space, it isn't practical to use in a production environment. The always success lock is completely insecure, which is why we only use it for testing purposes.
+On lines 4 to 9, we define the type script. This structure should look familiar, because it is exactly the same as the lock script that was used in a previous lesson for the always success lock. The only difference is that we are now using the data hash for the IC3Type binary instead of the always success binary.
+
+On line 10, we create the cell structure for our output cell. Note that we now define the `type` field instead of leaving it as `null`.
+
+On line 11, we add cells to the transaction. We push output1 three times, which creates three identical cells as outputs. 
 
 The resulting generated transaction will look something like this.
 
-![](../.gitbook/assets/create-transaction-structure%20%289%29.png)
+![](../.gitbook/assets/create-transaction-structure%20%2810%29.png)
 
-### Consuming a Cell with the Always Success Lock
+### Consuming Cells
 
 Now let's look at the relevant parts of the `consumeCells()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success lock.
 
