@@ -150,24 +150,24 @@ const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-This is the code that adds cell deps to the transaction. On line 2, the cells deps are added for the default lock. On lines 3 and 4, the cell dep is added for the Data10 type script. You may remember from some of the previous lock script examples that we only added the cells deps for the default lock when we were creating cells. This is because lock scripts only execute on inputs, not outputs. When we are creating a cell we do not need a cell dep for the lock script because it doesn't execute. However, type scripts execute both on inputs and outputs, so a cell dep is always needed.
+This is the code that adds cell deps to the transaction. On line 2, the cells deps are added for the default lock. On lines 3 and 4, the cell dep is added for the Data10 type script. Type scripts execute both on inputs and outputs, so a cell dep is always needed.
 
 ```javascript
-// Create cells using the Data10 type script.
-const messages = ["HelloWorld", ["Foo Bar"], "1234567890"];
-for(let message of messages)
+// Create cells using the Data10.
+const messages = ["HelloWorld", "Foo Bar", "1234567890"];
+for(const message of messages)
 {
-	const outputCapacity1 = ckbytesToShannons(500n);
-	const lockScript1 = addressToScript(address1);
-	const typeScript1 =
-	{
-		code_hash: dataFileHash1,
-		hash_type: "data",
-		args: "0x"
-	};
-	const data1 = stringToHex(message);
-	const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
-	transaction = transaction.update("outputs", (i)=>i.push(output1));
+    const outputCapacity1 = ckbytesToShannons(500n);
+    const lockScript1 = addressToScript(address1);
+    const typeScript1 =
+    {
+        code_hash: dataFileHash1,
+        hash_type: "data",
+        args: "0x"
+    };
+    const data1 = stringToHex(message);
+    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
 
