@@ -105,13 +105,33 @@ The initialization and deployment code is nearly identical to the previous examp
 Next, let's look at the `createCells()` function. This function generates and executes a transaction that will create a cell using the always success script code as a type script. Once again, we'll skip straight to the relevant parts.
 
 ```javascript
-// Add the cell dep for the lock script.
+// Add the cell deps for the default lock script and the IC3Type script.
 transaction = addDefaultCellDeps(transaction);
 const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
 This code adds the required cell deps to the transaction. On line 2, we add the cells dep for the default lock, which is used on the input cells we need for capacity. On lines 3 and 4, we add the IC3Type binary. We will be creating IC3Type cells in the outputs, and these cells are using the IC3Type script as a type script. Remember, type scripts execute on inputs and outputs, which means we must provide the cell dep here so that execution can proceed.
+
+Let's dig a little deeper into the `addDefaultCellDeps()` function on line 2. If we look into the shared library, we will see this:
+
+```javascript
+function addDefaultCellDeps(transaction)
+{
+    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+}
+```
+
+We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
+
+However, we will not be able to use the `locateCellDep` function with the IC3Type binary because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
+
+```javascript
+const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
+transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
+```
+
+The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
 ```javascript
 // Create a cell using the IC3Type script as a type script.
@@ -135,7 +155,7 @@ On line 3, we create the lock script. We can see it is using the `addressToScrip
 
 On lines 4 to 9, we define the type script. This structure should look familiar, because it is exactly the same as the lock script that was used in a previous lesson for the always success lock. The only difference is that we are now using the data hash for the IC3Type binary instead of the always success binary.
 
-On line 10, we create the cell structure for our output cell. Note that we now define the `type` field instead of leaving it as `null`.
+On line 10, we create the cell structure for our output cell. Note that we now define the `type` field instead of leaving it as `null`. The `lock` field will never be `null` because a lock script is always required. The `type` field accepts the `null` value because a type script is optional.
 
 On line 11, we add cells to the transaction. We push output1 three times, which creates three identical cells as outputs. 
 
@@ -150,7 +170,7 @@ for(let i = 0; i < 3; ++i)
 }
 ```
 
-This code adds capacity to our transaction. We're not using the usual `collectCapacity()` function here because the IC3Type script requires exactly three input cells. Ensuring that we have enough capacity for the transaction and including exactly three input cells would take more complex logic, so we cheated a little bit here. Our `initializeLab()` function setup the cell configuration so we knew ahead of time that we would have three large cells available.
+This code adds capacity to our transaction. We're not using the usual `collectCapacity()` function here because the IC3Type script requires exactly three input cells. Ensuring that we have enough capacity for the transaction and including exactly three input cells would take more complex logic, so we cheated a little bit here. Our `initializeLab()` function setup the cell configuration so we knew ahead of time that we would have three large cells available to fulfill the requirements of this transaction.
 
 The resulting generated transaction will look similar to this.
 
@@ -161,72 +181,50 @@ The resulting generated transaction will look similar to this.
 Now let's look at the relevant parts of the `consumeCells()` function. This function generates and executes a transaction that will consume the cells we just created that use the always success lock.
 
 ```javascript
-// Add the cell dep for the lock script.
+// Add the cell deps for the default lock script and the IC3Type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-This code adds cell deps to our transaction skeleton. On line 2 you see the function `addDefaultCellDeps()`. If we look into the shared library, we will see this:
+This code adds cell deps to our transaction skeleton. This is the same as the `createCells()` code. Just like before, both the default lock script and the IC3Type script will be executed, so the script code for both is required.
 
 ```javascript
-function addDefaultCellDeps(transaction)
+// Add the IC3Type cells to the transaction. 
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
 {
-    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const query = {lock: lockScript1, type: typeScript1};
+const cellCollector = (new CellCollector(indexer, query)).collect();
+for(let i = 0; i < 3; ++i)
+{
+    const cell = (await cellCollector.next()).value;
+    transaction = transaction.update("inputs", (i)=>i.push(cell));
 }
 ```
 
-We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
+This code is locating and adding the IC3Type cells we just created to the transaction. To do this, we use the `CellCollector()` class from the Lumos framework. By specifying the lock script and type script, we can query for live cells that match.
 
-However, we will not be able to use the `locateCellDep` function with the always success binary we just loaded, because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
+On lines 2 to 8, we define the lock script and type script to search for.  These are set to the exact same values that we created the IC3Type cells with.
 
-```javascript
-const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
-transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
-```
+On lines 9 and 10, we form our query and create a CellCollector instance.
 
-The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
-
-If you look closely at the code in `createCells()` and `consumeCells()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
-
-A lock script executes when we need to check permissions to access a cell. We only need to do this when a cell is being used as an input, since this is the only time value is extracted from the cell. When creating an output, the value is coming from inputs that you have already proven you have permission to access. There is no reason you should have to prove ownership again, and therefore the lock script never executes on outputs, and we don't need to provide a cell dep to the always success binary since it isn't executing.
+On lines 11 to 15, we locate and add exactly three cells matching the query. Once again, we're using simplified code for this because we know that we created exactly three cells in the previous transaction. Using simplified code is fine here because it is just an example, but if this was production grade code, we would need to add in a lot more boundary checking.
 
 ```javascript
-// Add the always success cell to the transaction.
-const input = await getLiveCell(nodeUrl, alwaysSuccessCellOutPoint);
-transaction = transaction.update("inputs", (i)=>i.push(input));
-
 // Add input capacity cells.
-const capacityRequired = ckbytesToShannons(61n) + txFee;
-const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
-transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
-
-// Determine the capacity from all input Cells.
-const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
-const outputCapacity = transaction.outputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
-
-// Create a change Cell for the remaining CKBytes.
-const changeCapacity = intToHex(inputCapacity - outputCapacity - txFee);
-let change = {cell_output: {capacity: changeCapacity, lock: addressToScript(address1), type: null}, data: "0x"};
-transaction = transaction.update("outputs", (i)=>i.push(change));
+// const capacityRequired = ckbytesToShannons(61n) + txFee;
+// const collectedCells = await collectCapacity(indexer, addressToScript(address1), capacityRequired);
+// transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 ```
 
-This code is adding our always success cell to the transaction, adding more cells for capacity, then sending everything back to ourselves as a single change cell. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee. 
+This code would be used to add in more required capacity for the transaction, but we won't need it in this example, and this is why it is commented out. Let's take a look at the resulting transaction.
 
-Looking at the fourth block of code for the change cell, the `lock` is set to `addressToScript(address1)`. This means it is using the default lock script again, and that 61 CKBytes is the minimum required.
+![](../.gitbook/assets/consume-transaction-structure%20%289%29.png)
 
-The reason that `capacityRequired` in the code above is set to 61 CKBytes + the tx fee is because we are anticipating an output of a single standard cell and a tx fee.
-
-![](../.gitbook/assets/transaction-compare.png)
-
-On the left is the transaction we are generating. We are consuming the always success cell and sending the value back to ourselves, so we only need one output.
-
-On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes \(+ tx fee\) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes \(122 - 41\), plus the transaction fee.
-
-```javascript
-	// Sign the transaction.
-	const signedTx = signTransaction(transaction, privateKey1);
-```
-
-This code looks standard and we've used it many times in the past, but it's important to point out why it's necessary for this transaction. The always success lock does not require any kind of signing in order to unlock. If it was the only input cell that existed, then we could skip this step. However, we had to add additional capacity from `address1`, and those cells use the default lock, which requires a standard signature in order to unlock.
+Our three input cells provide a total of 282 CKBytes of capacity. This is more than enough capacity for the transaction to complete successfully.
 
