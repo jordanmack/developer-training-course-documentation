@@ -31,7 +31,7 @@
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Validating a Transaction](scripting-basics/examining-a-transaction.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)
-* [Accessing Cell Data](scripting-basics/untitled.md)
+* [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Untitled](scripting-basics/untitled-1.md)
 
 ## Using Lock Scripts \(Old\)
