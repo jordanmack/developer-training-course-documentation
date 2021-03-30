@@ -209,9 +209,9 @@ for await (const cell of cellCollector.collect())
 		transaction = transaction.update("inputs", (i)=>i.push(cell));
 ```
 
-Here we add the cells with the Data10 type script to the transaction. Instead of using the `collectCapacity()` library function to locate the cells, we are using the `CellCollector()` directly. We're doing this because the `collectCapacity()` function allows us to specify the lock script, but not the type script. We want to query using both so we only collect cells that are owned by us and use that specific type script.
+Here we add the cells with the Data10 type script to the transaction. Just like the previous example, we use the `CellCollector()` with the same lock script and type script that we created the cell with.
 
-On line 9, we specify the `lock` and `type`. We could also specify `data` here, but then we would have to use three different queries to locate our cells. We're more interested in using a single query to find all the cells.
+On lines 9, we specify the `lock` and `type`. We could also specify `data` here, but then we would have to use three different queries to locate our cells. We're more interested in using a single query to find all the cells we're interested in.
 
 On lines 11 and 12, we add all the cells found to the transaction. This will add the three cells we created, but if there were more cells it would continue to loop, adding them all.
 
