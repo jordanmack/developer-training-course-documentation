@@ -199,14 +199,14 @@ Just like with the creation function, we add cell deps for the default lock scri
 const lockScript1 = addressToScript(address1);
 const typeScript1 =
 {
-	code_hash: dataFileHash1,
-	hash_type: "data",
-	args: "0x"
+		code_hash: dataFileHash1,
+		hash_type: "data",
+		args: "0x"
 };
 const query = {lock: lockScript1, type: typeScript1};
 const cellCollector = new CellCollector(indexer, query);
 for await (const cell of cellCollector.collect())
-	transaction = transaction.update("inputs", (i)=>i.push(cell));
+		transaction = transaction.update("inputs", (i)=>i.push(cell));
 ```
 
 Here we add the cells with the Data10 type script to the transaction. Instead of using the `collectCapacity()` library function to locate the cells, we are using the `CellCollector()` directly. We're doing this because the `collectCapacity()` function allows us to specify the lock script, but not the type script. We want to query using both so we only collect cells that are owned by us and use that specific type script.
