@@ -1,6 +1,6 @@
 # Accessing Cell Data
 
-Inspecting the data within a cell is another common operation for evaluating the validity of a transaction. Next, we will create a cell that only allows a limited amount of data to be stored within it by using a type script.
+Inspecting the data within cells is another common operation for evaluating the validity of a transaction. Next, we will create a cell that only allows a limited amount of data to be stored within it by using a type script.
 
 The type script we use will read the data that the cell is being created with and validate the size of data as being 10 bytes or less. Trying to create a cell containing more than 10 bytes of data will result in the transaction being rejected. We will call this the "Data10" type script.
 
