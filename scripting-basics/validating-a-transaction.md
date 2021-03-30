@@ -89,7 +89,9 @@ On line 42, we return an error if the cell count didn't match. The error `Unauth
 
 Next, we will use the IC3Type script in a transaction using Lumos. We'll use a precompiled binary for this example to make things easy.
 
-Open the `index.js` file from the `Examining-a-Transaction-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections. These are the same four sections as the previous Lumos example, and you will see this pattern often.
+The code we will be covering here is in the `index.js` file in the `Validating-a-Transaction-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+If you scroll down to the `main()` function, you will see that there four main sections. These are the same four sections as the previous Lumos example, and you will see this pattern often.
 
 ![](../.gitbook/assets/example-flow.png)
 
