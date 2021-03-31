@@ -30,6 +30,7 @@
 * [Lab: Use the Always Success Lock](scripting-basics/lab-use-the-always-success-lock.md)
 * [Introduction to Capsule](scripting-basics/introduction-to-capsule.md)
 * [Validating a Transaction](scripting-basics/validating-a-transaction.md)
+* [Lab: Convert IC3Type to OC5Type](scripting-basics/lab-convert-ic3type-to-oc5type.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Script Groups](scripting-basics/script-groups.md)
