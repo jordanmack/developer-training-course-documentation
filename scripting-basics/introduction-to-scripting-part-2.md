@@ -63,7 +63,7 @@ The type script validates state transitions. In simplistic terms, a type script 
 
 Another difference between lock scripts and type scripts is _when_ they execute.
 
- **Lock scripts execute on input cells. Type scripts execute on both input cells and output cells.**
+**Lock scripts execute on input cells. Type scripts execute on both input cells and output cells.**
 
 A lock script is concerned with ownership, and this is the reason that a lock script must execute on inputs. Once the lock script has validated the input cell, the value which was locked in that cell is now unlocked for usage. In most cases, the lock script does not need to be concerned with how the unlocked value is used. Therefore, there is no need for lock scripts to execute on output cells.
 
@@ -84,4 +84,20 @@ Transaction \#3 is another transfer. Alice has 5 tokens and is sending 3 to Bob,
 Transaction \#4 is a mining operation. Charlie is attempting to create 5 tokens out of nothing. This is in violation of the token rule, and this transaction is therefore invalid and would fail.
 
 Type scripts execute on both inputs and outputs. What if type scripts were like lock scripts, and executed on inputs but not on outputs? Transactions \#1, \#2, and \#3 would be unchanged since the token type script is still executing on inputs. However, transaction \#4 would result differently. If type scripts did not execute on outputs, then the token type script would not execute at all in transaction \#4. This would allow the transaction to succeed, allowing tokens to be created from nothing. This is why it is critical for type scripts to execute on both inputs and to properly validate a state transition.
+
+### Script Grouping
+
+All scripts are also subject to script grouping as a method of optimizing script execution in CKB-VM. We mentioned earlier that a script is similar to a pure function. When a pure function is given the same inputs, it will always return the same result. Script execution also shares this same trait. Therefore it is not necessary to execute a script with the same input data more than a single time since the result will always be the same.
+
+**Identical scripts only execute once in a transaction.**
+
+When we say "identical script", we are referring to the data structure we mentioned earlier that indicates what script code should execute, and what arguments should be passed to it. In the case of the default lock, the argument passed is the public key. This means that a different script group is created for every different public key during script execution. Below is an image of a transaction to demonstrate this.
+
+![](../.gitbook/assets/script-grouping.png)
+
+In this transaction, Alice and Bob are sending some CKBytes to Charlie. Let's first focus on the three input cells. Two are from Alice, and one is from Bob. The two cells from Alice both have the same public key as arguments, and therefore so they are put into a group. Bob's cell has a different public key, so that is put into a different group.
+
+There are three input cells, but during execution, only two scripts will execute. One script will execute for Alice, and one will execute for Bob. Alice's cells both have the same public key and are in the same transaction, which means the input data is the same. There is no reason to execute the script on Alice's cells more than once. Just like a pure function, the script result will always be the same. Even if Alice had provided 100 cells in this transaction, execution would only occur once for that script group.
+
+The importance of script groups will become more apparent in later lessons when we start to look at the deeper logic of scripts, and the process they must undergo to properly validate multiple cells during a single execution.
 
