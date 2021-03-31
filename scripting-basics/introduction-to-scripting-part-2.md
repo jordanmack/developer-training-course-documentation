@@ -85,7 +85,7 @@ Transaction \#4 is a mining operation. Charlie is attempting to create 5 tokens 
 
 Type scripts execute on both inputs and outputs. What if type scripts were like lock scripts, and executed on inputs but not on outputs? Transactions \#1, \#2, and \#3 would be unchanged since the token type script is still executing on inputs. However, transaction \#4 would result differently. If type scripts did not execute on outputs, then the token type script would not execute at all in transaction \#4. This would allow the transaction to succeed, allowing tokens to be created from nothing. This is why it is critical for type scripts to execute on both inputs and to properly validate a state transition.
 
-### Script Groups
+### Script Groups and Deduplication
 
 All scripts are also subject to grouping as a method of optimizing script execution in CKB-VM. We mentioned earlier that a script is similar to a pure function. When a pure function is given the same inputs, it will always return the same result. Script execution also shares this same trait. Therefore it is not necessary to execute a script with the same input data more than a single time since the result will always be the same.
 
