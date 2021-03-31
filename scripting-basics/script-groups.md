@@ -114,7 +114,7 @@ The `lite_json` library is an unmodified third-party library that we are using i
 
 Lines 16 to 30 contain the main logic for our type script. The Rust syntax is a little more complex than our pseudo-code, but code flow is very similar, and the length of the code isn't much longer.
 
- On line 20, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source with `QueryIter()`. Using `GroupOutput` eliminates the need to check the type script of each cell.
+ On line 20, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source with `QueryIter()`. Using `GroupOutput` eliminates the need to check the type script of each cell. Using script groups as sources is always preferred when possible, because it makes our code far more concise and efficient.
 
 On line 23, we parse the raw data into a UTF-8 string, and if an error occurs during decoding we trap the error and map it to `InvalidStringData`.
 
