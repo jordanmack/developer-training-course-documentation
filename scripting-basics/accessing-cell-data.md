@@ -51,7 +51,7 @@ On line 17, we return successfully after no errors are found.
 
 Our code only checks the outputs, because that is when the cell is created. When the cell is used as an input, we don't need to check again. This is because we already checked when the cell was created, and cells are immutable once created. However, it would also be acceptable to validate all the Data10 cells in the inputs in addition to the outputs. This would consume slightly more cycles, but it is acceptable as a security precaution.
 
-Now let's look at the real version of the Data10 type script, written in Rust. This is located in the `entry.rs` within `developer-training-course-script-examples/contracts/data10/src`.
+Now let's look at the real version of the Data10 type script, written in Rust. This is located in the `entry.rs` file in`developer-training-course-script-examples/contracts/data10/src`.
 
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.

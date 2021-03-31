@@ -32,7 +32,7 @@
 * [Validating a Transaction](scripting-basics/validating-a-transaction.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
-* [GroupInput and GroupOutput](scripting-basics/groupinput-and-groupoutput.md)
+* [Script Groups](scripting-basics/groupinput-and-groupoutput.md)
 
 ## Using Lock Scripts \(Old\)
 
