@@ -10,7 +10,7 @@ On the top left of the image is a transaction where the JSON Cell type script is
 
 On the bottom left is a similar transaction using the JSON Cell type script, but the data area contains a malformed JSON object. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 
-### Script Logic
+### Script Logic is Pseudo-Code
 
 Next, we will look at the logic and code that would be used to create this type script.
 
