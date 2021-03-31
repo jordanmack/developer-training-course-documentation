@@ -92,7 +92,7 @@ On line 29, if no errors were detected, we return success.
 
 ### Script Groups
 
-
+We first introduced script groups back in the Introduction to Scripting Part 2. Identical scripts are put into groups and only execute once in a transaction.
 
 For example, if we had a token type script that was trying to enforce the rule `input_tokens >= output_tokens`, it would need to locate all of the token cells in the transaction. There could be other cells in the transaction, but our token type script isn't concerned with those. A "token cell" is defined by a cell using the token type script, so we only need to locate those cells. The `GroupInput` and `GroupOutput` sources will only return those matching cells. Below is an image to help illustrate.
 
