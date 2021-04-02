@@ -34,6 +34,7 @@
 * [Syscalls and Sources](scripting-basics/syscalls.md)
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Script Groups](scripting-basics/script-groups.md)
+* [Using Script Args](scripting-basics/using-script-args.md)
 
 ## Diving Into Lock Scripts
 
