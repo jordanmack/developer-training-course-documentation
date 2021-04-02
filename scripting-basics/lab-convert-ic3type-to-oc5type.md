@@ -10,5 +10,18 @@ The `entry.rs` file contains the source code for the IC3Type script. Your task i
 
 Build your code by opening a terminal to the `Lab-OC5Type-Exercise` folder and running `capsule build`, then test your code using `capsule test` after the build is successful. If you get stuck you can find the solution in the `Lab-OC5Type-Solution` folder.
 
-Be sure to always build your code after modifying it before it is tested again so that changes are properly reflected. Once your code successfully compiles and all tests are passed, you have completed this lab.
+Note: Be sure to always build your code after modifying it before it is tested again so that changes are properly reflected.
+
+Once your code successfully compiles and all tests are passed, you have completed this lab. The test output will contain the following to indicate a successful test.
+
+```bash
+running 3 tests
+test tests::test_oc5type_invalid_too_few_cells ... ok
+test tests::test_oc5type_invalid_too_many_cells ... ok
+test tests::test_oc5type_valid ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
+
+
 
