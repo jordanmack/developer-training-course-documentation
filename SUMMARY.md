@@ -35,14 +35,6 @@
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Script Groups](scripting-basics/script-groups.md)
 
-## Using Lock Scripts \(Old\)
-
-* [Using a Custom Lock Script](using-lock-scripts-old/using-a-custom-lock-script.md)
-* [Conditional Unlocking](using-lock-scripts-old/conditional-unlocking.md)
-* [Using Lock Args](using-lock-scripts-old/using-lock-args.md)
-* [Using Multiple Lock Args](using-lock-scripts-old/using-multiple-lock-args.md)
-* [Using a Witness](using-lock-scripts-old/using-a-witness.md)
-
 ## Scripting Basics \(Old\)
 
 * [Using Scripts](scripting-basics-old/using-type-scripts.md)
