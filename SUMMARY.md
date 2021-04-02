@@ -35,14 +35,6 @@
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Script Groups](scripting-basics/script-groups.md)
 
-## Scripting Basics \(Old\)
-
-* [Using Scripts](scripting-basics-old/using-type-scripts.md)
-* [Counting Cells in a Transaction](scripting-basics-old/validating-cells-in-a-transaction.md)
-* [Creating a Limited Data Cell](scripting-basics-old/creating-a-limited-data-cell.md)
-* [Creating a JSON Storage Cell](scripting-basics-old/creating-a-json-storage-cell.md)
-* [Using Script Args](scripting-basics-old/using-script-args.md)
-
 ## Diving Into Lock Scripts
 
 * [Deconstructing the Default Lock Script](diving-into-lock-scripts/using-the-default-lock-script.md)
