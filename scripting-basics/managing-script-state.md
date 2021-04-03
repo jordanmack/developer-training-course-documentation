@@ -125,3 +125,17 @@ On lines 44 to 47, we take the input and output values and compare them. We ensu
 
 On line 49, we return successfully after no errors are found.
 
+### Usage in Lumos
+
+Next, we will use the Counter type script in a Lumos example. Our code will deploy the type script, create some cells using the DataCap script, then consume those cells that we just created to reclaim that capacity.
+
+The code we will be covering here is located in the `index.js` file in the `Using-Script-Args-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+Starting with the `main()` function, you will see our code has the usual four sections.
+
+![](https://gblobscdn.gitbook.com/assets%2F-MLuiCvogNfxQTk5TWAq%2F-MWXyed_PZWmr5dt-R_b%2F-MRhtF2hvu67w4rFgsc_%2FExample-Flow.png?alt=media&token=0e93ab2c-178c-4bd9-a758-2ad39ea92d54)
+
+The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
+
+### Creating Cells
+
