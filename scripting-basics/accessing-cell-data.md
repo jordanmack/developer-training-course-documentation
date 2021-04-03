@@ -6,7 +6,7 @@ The type script we use will read the data that the cell is being created with an
 
 ![](../.gitbook/assets/valid-invalid-transaction.png)
 
-On the top left of the image is a transaction where the Data10 type script is used. The data area of the cell contains a string that is 10 bytes or less. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
+On the top left of the image is a transaction where the Data10 type script is used. The data area of the cell contains a string that is 10 bytes or less. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction would process successfully.
 
 On the bottom left is a similar transaction using the Data10 type script, but the data area contains a string much larger than 10 bytes. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 

@@ -6,7 +6,7 @@ In this example, we will use a type script that allows cells to be created only 
 
 ![](../.gitbook/assets/valid-invalid-transaction%20%281%29.png)
 
-On the top left of the image is a transaction where the JSON Cell type script is used. The data area of the cell contains a valid JSON object. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
+On the top left of the image is a transaction where the JSON Cell type script is used. The data area of the cell contains a valid JSON object. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction would process successfully.
 
 On the bottom left is a similar transaction using the JSON Cell type script, but the data area contains a malformed JSON object. If this cell were put into a transaction as an output, the type script would execute and return an error. This transaction would be rejected.
 
