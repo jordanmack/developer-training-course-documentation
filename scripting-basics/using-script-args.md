@@ -112,7 +112,7 @@ On line 40, if no errors were detected, we return success.
 
 ### Usage in Lumos
 
-Next, we will use the DataCap type script in a Lumos example. Our code will deploy the lock, create some cells using the DataCap script, then consume those cells that we just created to reclaim that capacity.
+Next, we will use the DataCap type script in a Lumos example. Our code will deploy the script code, create some cells using the DataCap script, then consume those cells that we just created to reclaim that capacity.
 
 The code we will be covering here is located in the `index.js` file in the `Using-Script-Args-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
 
