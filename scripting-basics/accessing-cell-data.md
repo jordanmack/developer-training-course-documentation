@@ -129,7 +129,7 @@ On line 48, if no errors were detected in any of the Data10 cells, we return suc
 
 ### Usage in Lumos
 
-Next, we will use the Data10 type script in a Lumos example. Our code will deploy the lock, create some cells using the Data10 script, then consume those cells that we just created to reclaim that capacity.
+Next, we will use the Data10 type script in a Lumos example. Our code will deploy the binary, create some cells using the Data10 script, then consume those cells that we just created to reclaim that capacity.
 
 The code we will be covering here is located in the `index.js` file in the `Accessing-Cell-Data-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
 
