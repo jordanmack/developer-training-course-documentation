@@ -6,7 +6,7 @@ Lock scripts and type scripts both take args similarly to how a program would ta
 
 Next, we will look at a type script that uses the args to specify the data limit. We will call this the "DataCap" type script.
 
-![](../.gitbook/assets/valid-invalid-transaction%20%282%29.png)
+![](../.gitbook/assets/valid-invalid-transaction%20%283%29.png)
 
 On the top left of the image is a transaction where the DataCap type script is used. In the type script args field is the value `10`, indicating a data limit of 10 bytes within the data field. The cell contains a string that is 10 bytes long. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction process successfully.
 

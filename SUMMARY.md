@@ -35,6 +35,7 @@
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Script Groups](scripting-basics/script-groups.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
+* [Managing Script State](scripting-basics/managing-script-state.md)
 
 ## Diving Into Lock Scripts
 
