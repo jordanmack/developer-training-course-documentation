@@ -102,6 +102,8 @@ On line 17 and 18 we load the raw bytes from the script's `args`. On lines 21 to
 
 On lines 27 to 29 we convert the data from the `args` to a u64 value. We don't need to do any kind of validation here because we know that the data is exactly 8 bytes, and this can always convert into an u64 successfully.
 
+On line 28, look at how the bytes to copy are specified using the `0..8` range. We can add multiple values to the args field by packing them next to each other, then specifying the ranges to read them out again.
+
  On line 32, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
 
 On line 34, we check the length of the data. If the data is longer than `cell_data_limit`, we return the error `DataLimitExceeded`.
