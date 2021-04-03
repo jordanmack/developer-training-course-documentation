@@ -1,6 +1,10 @@
 # Using Script Args
 
-In an earlier lesson, we created the Data10 type script, which only allows cells to be created with a maximum of 10 bytes of data. In the script, we hard-coded the limit to 10 bytes. This works, but we have to create a new script every time we want to change the size limit. We can avoid this limitation by placing the limit in the script's args field so it can be changed easily. We will call this the "DataCap" type script.
+In an earlier lesson, we created the Data10 type script, which only allows cells to be created with a maximum of 10 bytes of data. In the script, we hard-coded the limit to 10 bytes. This works, but we have to create a new script every time we want to change the size limit. We can avoid this limitation by placing the limit in the script's args field so it can be changed easily.
+
+Lock scripts and type scripts both take args similarly to how a program would take an argument on the command line. This allows configuration data to be passed to the script without having to modify the script. You've already used this several times with the default lock, which takes a hash of a public key as in the lock script args field to indicate who owns the cell and has permission to unlock it.
+
+Next, we will look at a type script that uses the args to specify the data limit. We will call this the "DataCap" type script.
 
 ![](../.gitbook/assets/valid-invalid-transaction%20%282%29.png)
 
