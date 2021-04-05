@@ -14,11 +14,68 @@ To incorporate the minimal concern pattern a script should:
 
 In essence, a script should only check the minimal amount of information needed to ensure the validity of the cells it is concerned with.
 
-Let's take a look at how this applies to the update transaction for the Counter script.
+### Script Logic
 
-![](https://gblobscdn.gitbook.com/assets%2F-MLuiCvogNfxQTk5TWAq%2F-MXU0T9yPe_sU8F7MFQ_%2F-MXUM8V9U-gbd67QG2im%2Fconsume-transaction-structure.png?alt=media&token=16397219-5e71-4284-a52f-94bf382511db)
+Next, we will show an example of an Aggregatable Counter type script. But first, we will start by reviewing the pseudo-code for the original Counter type script as a quick refresher.
 
-In this transaction, the Counter is being incremented by 1. This would be successful, but what if we increase the number of Counter cells in the transaction?
+```javascript
+function main()
+{
+    group_input_count = load_input_group().length();
+    group_output_count = load_output_group().length();
 
+    if(group_input_count == 0)
+        return 0;
+    
+    if(group_input_count != 1 || group_output_count != 1)
+        return 1;
 
+    input_value = integer_from_binary(load_input_group().get_first_cell().data);
+    output_value = integer_from_binary(load_output_group().get_first_cell().data);
+
+    if(input_value + 1 != output_value)
+        return 1;
+
+    return 0;
+}
+```
+
+Now, let's take a look at how this would apply to the Counter script if the transaction contained multiple Counter cells.
+
+![](../.gitbook/assets/counter-transaction-structure-2.png)
+
+This transaction would not execute successfully because the Counter type script would give an error. The offending lines in the pseudo-code would be 9 and 10. The Counter type script was only designed to process exactly one input and one output. It does not incorporate the minimal concern pattern, and it isn't composable.
+
+Here is the pseudo-code for the Aggregatable Counter.
+
+```javascript
+function main()
+{
+    group_input_count = load_input_group().length();
+    group_output_count = load_output_group().length();
+
+    if(group_input_count == 0)
+        return 0;
+    
+    if(group_input_count != group_output_count)
+        return 1;
+
+    group_input_data = load_input_group_data();
+
+    for((i, input_data) in group_input_data.enumerate())
+    {
+        input_value = integer_from_binary(input_data);
+        output_value = integer_from_binary(load_output_group_data(i));
+
+        if(input_value + 1 == output_value)
+            return 1;
+    }
+
+    return 0;
+}
+```
+
+The code starts out the same as the regular counter. On lines 3 and 4, we count the number of group input cells and group output cells. On lines 6 and 7, we immediately succeed if there are no input cells which allows for the creation of new Counter cells.
+
+On lines 9 and 10, we check that the counts match 1:1. This is necessary in order to match up the inputs with the outputs and locate  
 
