@@ -36,6 +36,7 @@
 * [Script Groups](scripting-basics/script-groups.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
+* [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 
 ## Diving Into Lock Scripts
 
