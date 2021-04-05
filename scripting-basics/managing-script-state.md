@@ -206,7 +206,7 @@ The resulting transaction will look similar to this.
 
 ![](../.gitbook/assets/consume-transaction-structure%20%2811%29.png)
 
-As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a cell, we are consuming the input Counter cell, and creating a new output Counter cell. There is no direct association between the two. It is important to keep this in mind while developing scripts because the script logic must always reflect this.
+As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a Counter cell, we are consuming the input Counter cell, and creating a new output Counter cell. There is no direct association between the input cell and output cell. It is important to keep this in mind while developing scripts because the script logic must reflect this in order to process the transaction correctly.
 
 
 
