@@ -127,15 +127,86 @@ On line 49, we return successfully after no errors are found.
 
 ### Usage in Lumos
 
-Next, we will use the Counter type script in a Lumos example. Our code will deploy the type script code, create some cells using the DataCap script, then consume those cells that we just created to reclaim that capacity.
+Next, we will use the Counter type script in a Lumos example. Our code will deploy the type script code, create some cells using the Counter type script, then update the script state value stored in the data area.
 
-The code we will be covering here is located in the `index.js` file in the `Using-Script-Args-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
+The code we will be covering here is located in the `index.js` file in the `Managing-Script-State-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
 
-Starting with the `main()` function, you will see our code has the usual four sections.
+Starting with the `main()` function, you will see our code has four sections.
 
-![](https://gblobscdn.gitbook.com/assets%2F-MLuiCvogNfxQTk5TWAq%2F-MWXyed_PZWmr5dt-R_b%2F-MRhtF2hvu67w4rFgsc_%2FExample-Flow.png?alt=media&token=0e93ab2c-178c-4bd9-a758-2ad39ea92d54)
+![](../.gitbook/assets/example-flow%20%282%29.png)
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
 ### Creating Cells
+
+Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the Counter type script.
+
+```javascript
+// Create a cell using the Counter type script.
+const outputCapacity1 = ckbytesToShannons(102n);
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const dataValue1 = 9_000n;
+const data1 = intToU64LeHexBytes(dataValue1);
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+```
+
+This code creates a single Counter cell and adds it as an output. The code is very similar to the code from previous lessons, but there are a few things we want to point out.
+
+On line 2, the capacity of the cell is being set to 102 CKBytes. This is the minimum amount of capacity necessary for the Counter cell. A basic cell secured with the default lock and no type script or data is 61 CKBytes. The addition of the type script is 32 bytes for the `code_hash`, 1 byte for the `hash_type`, and 0 bytes for the empty args. The data field is a 64-bit integer, which is 8 bytes. `61 + 32 + 1 + 0 + 8 = 102`
+
+On line 10 and 11, we define the data value for the Counter cell. The value must be converted to a 64-bit LE encoded hex string, which is the requirement of the Counter type script. Other encodings can be used as long as they match both in the transaction generation code and the on-chain script, but generally binary is the most space and computationally format for on-chain scripts.
+
+The resulting transaction will look something like this.
+
+![](../.gitbook/assets/create-transaction-structure%20%2812%29.png)
+
+### Updating Cells
+
+Now, we'll look at the relevant parts of the `updateCells()` function. This function generates and executes a transaction that will update the Counter type script's state.
+
+```javascript
+// Add the Counter cell to the transaction.
+const input = await getLiveCell(nodeUrl, counterCellOutPoint, true);
+const counterValue = u64LeHexBytesToInt(input.data);
+transaction = transaction.update("inputs", (i)=>i.push(input));
+```
+
+This adds the existing Counter cell as an input to the transaction, using the given out point from the previous transaction. We're using the out point instead of cell collection this time because it is a little easier to structure in this example since this Counter cell does not allow for burning. This will be covered later on.
+
+On line 2, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different calls.
+
+On line 3, we take the data from the input Counter cell and decode it from hex-encoded binary to a BigInt. This value will be used again during the creation of our output Counter cell.
+
+```javascript
+// Add the updated Counter cell to the transaction.
+const outputCapacity1 = ckbytesToShannons(102n);
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const dataValue1 = counterValue + 1n;
+const data1 = intToU64LeHexBytes(dataValue1);
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+```
+
+This code adds a Counter cell to the outputs with the updated value. This code is nearly identical to the code in the `createCell()` transaction, except that on line 10, we insert an updated value that is exactly one higher than the input value.
+
+The resulting transaction will look similar to this.
+
+![](../.gitbook/assets/consume-transaction-structure%20%2811%29.png)
+
+As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a cell, we are consuming the input Counter cell, and creating a new output Counter cell. There is no direct association between the two. It is important to keep this in mind while developing scripts because the script logic must always reflect this.
+
+
 
