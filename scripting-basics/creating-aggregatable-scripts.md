@@ -61,7 +61,6 @@ function main()
         return 1;
 
     group_input_data = load_input_group_data();
-
     for((i, input_data) in group_input_data.enumerate())
     {
         input_value = integer_from_binary(input_data);
@@ -77,5 +76,15 @@ function main()
 
 The code starts out the same as the regular counter. On lines 3 and 4, we count the number of group input cells and group output cells. On lines 6 and 7, we immediately succeed if there are no input cells which allows for the creation of new Counter cells.
 
-On lines 9 and 10, we check that the counts match 1:1. This is necessary in order to match up the inputs with the outputs and locate  
+On lines 9 and 10, we check that the counts match 1:1. This is necessary in order to match up the inputs with the outputs and locate matches. 
+
+On line 12, we load all the input group data into an array, and on line 13 we cycle through it using `.enumerate()` to keep track of the index.
+
+On line 15, we convert the input cell data from binary to an integer. On line 16, we load the output cell data from the same index as the input cell data and convert it from binary to an integer.
+
+On lines 18 and 19, we compare the input value and the output value to ensure the output value is exactly one higher. If this is not a match, we return an error.
+
+On line 22, we return success if no errors have occurred.
+
+
 
