@@ -40,11 +40,11 @@ function main()
 }
 ```
 
-Now, let's take a look at how this would apply to the Counter script if the transaction contained multiple Counter cells.
+Now, let's take a look at what a transaction would look like if it contained multiple Counter cells.
 
 ![](../.gitbook/assets/counter-transaction-structure-2.png)
 
-This transaction would not execute successfully because the Counter type script would give an error. The offending lines in the pseudo-code would be 9 and 10. The Counter type script was only designed to process exactly one input and one output. It does not incorporate the minimal concern pattern, and it isn't composable.
+This transaction would not execute successfully because the Counter type script would give an error. The offending lines in the pseudo-code would be 9 and 10. The Counter type script was only designed to process exactly one input and one output.
 
 Here is the pseudo-code for the Aggregatable Counter.
 
@@ -60,10 +60,9 @@ function main()
     if(group_input_count != group_output_count)
         return 1;
 
-    group_input_data = load_input_group_data();
-    for((i, input_data) in group_input_data.enumerate())
+    for(i = 0; i < group_input_count; i++)
     {
-        input_value = integer_from_binary(input_data);
+        input_value = integer_from_binary(load_input_group_data(i));
         output_value = integer_from_binary(load_output_group_data(i));
 
         if(input_value + 1 == output_value)
@@ -76,27 +75,23 @@ function main()
 
 The code starts out the same as the regular counter. On lines 3 and 4, we count the number of group input cells and group output cells. On lines 6 and 7, we immediately succeed if there are no input cells which allows for the creation of new Counter cells.
 
-On lines 9 and 10, we check that the counts match 1:1. This is necessary in order to match up the inputs with the outputs and locate matches. 
+On lines 9 and 10, we check that the counts match 1:1. This is necessary in order to match up the inputs with the outputs and locate matches, but we no longer restrict the transaction to having one input and one output.
 
-On line 12, we load all the input group data into an array, and on line 13 we cycle through it using `.enumerate()` to keep track of the index.
+On line 12, we loop through each cell index.
 
-On line 15, we convert the input cell data from binary to an integer. On line 16, we load the output cell data from the same index as the input cell data and convert it from binary to an integer.
+On lines 14 and 15, we load the cell data from the inputs and outputs at the current index, then we convert the data from binary to integer values.
 
-On lines 18 and 19, we compare the input value and the output value to ensure the output value is exactly one higher. If this is not a match, we return an error.
+On lines 17 and 18, we compare the input value and the output value to ensure the output value is exactly one higher. If this is not a match, we return an error.
 
-On line 22, we return success if no errors have occurred.
+On line 21, we return success if no errors have occurred.
 
-This code can take any number of Counter cells. The only requirements are that while updating there must be one input for every output, and the indexes must match for the input and corresponding output.
+This code can take any number of Counter cells. The requirements are that while updating there must be one input for every output and that the updated output value for an input value must be at the same index.
 
 Here is the real version in Rust.
 
-```javascript
+```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
-
-// Import heap related library from `alloc`
-// https://doc.rust-lang.org/alloc/index.html
-use alloc::vec::Vec;
 
 // Import CKB syscalls and structures
 // https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/index.html
@@ -124,11 +119,12 @@ pub fn main() -> Result<(), Error>
     {
         return Err(Error::InvalidTransactionStructure);
     }
-
+    
     // Loop through all the group input cell data.
-    for (i, input_data) in QueryIter::new(load_cell_data, Source::GroupInput).enumerate()
+    for i in 0..group_input_count
     {
-        // Load the output data at the same index.
+        // Load the input and output data at the current index.
+        let input_data = load_cell_data(i, Source::GroupInput)?;
         let output_data = load_cell_data(i, Source::GroupOutput)?;
         
         // Convert the input cell data into a u64 value.
@@ -156,15 +152,15 @@ pub fn main() -> Result<(), Error>
 
 The dependencies and boilerplate code are the same in this example as in the previous lessons, so we won't go over them. We'll only go over the main logic of the code.
 
-On lines 19 to 33, we count the group input and group output cells, then perform some basic validation. The Aggregatable Counter type script uses the `GroupInput` and `GroupOutput`. This limits the scope of concern to only other Aggregatable Counter cells. It then checks the number of input cells, which is logically checking if the operation is creating cells, or updating cells. It then checks that the number of input and output cells is equal. This ensures that we have the proper structure to validate an update operation.
+On lines 15 to 29, we count the group input and group output cells, then perform some basic validation. The Aggregatable Counter type script uses the `GroupInput` and `GroupOutput`. This limits the scope of concern to only other Aggregatable Counter cells. It then checks the number of input cells, which is logically checking if the operation is creating cells, or updating cells. It then checks that the number of input and output cells is equal. This ensures that we have the proper structure to validate an update operation.
 
-On line 36, we loop through all the group input cells and retrieve their data. On line 39, we retrieve the data for the group output cell at the same index.
+On line 32, we loop through all the cell indexes. On lines 35 and 36, we retrieve the data for the group input cell and group output cell at the current cell index.
 
-On lines 41 to 49, we convert the input and output data to u64 values.
+On lines 38 to 46, we convert the input and output data to u64 values.
 
-On lines 51 to 56, we check that the values are as expected, and return an error if it is not as expected.
+On lines 48 to 53, we check that the values are as expected, and return an error if it is not as expected.
 
-On line 60, we return successfully if no errors were found.
+On line 57, we return successfully if no errors were found.
 
 
 
