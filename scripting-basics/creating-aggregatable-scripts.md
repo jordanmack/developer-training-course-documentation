@@ -223,27 +223,32 @@ for(const counterCellOutPoint of counterCellOutPoints)
 
 This adds the existing Aggregatable Counter cells as inputs to the transaction, using the given out points from the previous transaction.
 
+On line 2, we create an array to keep track of the values in each cell.
+
 On line 5, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different system calls, so we only request the data if it is needed. 
 
-On line 3, we take the data from the input Counter cell and decode it from hex-encoded binary to a BigInt. This value will be used again during the creation of our output Counter cell.
+On line 6, we take the data from the input Aggregatable Counter cell and decode it from hex-encoded binary to a BigInt. These values will be used again during the creation of our output Aggregatable Counter cells.
 
 ```javascript
-// Add the updated Counter cell to the transaction.
-const outputCapacity1 = ckbytesToShannons(102n);
-const lockScript1 = addressToScript(address1);
-const typeScript1 =
+// Add the updated Aggregatable Counter cell to the transaction.
+for(const counterValue of counterValues)
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
-    args: "0x"
-};
-const dataValue1 = counterValue + 1n;
-const data1 = intToU64LeHexBytes(dataValue1);
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
-transaction = transaction.update("outputs", (i)=>i.push(output1));
+    const outputCapacity1 = ckbytesToShannons(102n);
+    const lockScript1 = addressToScript(address1);
+    const typeScript1 =
+    {
+        code_hash: dataFileHash1,
+        hash_type: "data",
+        args: "0x"
+    };
+    const dataValue1 = counterValue + 1n;
+    const data1 = intToU64LeHexBytes(dataValue1);
+    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    transaction = transaction.update("outputs", (i)=>i.push(output1));
+}
 ```
 
-This code adds a Counter cell to the outputs with the updated value. This code is nearly identical to the code in the `createCell()` transaction, except that on line 10, we insert an updated value that is exactly one higher than the input value.
+This code creates the output Aggregatable Counter cells with the updated values. This code is very similar to the code in the `createCell()` transaction, except we update the value on line 12.
 
 The resulting transaction will look similar to this.
 
