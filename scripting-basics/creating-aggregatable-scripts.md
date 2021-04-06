@@ -254,9 +254,5 @@ The resulting transaction will look similar to this.
 
 ![](../.gitbook/assets/update-transaction-structure.png)
 
-As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a Counter cell, we are consuming the input Counter cell, and creating a new output Counter cell.
-
-There is no direct association between the input cell and output cell. It is important to keep this in mind while developing scripts because the script logic must reflect this in order to process the transaction correctly. We will learn more about this in our next lesson.
-
-
+We can update as many cells as needed in a single transaction, rather than having to create multiple transactions. This reduces the overhead involved with a transaction and on script execution since it is more efficient to have a script execute once and process multiple cells than it is to have a script execute multiple times to process a single pair of cells. This, in turn, reduces the computation cycles required and saves on transaction fees.
 
