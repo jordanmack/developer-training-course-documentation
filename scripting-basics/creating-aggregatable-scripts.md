@@ -86,5 +86,85 @@ On lines 18 and 19, we compare the input value and the output value to ensure th
 
 On line 22, we return success if no errors have occurred.
 
+This code can take any number of Counter cells. The only requirements are that while updating there must be one input for every output, and the indexes must match for the input and corresponding output.
+
+Here is the real version in Rust.
+
+```javascript
+// Import from `core` instead of from `std` since we are in no-std mode.
+use core::result::Result;
+
+// Import heap related library from `alloc`
+// https://doc.rust-lang.org/alloc/index.html
+use alloc::vec::Vec;
+
+// Import CKB syscalls and structures
+// https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/index.html
+use ckb_std::ckb_constants::Source;
+use ckb_std::high_level::{load_cell, load_cell_data, QueryIter};
+
+// Import local modules.
+use crate::error::Error;
+
+// Main entry point.
+pub fn main() -> Result<(), Error>
+{
+    // Count on the number of group input and groupt output cells.
+    let group_input_count = QueryIter::new(load_cell, Source::GroupInput).count();
+    let group_output_count = QueryIter::new(load_cell, Source::GroupOutput).count();
+    
+    // If there are no inputs, skip validation.
+    if group_input_count == 0
+    {
+        return Ok(());
+    }
+    
+    // If there isn't an exact 1:1 ratio, give an error.
+    if group_input_count != group_output_count
+    {
+        return Err(Error::InvalidTransactionStructure);
+    }
+
+    // Loop through all the group input cell data.
+    for (i, input_data) in QueryIter::new(load_cell_data, Source::GroupInput).enumerate()
+    {
+        // Load the output data at the same index.
+        let output_data = load_cell_data(i, Source::GroupOutput)?;
+        
+        // Convert the input cell data into a u64 value.
+        let mut buffer = [0u8; 8];
+        buffer.copy_from_slice(&input_data[0..8]);
+        let input_value = u64::from_le_bytes(buffer);
+        
+        // Convert the output cell data into a u64 value.
+        let mut buffer = [0u8; 8];
+        buffer.copy_from_slice(&output_data[0..8]);
+        let output_value = u64::from_le_bytes(buffer);
+        
+        // Check if the output is one more than the input.
+        if input_value + 1 != output_value
+        {
+            // If no match was found return an error.
+            return Err(Error::InvalidCounterValue);
+        }
+    }
+    
+    // Return success if all group input and output cells have been checked and no errors were found.
+    Ok(())
+}
+```
+
+The dependencies and boilerplate code are the same in this example as in the previous lessons, so we won't go over them. We'll only go over the main logic of the code.
+
+On lines 19 to 33, we count the group input and group output cells, then perform some basic validation. The Aggregatable Counter type script uses the `GroupInput` and `GroupOutput`. This limits the scope of concern to only other Aggregatable Counter cells. It then checks the number of input cells, which is logically checking if the operation is creating cells, or updating cells. It then checks that the number of input and output cells is equal. This ensures that we have the proper structure to validate an update operation.
+
+On line 36, we loop through all the group input cells and retrieve their data. On line 39, we retrieve the data for the group output cell at the same index.
+
+On lines 41 to 49, we convert the input and output data to u64 values.
+
+On lines 51 to 56, we check that the values are as expected, and return an error if it is not as expected.
+
+On line 60, we return successfully if no errors were found.
+
 
 
