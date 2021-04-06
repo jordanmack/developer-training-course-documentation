@@ -46,7 +46,7 @@ Now, let's take a look at what a transaction would look like if it contained mul
 
 This transaction would not execute successfully because the Counter type script would give an error. The offending lines in the pseudo-code would be 9 and 10. The Counter type script was only designed to process exactly one input and one output.
 
-Here is the pseudo-code for the Aggregatable Counter.
+We need to update the script logic to be able to handle multiple cells. Here is the pseudo-code for the Aggregatable Counter.
 
 ```javascript
 function main()
@@ -161,6 +161,97 @@ On lines 38 to 46, we convert the input and output data to u64 values.
 On lines 48 to 53, we check that the values are as expected, and return an error if it is not as expected.
 
 On line 57, we return successfully if no errors were found.
+
+### Usage in Lumos
+
+Next, we will use the Aggregatable Counter type script in a Lumos example. Our code will deploy the type script code, create some cells using the Aggregatable Counter type script, then update the values of those cells.
+
+The code we will be covering here is located in the `index.js` file in the `Creating-Aggregatable-Scripts-Example` directory. Feel free to open the `index.js` file and follow along. This code example is fully functional, and you should feel free to modify and experiment with it. You can execute this code in a console by entering the directory and executing `node index.js`.
+
+Starting with the `main()` function, you will see our code has four sections.
+
+![](../.gitbook/assets/example-flow%20%282%29.png)
+
+The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
+
+### Creating Cells
+
+Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the Aggregatable Counter type script.
+
+```javascript
+// Create cells using the Aggregatable Counter type script.
+for(const amount of [0n, 42n, 9_000n])
+{
+    const outputCapacity1 = ckbytesToShannons(102n);
+    const lockScript1 = addressToScript(address1);
+    const typeScript1 =
+    {
+        code_hash: dataFileHash1,
+        hash_type: "data",
+        args: "0x"
+    };
+    const data1 = intToU64LeHexBytes(amount);
+    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    transaction = transaction.update("outputs", (i)=>i.push(output1));
+}
+```
+
+This block of code creates three Aggregatable Counter cells. This is very similar to the previous lesson, except that we are creating multiple cells now.
+
+On line 2, we loop through the amounts that want to create cells with. This is the starting value for the Aggregatable Counter. Our script code does not restrict the starting value, so we can customize the starting point.
+
+On line 12, we convert that amount into a u64 LE value in hex bytes and insert it into the cell structure on line 13, which is then added to the transaction on line 14. 
+
+The resulting transaction will look similar to this.
+
+![](../.gitbook/assets/create-transaction-structure%20%2812%29.png)
+
+### Updating Cells
+
+Now, we'll look at the relevant parts of the `updateCells()` function. This function generates and executes a transaction that will update the Aggregatable Counter type script's state.
+
+```javascript
+// Add the Aggregatable Counter cells to the transaction and keep track of their counter values.
+const counterValues = [];
+for(const counterCellOutPoint of counterCellOutPoints)
+{
+    const input = await getLiveCell(nodeUrl, counterCellOutPoint, true);
+    counterValues.push(u64LeHexBytesToInt(input.data));
+    transaction = transaction.update("inputs", (i)=>i.push(input));
+}
+```
+
+This adds the existing Aggregatable Counter cells as inputs to the transaction, using the given out points from the previous transaction.
+
+On line 5, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different system calls, so we only request the data if it is needed. 
+
+On line 3, we take the data from the input Counter cell and decode it from hex-encoded binary to a BigInt. This value will be used again during the creation of our output Counter cell.
+
+```javascript
+// Add the updated Counter cell to the transaction.
+const outputCapacity1 = ckbytesToShannons(102n);
+const lockScript1 = addressToScript(address1);
+const typeScript1 =
+{
+    code_hash: dataFileHash1,
+    hash_type: "data",
+    args: "0x"
+};
+const dataValue1 = counterValue + 1n;
+const data1 = intToU64LeHexBytes(dataValue1);
+const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+transaction = transaction.update("outputs", (i)=>i.push(output1));
+```
+
+This code adds a Counter cell to the outputs with the updated value. This code is nearly identical to the code in the `createCell()` transaction, except that on line 10, we insert an updated value that is exactly one higher than the input value.
+
+The resulting transaction will look similar to this.
+
+![](../.gitbook/assets/update-transaction-structure.png)
+
+As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a Counter cell, we are consuming the input Counter cell, and creating a new output Counter cell.
+
+There is no direct association between the input cell and output cell. It is important to keep this in mind while developing scripts because the script logic must reflect this in order to process the transaction correctly. We will learn more about this in our next lesson.
 
 
 

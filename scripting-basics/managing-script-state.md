@@ -165,7 +165,7 @@ On line 10 and 11, we define the data value for the Counter cell. The value must
 
 The resulting transaction will look something like this.
 
-![](../.gitbook/assets/create-transaction-structure%20%2812%29.png)
+![](../.gitbook/assets/create-transaction-structure%20%2813%29.png)
 
 ### Updating Cells
 
@@ -180,7 +180,7 @@ transaction = transaction.update("inputs", (i)=>i.push(input));
 
 This adds the existing Counter cell as an input to the transaction, using the given out point from the previous transaction. We're using the out point instead of cell collection this time because it is a little easier to structure in this example since this Counter cell does not allow for burning. This will be covered later on.
 
-On line 2, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different calls.
+On line 2, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different system calls, so we only request the data if it is needed.
 
 On line 3, we take the data from the input Counter cell and decode it from hex-encoded binary to a BigInt. This value will be used again during the creation of our output Counter cell.
 
