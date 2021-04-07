@@ -231,15 +231,11 @@ On lines 29 to 33, we check for an overflow scenario. The counter can only go so
 
 On lines 35 to 39, we check that the output value is exactly one more than the input value, and deliver an `InvalidCounterValue` error if it doesn't match.
 
-The `validate_transfer()` function is the longest chunk of code in our script, but most of it is simple data validation and conversion. If you look closely, line 36 is the only piece of real logic! Some of our previous counters skipped some of the data validation to keep things more simple in our examples, but it is always recommended that you never cut corners on a script intended for production.
+The `validate_transfer()` function is the longest chunk of code in our script, but most of it is data validation and conversion. Some of our previous counters skipped some of the data validation to keep things more simple in our examples, but it is always recommended that you never cut corners on a script intended for production. If you look closely, line 36 is the only piece of real counter logic! 
 
+Operation detection can be a helpful approach to better understand how a complex program operates. However, it may not always be the best solution. Operation detection can sometimes lead to unnecessary complications or functionality restrictions.
 
+Our example had three discrete modes of operation, create, transfer/update, and burn. It is not aggregatable and is only capable of processing one mode at a time. However, it is possible to create an aggregatable counter that can handle all modes simultaneously without using operation detection.
 
-
-
-
-
-
-
-Operation detection is not the only way to do things. It may or may not be the best solution. This script is not aggregatable.
+What you should use will depend on the specifics of your project, and the architecture of your dapp.
 
