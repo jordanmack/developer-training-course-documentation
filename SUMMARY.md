@@ -37,6 +37,7 @@
 * [Using Script Args](scripting-basics/using-script-args.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
+* [Operation Detection](scripting-basics/operation-detection.md)
 
 ## Diving Into Lock Scripts
 
