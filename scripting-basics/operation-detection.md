@@ -68,11 +68,34 @@ enum Mode
 
 Here we are defining the possible modes \(operations\) that our script will use. You may be wondering why there are only three instead of the four we said we would cover. There are only three here because, for the purposes of our counter, Transfer and Update are exactly the same.
 
+Next, we will skip to the `main()` function and work through the application in the order it would execute.
+
 ```rust
+// Main entry point.
+pub fn main() -> Result<(), Error>
+{
+    // Determine the mode and validate as needed.
+    match determine_mode()
+    {
+        Ok(Mode::Burn) => return Ok(()),
+        Ok(Mode::Create) => validate_create()?,
+        Ok(Mode::Transfer) => validate_transfer()?,
+        Err(e) => return Err(e),
+    }
 
+    Ok(())
+}
+```
 
+The flow of the `main()` function is fairly simple:
 
+1. Determine the mode of operation.
+2. Validate according to the detected mode.
+3. Return success or failure.
 
+Starting with step 1, let's look at how `determine_mode()` works.
+
+```rust
 // Determines the mode of operation for the currently executing script.
 fn determine_mode() -> Result<Mode, Error>
 {
@@ -97,7 +120,44 @@ fn determine_mode() -> Result<Mode, Error>
     // If no known code structure was used, return an error.
     Err(Error::InvalidTransactionStructure)
 }
+```
 
+On lines 4 to 6, we count the group inputs and outputs.
+
+On lines 8 to 20, we detect which mode of operation is in use based on the counts we just collected.
+
+On lines 9 to 12, if the input count is 1, and the output count is 0, a burn operation is detected. Input cells are always consumed, and if a new cell is not created, the asset is effectively destroyed. Our previous counter scripts did not include burn functionality because we were trying to keep our script as simple as possible. However, burn functionality is highly recommended, because it allows the user to recover the CKBytes in the cell and remove it from the state once it is no longer needed.
+
+On lines 13 to 16, if the input count is 0, and the output count is 1, a create operation is detected. This is also known as a minting operation. Most asset types will need to have some kind of special conditions for a create operation. It's common for the mining operation to be restricted in some way for store of value assets like tokens. We will demonstrate this in the next lesson.
+
+On lines 17 to 20, if the input count is 1 and the output count is 1, a transfer operation is detected. A transfer is defined as the input cell being consumed, and the output cell is created with the same values, but having a different lock script which indicates a different owner.
+
+As we mentioned earlier, we are combining the transfer operation with the update operation. An update is defined as the input cell being consumed, and the output cell is created with different values, but the same lock script. If the output cell was created with different values AND a different lock script, then both a transfer and update operation are occurring at the same time. For the purposes of our counter, we do not want to treat any of these operations differently, so we are combining these into a single mode.
+
+On line 23, if no supported count pattern is recognized, we return an `InvalidTransactionStructure` error.
+
+Now that we have detected the mode, let's look at the `main()` function once again.
+
+```rust
+// Main entry point.
+pub fn main() -> Result<(), Error>
+{
+    // Determine the mode and validate as needed.
+    match determine_mode()
+    {
+        Ok(Mode::Burn) => return Ok(()),
+        Ok(Mode::Create) => validate_create()?,
+        Ok(Mode::Transfer) => validate_transfer()?,
+        Err(e) => return Err(e),
+    }
+
+    Ok(())
+}
+```
+
+If a burn operation is detected \(line 7\), we can immediately return success. If an error is detected \(line 10\), we immediately return the error. For create and transfer operations, we need to go through another layer of validation. Let's take a look at `validate_create()` first, and then the `validate_transfer()` function.
+
+```rust
 // Validate a transaction to create a counter cell.
 fn validate_create() -> Result<(), Error>
 {
@@ -110,7 +170,11 @@ fn validate_create() -> Result<(), Error>
     
     Ok(())
 }
+```
 
+This code validates a create operation and should be fairly straightforward. It loads the cell data, and it ensures that the data is a zero u64 value. In the previous counter examples, we didn't check the value that a cell was created with. We skipped it to make the logic simpler, but it is generally a good idea to do so. This ensures that cells cannot be created with an invalid value that could cause undesired behavior.
+
+```rust
 // Validate a transaction to transfer (update) a counter cell and increase its value.
 fn validate_transfer() -> Result<(), Error>
 {
@@ -153,22 +217,29 @@ fn validate_transfer() -> Result<(), Error>
     
     Ok(())
 }
-
-// Main entry point.
-pub fn main() -> Result<(), Error>
-{
-    // Determine the mode and validate as needed.
-    match determine_mode()
-    {
-        Ok(Mode::Burn) => return Ok(()),
-        Ok(Mode::Create) => validate_create()?,
-        Ok(Mode::Transfer) => validate_transfer()?,
-        Err(e) => return Err(e),
-    }
-
-    Ok(())
-}
 ```
 
+On lines 4 to 9, we load the data from the first group input cell, then check that its data is exactly 8 bytes; the size of a u64.
 
+On lines 11 to 16, we load the data from the first group output cell, and perform the same validation as we did on the input.
+
+The check on the input data is a bit redundant. Since we validate the data of the output in `validate_create()` and we also validate the data of the output in `validate_transfer()`, there is no way for a cell to be created with malformed data. However, as we stated earlier, we do not consider it bad practice to check anyway.
+
+On lines 21 to 27, we convert the raw input and output data to u64 values.
+
+On lines 29 to 33, we check for an overflow scenario. The counter can only go so high before the value overflows and goes back to zero. It is extremely unlikely we would hit this scenario using a u64 value, but it is still good practice to check and deliver a proper error message.
+
+On lines 35 to 39, we check that the output value is exactly one more than the input value, and deliver an `InvalidCounterValue` error if it doesn't match.
+
+The `validate_transfer()` function is the longest chunk of code in our script, but most of it is simple data validation and conversion. If you look closely, line 36 is the only piece of real logic! Some of our previous counters skipped some of the data validation to keep things more simple in our examples, but it is always recommended that you never cut corners on a script intended for production.
+
+
+
+
+
+
+
+
+
+Operation detection is not the only way to do things. It may or may not be the best solution. This script is not aggregatable.
 
