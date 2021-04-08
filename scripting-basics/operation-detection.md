@@ -241,5 +241,5 @@ Operation detection can be a helpful approach to better understand how a complex
 
 Our example had three discrete modes of operation, create, transfer/update, and burn. It is not aggregatable and is only capable of processing one mode at a time. However, it is possible to create an aggregatable counter that can handle all modes simultaneously without using operation detection.
 
-What you should use will depend on the specifics of your project, and the architecture of your dapp.
+What you should use will depend on the specifics of your project, and the architecture of your dapp. In the next lesson, we will demonstrate how operation detection is used in a production script.
 
