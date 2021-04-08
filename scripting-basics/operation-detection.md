@@ -19,7 +19,7 @@ Next, we will look at an example of a counter that uses operation detection. We 
 
 ![](../.gitbook/assets/odcounter-flow.png)
 
-The logic of the script is fairly straightforward. We determine the mode of operation, validate if necessary, and return either success or failure.
+The logical flow of the script is fairly straightforward. We determine the mode of operation, validate if necessary, and return either success or fail with an error code.
 
 Now, we will review the code one section at a time to make it easier to understand, but you can review the full source code at any time by opening the `entry.rs` file in the directory`developer-training-course-script-examples/contracts/odcounter/src`.
 
