@@ -15,9 +15,13 @@ Your script can incorporate many other operations or custom operations for your 
 
 ### Script Logic
 
-Next, we will look at an example of a counter that uses operation detection. We will call this the "ODCounter" for short. We're going to skip the pseudo-code example this time around, and instead jump straight into the real Rust code.
+Next, we will look at an example of a counter that uses operation detection. We will call this the "ODCounter" for short. We're going to skip the pseudo-code example this time around, and instead take a look at a flow chart of the script logic, and then jump straight into the real Rust code.
 
-We're going to review the code one section at a time to make it easier to understand, but you can review the full source code at any time by opening the `entry.rs` file in the directory`developer-training-course-script-examples/contracts/odcounter/src`.
+![](../.gitbook/assets/odcounter-flow.png)
+
+The logic of the script is fairly straightforward. We determine the mode of operation, validate if necessary, and return either success or failure.
+
+Now, we will review the code one section at a time to make it easier to understand, but you can review the full source code at any time by opening the `entry.rs` file in the directory`developer-training-course-script-examples/contracts/odcounter/src`.
 
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
