@@ -33,6 +33,7 @@
 * [Lab: Convert IC3Type to OC5Type](scripting-basics/lab-convert-ic3type-to-oc5type.md)
 * [Syscalls and Sources](scripting-basics/syscalls.md)
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
+* [Lab: Convert Always Success to Data10](scripting-basics/lab-convert-always-success-to-data10.md)
 * [Script Groups](scripting-basics/script-groups.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
