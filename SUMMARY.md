@@ -35,6 +35,7 @@
 * [Accessing Cell Data](scripting-basics/accessing-cell-data.md)
 * [Lab: Convert Always Success to Data10](scripting-basics/lab-convert-always-success-to-data10.md)
 * [Script Groups](scripting-basics/script-groups.md)
+* [Lab: Convert Always Success to JSONCell](scripting-basics/lab-convert-always-success-to-jsoncell.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
