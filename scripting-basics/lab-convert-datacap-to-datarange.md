@@ -11,6 +11,7 @@ The `entry.rs` file contains the source code for the DataCap type script. Your t
 1. The script args of the DataRange script takes two values, the minimum data size, and maximum data size.
 2. The data size values specify the limits in bytes.
 3. Both the minimum and maximum data size values are u32 LE values \(4 bytes each\).
+4. You will not need to modify `error.rs`. This already contains the errors required for the DaraRange type script.
 
 Build your code by opening a terminal to the `Lab-DataRange-Exercise` folder and running `capsule build`, then test your code using `capsule test` after the build is successful. If you get stuck you can find the solution in the `Lab-DataRange-Solution` folder.
 
