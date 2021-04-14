@@ -40,6 +40,7 @@
 * [Lab: Convert DataCap to DataRange](scripting-basics/lab-convert-datacap-to-datarange.md)
 * [Lab: Use the DataRange Script in Lumos](scripting-basics/lab-use-the-datarange-script-in-lumos.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
+* [Lab: Convert the Counter to a Double Counter](scripting-basics/lab-convert-the-counter-to-a-double-counter.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
 
