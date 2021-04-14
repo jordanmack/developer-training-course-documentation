@@ -37,6 +37,8 @@
 * [Script Groups](scripting-basics/script-groups.md)
 * [Lab: Convert Always Success to JSONCell](scripting-basics/lab-convert-always-success-to-jsoncell.md)
 * [Using Script Args](scripting-basics/using-script-args.md)
+* [Lab: Convert DataCap to DataRange](scripting-basics/lab-convert-datacap-to-datarange.md)
+* [Lab: Use the DataRange Script in Lumos](scripting-basics/lab-use-the-datarange-script-in-lumos.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
