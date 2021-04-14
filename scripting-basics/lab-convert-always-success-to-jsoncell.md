@@ -5,11 +5,11 @@ Complete the exercise in `index.js` in the folder `Lab-JSONCell-Exercise` by add
 The `index.js` file contains Lumos code to deploy, create, and consume cells using the **Always Success lock script**. Your task is to modify the functionality of this code to use the **JSONCell type script**.
 
 1. Change the binary that is used from `always_success` to `jsoncell`.
-   * Note: The data10 binary has already been compiled and provided. Do not change this binary or it may cause the lab to fail.
+   * Note: The jsoncell binary has already been compiled and provided. Do not change this binary or it may cause the lab to fail.
 2. Update the `createCells()` function.
    1.  Create three cells that use the default lock with `address1`, and the `jsoncell` type script.
-   2. Each one of these cells should have a capacity of 104 CKBytes.
-   3. Each of these three cells should contain one of the following three strings, in this specific order: "HelloWorld", "Foo Bar", and "LoremIpsum".
+   2. Each one of these cells should contain only the minimum capacity necessary to hold the cell data.
+   3. Each of these three cells should contain one of the following JSON objects, in this specific order: `"Hello World!"`, `["Foo", "Bar"]`, and `{"Lorem": "Ipsum"}`.
 
    * Hint: Make sure that your `createCells()` function has the necessary cell deps. Remember: A lock script executes on inputs only. A type script executes on both inputs and outputs.
 3. Update the `consumeCells()` function to consume the three cells that were created.
