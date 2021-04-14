@@ -1,6 +1,6 @@
 # Introduction to Scripting Part 1
 
-Nervos allows for on-chain programmability using small programs known as "scripts". This is what allows Nervos to achieve smart contract functionality that is similar to other blockchain platforms. However, Nervos' approach is significantly different than most other platforms.
+Nervos uses small programs known as "scripts" to provide on-chain programmability. This is how Nervos achieves smart contract functionality that is similar to other blockchain platforms. However, Nervos' approach is significantly different than most other platforms.
 
 Nervos is based on the Cell Model, which we first introduced earlier. This is significantly different than the Account Model, which is used by most other platforms, including Ethererum. Both models can be used to create the same type of functionality, and build many of the same applications, but the approach that must be taken is conceptually very different.
 
