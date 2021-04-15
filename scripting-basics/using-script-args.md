@@ -67,20 +67,20 @@ pub fn main() -> Result<(), Error>
     let args: Bytes = script.args().unpack();
     
     // Verify that correct length of arguments was given.
-    if args.len() != 8
+    if args.len() != 4
     {
         return Err(Error::ArgsLen);
     }
     
     // Load the cell_data_limit from the script args.
-    let mut buffer = [0u8; 8];
-    buffer.copy_from_slice(&args[0..8]);
-    let cell_data_limit = u64::from_le_bytes(buffer);
+    let mut buffer = [0u8; 4];
+    buffer.copy_from_slice(&args[0..4]);
+    let cell_data_limit = u32::from_le_bytes(buffer);
     
     // Load the cell data from each cell.
     for data in QueryIter::new(load_cell_data, Source::GroupOutput)
     {
-        if data.len() as u64 > cell_data_limit
+        if (data.len() as u32) > cell_data_limit
         {
             return Err(Error::DataLimitExceeded);
         }
@@ -98,11 +98,11 @@ Lines 1 to 11 are all imports of dependencies.
 
 Lines 13 to 41 contain the main logic for our type script. The Rust syntax is a little more complex than our pseudo-code since we have to do more validation, but the code flow is very similar.
 
-On line 17 and 18 we load the raw bytes from the script's `args`. On lines 21 to 24 verify that the data in the `args` is exactly 8 bytes. Our script expects a u64 value, which is always 8 bytes. If the `args` length is not the expected size, we return an `ArgsLen` error. The data we retrieved from the `args` is still raw data at this point.
+On line 17 and 18 we load the raw bytes from the script's `args`. On lines 21 to 24 verify that the data in the `args` is exactly 4 bytes. Our script expects a u32 value, which is always 4 bytes. If the `args` length is not the expected size, we return an `ArgsLen` error. The data we retrieved from the `args` is still raw data at this point.
 
-On lines 27 to 29 we convert the data from the `args` to a u64 value. We don't need to do any kind of validation here because we know that the data is exactly 8 bytes, and this can always convert into an u64 successfully.
+On lines 27 to 29 we convert the data from the `args` to a u32 value. We don't need to do any kind of validation here because we know that the data is exactly 4 bytes, and this can always convert into an u32 successfully.
 
-On line 28, look at how the bytes to copy are specified using the `0..8` range. We can add multiple values to the args field by packing them next to each other, then specifying the ranges to read them out again.
+On line 28, look at how the bytes to copy are specified using the `0..4` range. We can add multiple values to the args field by packing them next to each other, then specifying the ranges to read them out again.
 
  On line 32, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
 
@@ -133,7 +133,7 @@ for(let message of messages)
 {
     const outputCapacity1 = ckbytesToShannons(500n);
     const lockScript1 = addressToScript(address1);
-    const dataCapSize1 = intToU64LeHexBytes(20);
+    const dataCapSize1 = intToU32LeHexBytes(20);
     const typeScript1 =
     {
         code_hash: dataFileHash1,
@@ -148,7 +148,7 @@ for(let message of messages)
 
 This is the code logic that creates the cells that use the DataCap type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
 
-On line 7 we convert our limit of 20 bytes as a 64-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by DataCap type script. This value is added to the type script on line 12. We could set different limits here for each cell, but that would make it more difficult to collect the cells later. We'll explain more later when we cover cell collection.
+On line 7 we convert our limit of 20 bytes as a 32-bit little-endian value as hex bytes. This specific binary format is used because it is what is expected by DataCap type script. This value is added to the type script on line 12. We could set different limits here for each cell, but that would make it more difficult to collect the cells later. We'll explain more later when we cover cell collection.
 
 On lines 9 to 13, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 15.
 
@@ -165,7 +165,7 @@ Next, we will look at the relevant parts of the `consumeCells()` function. This 
 ```javascript
 // Add the DataCap cells to the transaction. 
 const lockScript1 = addressToScript(address1);
-const dataCapSize1 = intToU64LeHexBytes(20);
+const dataCapSize1 = intToU32LeHexBytes(20);
 const typeScript1 =
 {
     code_hash: dataFileHash1,
