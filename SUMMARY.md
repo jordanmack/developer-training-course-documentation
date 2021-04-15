@@ -42,6 +42,7 @@
 * [Managing Script State](scripting-basics/managing-script-state.md)
 * [Lab: Convert the Counter to a Double Counter](scripting-basics/lab-convert-the-counter-to-a-double-counter.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
+* [Lab: Convert the Double Counter to an Aggregatable Double Counter](scripting-basics/lab-convert-the-double-counter-to-an-aggregatable-double-counter.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
 
 ## Diving Into Lock Scripts
