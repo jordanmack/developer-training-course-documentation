@@ -44,6 +44,7 @@
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 * [Lab: Convert the Double Counter to an Aggregatable Double Counter](scripting-basics/lab-convert-the-double-counter-to-an-aggregatable-double-counter.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
+* [Lab:](scripting-basics/lab.md)
 
 ## Diving Into Lock Scripts
 
