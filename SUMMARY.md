@@ -41,10 +41,10 @@
 * [Lab: Use the DataRange Script in Lumos](scripting-basics/lab-use-the-datarange-script-in-lumos.md)
 * [Managing Script State](scripting-basics/managing-script-state.md)
 * [Lab: Convert the Counter to a Double Counter](scripting-basics/lab-convert-the-counter-to-a-double-counter.md)
+* [Lab: Use the Double Counter in Lumos](scripting-basics/lab.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 * [Lab: Convert the Double Counter to an Aggregatable Double Counter](scripting-basics/lab-convert-the-double-counter-to-an-aggregatable-double-counter.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
-* [Lab:](scripting-basics/lab.md)
 
 ## Diving Into Lock Scripts
 
