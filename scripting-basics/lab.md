@@ -7,7 +7,7 @@ The `index.js` file contains Lumos code to deploy, create, and consume cells usi
 1. Compile the `doublecounter` binary from the previous lab in release mode using `capsule build --release`, then copy it from `build/release/` to the `files/` folder. 
 2. Change the binary that is used from `counter` to `doublecounter` in `index.js`.
 3. Update the `createCells()` function.
-   1.  Create a cell that use the default lock with `address1`, and the `doublecounter` type script.
+   1.  Create a cell that uses the default lock with `address1`, and the `doublecounter` type script.
    2. The cell should contain only the minimum capacity necessary to hold the cell data.
    3. The initial data values should be `42` and `9000`.
    4. The data field takes a hex string that must be prefixed with "0x". There should only be a single "0x" prefix even if there are two values included.
