@@ -20,7 +20,25 @@ Note: Be sure to always build your code after modifying it before it is tested a
 Once your code successfully compiles and all tests are passed, you have completed this lab. The test output will contain the following to indicate a successful test.
 
 ```text
+running 16 tests
+test tests::test_oddoublecounter_burn ... ok
+test tests::test_oddoublecounter_burn_multiple ... ok
+test tests::test_oddoublecounter_create ... ok
+test tests::test_oddoublecounter_create_invalid_output_data_value ... ok
+test tests::test_oddoublecounter_create_no_output_data ... ok
+test tests::test_oddoublecounter_create_multiple ... ok
+test tests::test_oddoublecounter_transfer ... ok
+test tests::test_oddoublecounter_transfer_high_value ... ok
+test tests::test_oddoublecounter_transfer_invalid_input_data ... ok
+test tests::test_oddoublecounter_transfer_invalid_output_data ... ok
+test tests::test_oddoublecounter_transfer_multiple ... ok
+test tests::test_oddoublecounter_transfer_multiple_mismatch_cell_count_too_few_outputs ... ok
+test tests::test_oddoublecounter_transfer_overflow ... ok
+test tests::test_oddoublecounter_transfer_multiple_mismatch_cell_count_too_many_outputs ... ok
+test tests::test_oddoublecounter_transfer_value_1_plus_2 ... ok
+test tests::test_oddoublecounter_transfer_value_2_plus_9000 ... ok
 
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
 Note: Our tests expect certain output values and also test error cases. If your script contains different logic for error handling, it may be reported as a failed test. If you have included better error handling than was expected by our tests, disregard the error. Good job!
