@@ -48,6 +48,7 @@
 * [Operation Detection](scripting-basics/operation-detection.md)
 * [Lab: Add Operation Detection to the Double Counter](scripting-basics/lab-add-operation-detection-to-the-double-counter.md)
 * [Creating a Token](scripting-basics/creating-a-token.md)
+* [Lab: Use an SUDT in Lumos](scripting-basics/lab-use-an-sudt-in-lumos.md)
 
 ## Diving Into Lock Scripts
 
