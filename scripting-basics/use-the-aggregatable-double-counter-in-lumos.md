@@ -1,4 +1,4 @@
-# Use the Aggregatable Double Counter in Lumos
+# Lab: Use the Aggregatable Double Counter in Lumos
 
 Complete the exercise in `index.js` in the folder `Lab-AggDoubleCounter-Exercise` by adding code and values as necessary.
 

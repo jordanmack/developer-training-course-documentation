@@ -44,9 +44,10 @@
 * [Lab: Use the Double Counter in Lumos](scripting-basics/lab.md)
 * [Creating Aggregatable Scripts](scripting-basics/creating-aggregatable-scripts.md)
 * [Lab: Convert the Double Counter to an Aggregatable Double Counter](scripting-basics/lab-convert-the-double-counter-to-an-aggregatable-double-counter.md)
-* [Use the Aggregatable Double Counter in Lumos](scripting-basics/use-the-aggregatable-double-counter-in-lumos.md)
+* [Lab: Use the Aggregatable Double Counter in Lumos](scripting-basics/use-the-aggregatable-double-counter-in-lumos.md)
 * [Operation Detection](scripting-basics/operation-detection.md)
 * [Lab: Add Operation Detection to the Double Counter](scripting-basics/lab-add-operation-detection-to-the-double-counter.md)
+* [Creating a Token](scripting-basics/creating-a-token.md)
 
 ## Diving Into Lock Scripts
 
