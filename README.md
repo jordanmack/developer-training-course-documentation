@@ -33,3 +33,7 @@ Most of our examples will be performed on a Linux console, so familiarity with a
 
 * [The Linux command line for beginner](https://ubuntu.com/tutorials/command-line-for-beginners)
 
+### Join Us on Discord!
+
+We have created a chatroom for everyone who is taking the course. Join us on [Discord](https://discord.gg/AqGTUE9) in the [\#developer-training-course](https://discord.gg/AqGTUE9) channel. Feel free to ask any questions you may have, or just tell us how well the course is working for you. Your feedback helps make the course better for everyone! 
+
