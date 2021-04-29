@@ -9,7 +9,7 @@ The `index.js` file contains incomplete Lumos code to deploy, create, transfer, 
    1. Three of the token cells should have Alice as the owner of the token, Alice as the owner of the cell, and should have the following token amounts: 100, 300, 700
    2. The fourth token cell should have as the owner of the token, Daniel and the owner of the cell, and should contain 900 tokens.
    3. Each of the four token cells should contain only the minimum capacity necessary.
-3. Update the `transferCells()` function to transfer the SUDT cells that were created for Alice.
+3. Update the `transferCells()` function to transfer the three SUDT cells that were created for Alice.
    1. Send tokens to the following people: Bob: 200, Charlie: 500, Alice: 400 \(change\)
 4. Update the `consumeCells()` function to burn Alice's remaining SUDT tokens.
    1. Alice has decided she no longer wants her remaining tokens and decides to burn them.
