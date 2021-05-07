@@ -93,7 +93,7 @@ pub fn main() -> Result<(), Error>
     for data in QueryIter::new(load_cell_data, Source::GroupOutput)
     {
         // Parse the cell data into a UTF-8 string.
-        let json_str = str::from_utf8(&data).map_err(|_| Error::InvalidStringData)?;
+        let json_str = str::from_utf8(&data).map_err(|_|Error::InvalidStringData)?;
     
         // Validate the string as JSON by parsing it.
         parse_json(json_str).map_err(|_|Error::InvalidJson)?;
