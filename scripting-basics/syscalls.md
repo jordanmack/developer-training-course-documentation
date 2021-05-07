@@ -47,7 +47,7 @@ You don't need to memorize all the functions below, but it's a good idea to read
 
 Using `QueryIter` is the preferred method of calling these functions because it is very concise, and it also abstracts away some of the most common boilerplate code needed to use these loading functions.
 
-We will demonstrate how to use `QueryIter` in the next lesson. The reason we are mentioning it now is that it is used heavily with the Rust high-level functions that are being mentioned.
+We will demonstrate how to use `QueryIter` in the next lesson. The reason we are mentioning it now is that it is used heavily with the Rust high-level functions shown above.
 
 ## Sources
 
