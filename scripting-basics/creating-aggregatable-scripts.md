@@ -4,7 +4,7 @@ One of the unique features of the Cell Model is that multiple cells can be combi
 
 ### Minimal Concern Pattern
 
-One of the most common ways to create an aggregatable script is the follow the minimal concern pattern.  Following this pattern creates scripts that have composable cell logic that allows them to safely be combined in a single transaction with other cells of different types without affecting their operation.
+One of the most common ways to create an aggregatable script is to follow the minimal concern pattern.  Following this pattern creates scripts that have composable cell logic that allows them to safely be combined in a single transaction with other cells of different types without affecting their operation.
 
 To incorporate the minimal concern pattern a script should:
 
