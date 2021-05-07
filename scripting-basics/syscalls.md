@@ -6,7 +6,7 @@ Scripts written in Rust will use the CKB-STD library that provides both [high-le
 
 In the table below, you will see the relationship between the available syscall functions. Rust developers will want to use the high-level functions most of the time, but on occasion using a syscall may be necessary.
 
-You don't need to memorize all the functions below, but it's a good idea to read through them so you have a general idea about what kind of information is available. We will introduce the most commonly used functions in the lessons to follow. 
+You don't need to memorize all the functions below, but it's a good idea to read through them so you have a general idea about what kind of information is available. We will introduce the most commonly used functions in the lessons to follow.
 
 | CKB-STD High-Level Function | CKB-STD Syscall Function | Syscall RFC |
 | :--- | :--- | :--- |
@@ -43,15 +43,15 @@ You don't need to memorize all the functions below, but it's a good idea to read
 
 ### Using QueryIter with Syscalls
 
-`QueryIter` allows for convenient iteration over the Rust high-level functions. Most of the CKB-STD high-level functions for loading a cell, header, input, or witness, can be used with `QueryIter`. 
+`QueryIter` allows for convenient iteration over the Rust high-level functions. Most of the CKB-STD high-level functions for loading a cell, header, input, or witness, can be used with `QueryIter`.
 
 Using `QueryIter` is the preferred method of calling these functions because it is very concise, and it also abstracts away some of the most common boilerplate code needed to use these loading functions.
 
-We will demonstrate how to use `QueryIter` in the next lesson. The only reason we are mentioning it now is because it is used so heavily with the Rust high-level functions that are being mentioned.  
+We will demonstrate how to use `QueryIter` in the next lesson. The reason we are mentioning it now is that it is used heavily with the Rust high-level functions that are being mentioned.
 
 ## Sources
 
-Most of the syscall function also require a source to be provided as an argument. Here are the available sources:
+Most of the syscall functions also require a source to be provided as an argument. Here are the available sources:
 
 ```rust
 pub enum Source {
