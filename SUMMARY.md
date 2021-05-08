@@ -50,11 +50,3 @@
 * [Creating a Token](scripting-basics/creating-a-token.md)
 * [Lab: Use an SUDT in Lumos](scripting-basics/lab-use-an-sudt-in-lumos.md)
 
-## Diving Into Lock Scripts
-
-* [Deconstructing the Default Lock Script](diving-into-lock-scripts/using-the-default-lock-script.md)
-* [Lab: Sending From Multiple Accounts Using the Default Lock Script](diving-into-lock-scripts/lab-sending-from-multiple-accounts-using-the-default-lock-script.md)
-* [Using the Multi-Sig Lock Script](diving-into-lock-scripts/untitled-2.md)
-* [Lab: Creating a 2/3 Multi-Sig Cell](diving-into-lock-scripts/lab-multi-sig.md)
-* [Lab: Unlocking a 2/3 Multi-Sig](diving-into-lock-scripts/introduction-to-lumos-part-2.md)
-
