@@ -65,7 +65,7 @@ This should give you console output similar to the following.
 
 ![](.gitbook/assets/ckb-list-hashes.png)
 
-The system cell hashes are specifically the ones we are interested in. These describe the locations of resources the Developer Training Course will need. You will need to copy these values into the file `developer-training-course/config.json` in the correct locations.
+The system cell hashes are specifically the ones we are interested in. These describe the locations of resources the Developer Training Course will need. You will need to copy these values into the file `developer-training-course/config.json` in the correct locations. This `config.json` file will be used by the Lumos framework in the later lessons to create transactions.
 
 The chart below describes the values that need to be updated in `config.json`, and where they come from the output from `./ckb list-hashes`. The format from `config.json` and the output of `./ckb list-hashes` are structured differently, so you will need to match them up manually.
 
@@ -83,5 +83,5 @@ For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the 
 | DAO.TX\_HASH | tx\_hash |
 | DAO.INDEX | index |
 
-A total of six values should be updated in total.
+A total of six values should be updated in total. This process only needs to be done once, but if you set up a new dev chain, you will need to repeat this process since the values will be different.
 
