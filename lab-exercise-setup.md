@@ -83,3 +83,5 @@ For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the 
 | DAO.TX\_HASH | tx\_hash |
 | DAO.INDEX | index |
 
+A total of six values should be updated in total.
+
