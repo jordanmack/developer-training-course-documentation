@@ -43,6 +43,8 @@ cd developer-training-course
 npm i
 ```
 
+While installing dependencies with `npm` you may get some warnings. This is normal and does not always indicate a problem. If you encounter errors, make sure you are on the correct version of Node.js.
+
 ### Setup a CKB Dev Blockchain
 
 You will need to have a CKB Dev Blockchain node running locally for our code to interact with. This is a full Nervos CKB node that will run on your computer with a private testnet, also known as a devnet.
