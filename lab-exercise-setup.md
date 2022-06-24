@@ -53,7 +53,7 @@ You will need to complete the setup instruction from the URL below for the secti
 
 ### Update Your Chain Hashes in config.json
 
-After you have created your devnet, you will need to copy some of the chain configuration values into the developer-training-course repo. The scripts we will be using require this information about the devnet in order to create transactions properly.
+After you have created your devnet, you will need to copy some of the chain configuration values into the developer-training-course repo. The scripts we will be using require this information about the devnet in order to locate resources to create transactions properly.
 
 From the console, enter the directory where you have your devnet CKB Node, and run the following command.
 
