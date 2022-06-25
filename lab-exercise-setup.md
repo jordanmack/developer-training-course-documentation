@@ -69,20 +69,20 @@ This should give you console output similar to the following.
 
 The system cell hashes are specifically the ones we are interested in. These describe the locations of resources the Developer Training Course will need. You will need to copy these values into the file `developer-training-course/config.json` in the correct locations. This `config.json` file will be used by the Lumos framework in the later lessons to create transactions.
 
-The chart below describes the values that need to be updated in `config.json`, and where they come from the output from `./ckb list-hashes`. The format from `config.json` and the output of `./ckb list-hashes` are structured differently, so you will need to match them up manually.
+The table below describes the values that need to be updated in `config.json`, and where they come from the output from `./ckb list-hashes`. The format of `config.json` and the output of `./ckb list-hashes` are structured differently, so you will need to match them up manually.
 
-For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the line `path = "Bundled(specs/cells/secp256k1_blake160_sighash_all)"`. The value for `SECP256K1_BLAKE160.TX_HASH` needs to be copied from the value for`tx_hash` underneath the line `path = "Bundled(specs/cells/secp256k1_blake160_sighash_all)"`.
+For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the config group that contains the line `included_cells = ["Bundled(specs/cells/secp256k1_data)", "Bundled(specs/cells/secp256k1_blake160_sighash_all)"]`. The values for `SECP256K1_BLAKE160.TX_HASH` and `SECP256K1_BLAKE160.INDEX` are contained in the lines directly underneath.
 
-| config.json                            | ckb list-hashes                                         |
-| -------------------------------------- | ------------------------------------------------------- |
-| SECP256K1\_BLAKE160                    | Bundled(specs/cells/secp256k1\_blake160\_sighash\_all)  |
-| SECP256K1\_BLAKE160.TX\_HASH           | tx\_hash                                                |
-| SECP256K1\_BLAKE160.INDEX              | index                                                   |
-| SECP256K1\_BLAKE160\_MULTISIG          | Bundled(specs/cells/secp256k1\_blake160\_multisig\_all) |
-| SECP256K1\_BLAKE160\_MULTISIG.TX\_HASH | tx\_hash                                                |
-| SECP256K1\_BLAKE160\_MULTISIG.INDEX    | index                                                   |
-| DAO                                    | Bundled(specs/cells/dao)                                |
-| DAO.TX\_HASH                           | tx\_hash                                                |
-| DAO.INDEX                              | index                                                   |
+| config.json                            | ckb list-hashes                                                                                                        |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| SECP256K1\_BLAKE160                    | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_sighash\_all)"]  |
+| SECP256K1\_BLAKE160.TX\_HASH           | tx\_hash                                                                                                               |
+| SECP256K1\_BLAKE160.INDEX              | index                                                                                                                  |
+| SECP256K1\_BLAKE160\_MULTISIG          | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_multisig\_all)"] |
+| SECP256K1\_BLAKE160\_MULTISIG.TX\_HASH | tx\_hash                                                                                                               |
+| SECP256K1\_BLAKE160\_MULTISIG.INDEX    | index                                                                                                                  |
+| DAO                                    | path = "Bundled(specs/cells/dao)"                                                                                      |
+| DAO.TX\_HASH                           | tx\_hash                                                                                                               |
+| DAO.INDEX                              | index                                                                                                                  |
 
 A total of six values should be updated in total. This process only needs to be done once, but if you set up a new dev chain, you will need to repeat this process since the values will be different.
