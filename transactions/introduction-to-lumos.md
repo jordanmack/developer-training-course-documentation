@@ -85,7 +85,7 @@ const output = {cell_output: {capacity: outputCapacity, lock: addressToScript(AD
 transaction = transaction.update("outputs", (i)=>i.push(output));
 ```
 
-This creates an output for a change cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created cell will be, and that is defined with the `address` variable. We will explain `type` and `data` in a later lesson.
+This creates an output for a change cell with the same capacity as the input, minus the TX fee. The `lock` defines who the owner of this newly created cell will be, and that is defined with the `ADDRESS` constant. We will explain `type` and `data` in a later lesson.
 
 The `addressToScript()` function in Lumos converts an address to a script data structure, which is the form required by Lumos. An address is actually just an encoded and shortened version of a script, so the two can be converted back and forth easily. We will learn more about addresses and scripts in a later lesson.&#x20;
 
@@ -110,7 +110,7 @@ This prints the current transaction to the screen in an easy-to-read format. The
 const signedTx = signTransaction(transaction, PRIVATE_KEY);
 ```
 
-This signs the transaction using the private key specified in the `privateKey` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any input cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability.
+This signs the transaction using the private key specified in the `PRIVATE_KEY` variable using the Secp256k1 algorithm. Signing the transaction authorizes the usage of any input cells that are owned by that private key. The `signTransaction()` shared library function is another facade used to simplify readability.
 
 ```javascript
 // Send the transaction to the RPC node.
@@ -128,7 +128,7 @@ console.log("\n");
 
 This waits for the transaction we just sent to confirm before we continue. The `waitForTransactionConfirmation()` shared library function that uses the CKB node RPC to continuously check the status of a transaction, waiting for it to confirm before proceeding.
 
-Now scroll back up to the top. We need to change the `previousOutpoint` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
+Now scroll back up to the top. We need to change the `PREVIOUS_OUTPUT` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
 
 ```javascript
 const PREVIOUS_OUTPUT =
