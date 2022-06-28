@@ -1,6 +1,6 @@
 # Working with Cell Collection
 
-One of the unique challenges with the Cell Model is how to effectively manage cells and the capacity contained within them. The Nervos CKB blockchain contains millions of live cells, and a developer must be able to locate the cells they need both for their own accounts, and for the accounts of the users they support in their dapps. 
+One of the unique challenges with the Cell Model is how to effectively manage cells and the capacity contained within them. The Nervos CKB blockchain contains millions of live cells, and a developer must be able to locate the cells they need both for their own accounts, and for the accounts of the users they support in their dapps.&#x20;
 
 ### Indexers
 
@@ -8,27 +8,32 @@ An indexer is a piece of software that helps speed up the process of locating ce
 
 ![](../.gitbook/assets/ckb-indexer.png)
 
-An indexer runs as a background process or a separate daemon that continuously monitors a Nervos CKB node for new block data. As new blocks are found, the cell information is extracted and organized internally by the indexer until needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
+An indexer runs as separate node that continuously monitors a Nervos CKB node for new block data. As new blocks are found, the cell information is extracted and organized internally by the indexer until needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
 
 Lumos has a built-in indexer as part of the framework. The allows dapps built on Lumos to perform cell collection very quickly, and without needing to access the CKB node directly.
 
 ```javascript
-const {Indexer} = require("@ckb-lumos/indexer");
-const {indexerReady} = require("../lib/index.js");
+const {initializeConfig} = require("@ckb-lumos/config-manager");
+const {Indexer} = require("@ckb-lumos/ckb-indexer"); 
+const config = require("./config.json");
 
 const nodeUrl = "http://127.0.0.1:8114/";
+const indexerUrl = "http://127.0.0.1:8116/";
 
-initializeConfig();
-const indexer = new Indexer(nodeUrl, "./indexer-data");
-indexer.startForever();
-await indexerReady(indexer);
+initializeConfig(config);
+const indexer = new Indexer(indexerUrl, nodeUrl);
+
+(async function()
+{
+    console.log(await indexer.tip());
+})();
 ```
 
-On line 6 we start with `initializeConfig()`. This uses the `config.json` file in your current working directory to initialize Lumos.
+On line 8 we start with `initializeConfig(config)`. This uses the `config.json` file in your current working directory to initialize Lumos.
 
-Starting on line 7 we create a new instance of the Lumos indexer which will connect to a local node and store the resulting data in the directory `indexer-data`. We then start the indexer in the background using `startForever()`. This keeps the indexer running and up to date and automatically restarts it if there was any problem. This is beneficial for long-running dapp backend servers that never stop running. If you have a small program that is designed to run and exit, then consider using `start()`.
+On line 9 we create a new instance of `Indexer` which will pass requests to the CKB Indexer node JSON RPC which we specified.
 
-Lastly, we wait for the indexer to synchronize with the node using our shared library function `indexerReady`. This function waits for the current block tip of the indexer to match the block tip of the CKB node using the RPC.
+Finally, on line 13 we use `indexer` to retrieve and display the most recent tip block on the console.
 
 ### Automated Cell Collection
 
@@ -114,4 +119,3 @@ To solve this, another round of cell collection must occur to gather enough capa
 ![](../.gitbook/assets/cell-capacity-management-3.png)
 
 Cell collection continues, and a third input cell is found with 90.0001 CKBytes. Now there is enough input capacity to create the change cell and this transaction would be successful.
-
