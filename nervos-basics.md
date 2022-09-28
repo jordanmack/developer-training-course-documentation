@@ -12,11 +12,12 @@ These materials give a high-level introduction to anyone who is unfamiliar with 
 * [Economics](https://docs.nervos.org/docs/basics/concepts/economics)
 * [CKB-VM](https://docs.nervos.org/docs/basics/concepts/ckb-vm)
 
-### More In-Depth Materials \(Optional\)
+The [Nervos Nation YouTube Channel](https://www.youtube.com/c/NervosNation/videos) is another great resource for learning about what makes Nervos different, and it is managed entirely by members of the Nervos community.
+
+### More In-Depth Materials (Optional)
 
 These materials cover similar topics to the recommended materials but are much more in-depth. Reading these is optional.
 
 * [Nervos RFCs - Positioning Paper](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0001-positioning/0001-positioning.md)
 * [Nervos RFCs - Crypto-Economic Paper](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0015-ckb-cryptoeconomics/0015-ckb-cryptoeconomics.md)
 * [Nervos RFCs - CKB Whitepaper](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md)
-
