@@ -3,7 +3,7 @@
 In the previous chapter, we used the `addressToScript()` function to specify the owner of a cell. As the name indicates, this function converts an address into a script. Specifically, this function generates a lock script. This is possible because an address is actually just a lock script encoded in a way to make it human-readable. Let's take a deeper look at what is being generated when we run the following code.
 
 ```javascript
-let lockScript = addressToScript("ckt1qyqf3z5u8e6vp8dtwmywg82grfclf5mdwuhsggxz4e");
+let lockScript = addressToScript("ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqvc32wruaxqnk4hdj8yr4yp5u056dkhwtc94sy8q");
 ```
 
 When the above code is executed, `lockScript` will be set to the following.
@@ -18,7 +18,7 @@ When the above code is executed, `lockScript` will be set to the following.
 
 The `code_hash` and `hash_type` fields indicate what code should be executed. The `code_hash` value is a Blake2b hash that indicates what script code we need to execute, and `hash_type` indicates how we need to treat code hash in order to match it up properly. The combination of the two together specifies **what** code should execute. If this doesn't make sense yet, don't worry. Later in this lesson, we will use it in an example that will make it perfectly clear.
 
-The `args` value specifies the data that will be passed to the script when it executes. This is just like passing a few arguments to a command-line program. The value of the `args` field can be set to any value, and what is placed there is determined by the requirements of the script that is executing. 
+The `args` value specifies the data that will be passed to the script when it executes. This is just like passing a few arguments to a command-line program. The value of the `args` field can be set to any value, and what is placed there is determined by the requirements of the script that is executing.&#x20;
 
 In the example above, the `code_hash` and `hash_type` values specify the script code for the default lock. The `args` value is Blake2b hash of the owner's public key. When the transaction is submitted to the network, the default lock's script code will be executed and passed the `args` value. Using the `args` value in combination with the other values in the transaction, the default lock can make the determination if proper credentials were provided for this cell. If proper credentials were provided, a value of `0` is returned, indicating that execution was successful. If improper credentials were provided, then an error code will be returned, indicating that execution was not successful and that the transaction is invalid.
 
@@ -26,7 +26,7 @@ In the example above, the `code_hash` and `hash_type` values specify the script 
 
 When any script executes, its purpose in doing so is to answer the question, "Is this transaction valid?" All scripts respond with a simple yes or no answer, in the form of an error code. A value of 0 means success and any other value means failure.
 
-When building and testing scripts, it is very common to use a special script known as the "always success" script. This script will always give a "yes" answer when executed.  
+When building and testing scripts, it is very common to use a special script known as the "always success" script. This script will always give a "yes" answer when executed. &#x20;
 
 Let's take a look at the always success script logic in pseudo-code.
 
@@ -103,7 +103,7 @@ transaction = transaction.update("outputs", (i)=>i.push(output1));
 
 There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
-The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. You may have noticed that the `hash_type` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
+The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. You may have noticed that the `hash_type` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradeable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
 
 ![](../.gitbook/assets/get-live-cell.png)
 
@@ -115,7 +115,7 @@ Even though this saves a little bit of space, it isn't practical to use in a pro
 
 The resulting generated transaction will look something like this.
 
-![](../.gitbook/assets/create-transaction-structure%20%289%29.png)
+![](<../.gitbook/assets/create-transaction-structure (9).png>)
 
 ### Cell Deps
 
@@ -194,7 +194,7 @@ let change = {cell_output: {capacity: changeCapacity, lock: addressToScript(addr
 transaction = transaction.update("outputs", (i)=>i.push(change));
 ```
 
-This code is adding our always success cell to the transaction, adding more cells for capacity, then sending everything back to ourselves as a single change cell. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee. 
+This code is adding our always success cell to the transaction, adding more cells for capacity, then sending everything back to ourselves as a single change cell. Remember, the always success cell we created only has 41 CKBytes in it. This is below a 61 CKByte standard cell and doesn't account for the necessary transaction fee.&#x20;
 
 Looking at the fourth block of code for the change cell, the `lock` is set to `addressToScript(address1)`. This means it is using the default lock script again, and that 61 CKBytes is the minimum required.
 
@@ -204,12 +204,11 @@ The reason that `capacityRequired` in the code above is set to 61 CKBytes + the 
 
 On the left is the transaction we are generating. We are consuming the always success cell and sending the value back to ourselves, so we only need one output.
 
-On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes \(+ tx fee\) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes \(122 - 41\), plus the transaction fee.
+On the right is what it would look like if we were sending to someone else. We would need more capacity since we would need an output to send to them, and a change cell. In that scenario, we would need at least 122 CKBytes (+ tx fee) since we are creating two output cells. We can reuse the 41 CKBytes on the consumed always success cell, meaning the absolute minimum capacity would need to collect is 81 CKBytes (122 - 41), plus the transaction fee.
 
 ```javascript
-	// Sign the transaction.
-	const signedTx = signTransaction(transaction, privateKey1);
+// Sign the transaction.
+const signedTx = signTransaction(transaction, privateKey1);
 ```
 
 This code looks standard and we've used it many times in the past, but it's important to point out why it's necessary for this transaction. The always success lock does not require any kind of signing in order to unlock. If it was the only input cell that existed, then we could skip this step. However, we had to add additional capacity from `address1`, and those cells use the default lock, which requires a standard signature in order to unlock.
-
