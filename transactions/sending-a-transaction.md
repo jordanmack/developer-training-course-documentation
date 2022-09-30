@@ -29,10 +29,10 @@ Different addresses exist for use on the mainnet or on testnets. Each address ca
 To send CKBytes from one account to another we will use the `wallet transfer` command. Copy and paste the following command to send 1000 CKBytes between the two accounts:&#x20;
 
 ```
-wallet transfer --from-account ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37 --to-address ckt1qyqywrwdchjyqeysjegpzw38fvandtktdhrs0zaxl4 --capacity 1000 --tx-fee 0.0001
+wallet transfer --from-account ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga --to-address ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq28phxutezqvjgfv5q38gn5kwek4m9km3cmajeqs --capacity 1000
 ```
 
-![](../.gitbook/assets/wallet-transfer.png)
+![](<../.gitbook/assets/wallet-transfer (1).png>)
 
 You will be prompted to enter a password. This is the password you selected when you first imported the accounts during the Lab Exercise Setup.
 
@@ -41,6 +41,5 @@ Let's break down the parameters one at a time.
 * `--from-account` This specifies the account to send CKBytes from.
 * `--to-address` This specifies the account to send CKBytes to.
 * `--capacity` This is the amount of CKBytes we are sending. We will explain why it's called capacity later on. For now, just think of it as a synonym for CKBytes.
-* `--tx-fee` This is the number of CKBytes to include as a transaction fee to pay miners.&#x20;
 
 Once submitted, you will be presented with a long hex value. This is the transaction ID, also known as the transaction hash. Your value will be different than in our screenshot.
