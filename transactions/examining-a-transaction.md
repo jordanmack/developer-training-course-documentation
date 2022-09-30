@@ -6,7 +6,7 @@ Let's examine the transaction that was created in the last lab exercise using `c
 
 To get the details of a transaction you use the `rpc get_transaction` command in `ckb-cli`. In the command below, replace `<TRANSACTION_ID>` with the transaction id you generated in the last lab exercise.
 
-```text
+```
 rpc get_transaction --hash <TRANSACTION_ID>
 ```
 
@@ -26,7 +26,7 @@ One of the outputs has 100,000 capacity. Remember, capacity is another way of de
 
 Below that you see another output with 199,999.9999 capacity. This is the change of the transaction. Think of it like paying for a $5 item with a $20 bill. You would hand your $20 to the cashier, and they would hand you $15 back as change. This is the same basic process but in a purely digital system, our bills are often not in the same denomination.
 
-These CKBytes had to have been transferred from somewhere, and that place is the inputs. 
+These CKBytes had to have been transferred from somewhere, and that place is the inputs.&#x20;
 
 ![](../.gitbook/assets/tx-previous-output.png)
 
@@ -44,7 +44,7 @@ Below is a diagram that shows how inputs and outputs are related, and how CKByte
 * TX4 is using an output from TX2, and has a single output of 100.
 * TX5 is using multiple outputs from TX2 and TX3, and has a single output of 400.
 
-An output can only be used once as an input. After that, it is marked as "spent" and cannot be used again. This is how the protocol ensures that the same CKBytes cannot be spent in two places. The inputs and outputs have been colored to indicate which have been spent \(red\), and which are still unspent \(green\).
+An output can only be used once as an input. After that, it is marked as "spent" and cannot be used again. This is how the protocol ensures that the same CKBytes cannot be spent in two places. The inputs and outputs have been colored to indicate which have been spent (red), and which are still unspent (green).
 
 An unspent transaction output is more commonly known as a UTXO, and this is the foundation of the UTXO model that Bitcoin is built on. If you want to read more on UXTO, you can optionally do so [here](https://www.mycryptopedia.com/bitcoin-utxo-unspent-transaction-output-set-explained/). Nervos' model is inspired by Bitcoin's UTXO model, so you will find that many of the concepts and terminology is used interchangeably.
 
@@ -54,7 +54,7 @@ The formatting on the inputs and outputs is different, so it's hard to compare. 
 
 With this combined image, the amounts should start to make more sense. The inputs have a total of 300,000 CKBytes. The outputs have one for 100,000 CKBytes, and one for 199,999.9999 CKBytes, for a total of 299,999.9999 CKBytes.
 
-There is a difference of 0.0001 CKBytes. This difference is the transaction fee that we specified when sending the transaction. Whenever there is an unaccounted difference in CKBytes between the inputs and outputs, that is the fee paid to miners for processing the transaction. You can think of this like leaving a tip on the table at a restaurant after you've paid what was listed on the bill.
+There is a difference of 0.0001 CKBytes. This difference is the transaction fee that we specified when sending the transaction. Whenever there is an unaccounted difference in CKBytes between the inputs and outputs, that is the fee paid to miners for processing the transaction. You can think of this as leaving a tip on the table at a restaurant after you've paid what was listed on the bill.
 
 With the transaction fee taken into account, the CKBytes are now 100% accounted for.
 
@@ -62,4 +62,3 @@ With the transaction fee taken into account, the CKBytes are now 100% accounted 
 * The sender sent 100,000 CKBytes to the receiver.
 * The sender sent 199,999.9999 CKBytes back to themselves as change.
 * The sender paid a 0.0001 CKByte transaction fee to the miners.
-

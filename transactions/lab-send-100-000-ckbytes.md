@@ -1,6 +1,6 @@
 # Lab: Send 100,000 CKBytes
 
-From account `ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga`, send 100,000 CKBytes to a newly created account using `ckb-cli`.
+From account `ckt1...gwga`, send 100,000 CKBytes to a newly created account using `ckb-cli`.
 
 1. Use the command `account new` to create a new account.
 2. Use the command `account list` to see all your addresses.

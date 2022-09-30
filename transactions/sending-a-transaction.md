@@ -24,6 +24,8 @@ An address on Nervos CKB is similar to other blockchains. It indicates a source 
 
 Different addresses exist for use on the mainnet or on testnets. Each address can only be used on their respective network. Trying to use a testnet address on the mainnet will always fail. This prevents mistakes from being made when moving between a testnet and mainnet.
 
+If you look closely at the output, you should see testnet address `ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga`. We are working with a devnet, which is a kind of testnet, so this the address we will be using. To keep things readable more readable, going forward we will abbreviate addresses using the first four and last four letters. ie: `ckt1...gwga`
+
 ### Transferring CKBytes
 
 To send CKBytes from one account to another we will use the `wallet transfer` command. Copy and paste the following command to send 1000 CKBytes between the two accounts:&#x20;

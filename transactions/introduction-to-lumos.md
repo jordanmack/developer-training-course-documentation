@@ -15,10 +15,11 @@ Starting at the top of the file, we have the includes.
 ```javascript
 const {initializeConfig} = require("@ckb-lumos/config-manager");
 const {addressToScript, TransactionSkeleton} = require("@ckb-lumos/helpers");
+const {Indexer} = require("@ckb-lumos/ckb-indexer");
 const {addDefaultCellDeps, addDefaultWitnessPlaceholders, getLiveCell, sendTransaction, signTransaction, waitForTransactionConfirmation} = require("../lib/index.js");
 const {hexToInt, intToHex} = require("../lib/util.js");
 const {describeTransaction} = require("./lab.js");
-const config = require("./config.json");
+const config = require("../config.json");
 ```
 
 We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic converters and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
@@ -27,8 +28,9 @@ Next, you will see a group of variables, which we will explain.
 
 ```javascript
 const NODE_URL = "http://127.0.0.1:8114/";
+const INDEXER_URL = "http://127.0.0.1:8116/";
 const PRIVATE_KEY = "0xd00c06bfd800d27397002dca6fb0993d5ba6399b4238b2f29ee9deb97593d2bc";
-const ADDRESS = "ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37";
+const ADDRESS = "ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga";
 const PREVIOUS_OUTPUT =
 {
 	tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -40,7 +42,7 @@ const TX_FEE = 100_000n;
 
 
 * The `NODE_URL` constant is set to the URL of the CKB Dev Blockchain you set up in the Lab Exercise Setup section.
-* The `PRIVATE_KEY` constant is set to the key used to sign transactions. This is the private key for the account `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` which contains some genesis issued CKBytes. You may recognize this address from when you executed `account list` in `ckb-cli`.
+* The `PRIVATE_KEY` constant is set to the key used to sign transactions. This is the private key for the account `ckt1...gwga` which contains some genesis issued CKBytes. You may recognize this address from when you executed `account list` in `ckb-cli`.
 * The `ADDRESS` constant is set to the CKB address of the account being signed, and is set to the same account as the `PRIVATE_KEY`.
 * &#x20;The `PREVIOUS_OUTPUT` constant will be set to the out point of a live cell to be used in this transaction.&#x20;
 * The `TX_FEE` constant is the amount of transaction fee to pay, in a measurement unit called "Shannons". There are 100,000,000 Shannons in a CKByte, just like there are 100,000,000 Satoshis in a Bitcoin.
@@ -128,7 +130,9 @@ console.log("\n");
 
 This waits for the transaction we just sent to confirm before we continue. The `waitForTransactionConfirmation()` shared library function that uses the CKB node RPC to continuously check the status of a transaction, waiting for it to confirm before proceeding.
 
-Now scroll back up to the top. We need to change the `PREVIOUS_OUTPUT` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
+Now scroll back up to the top. We need to change the `PREVIOUS_OUTPUT` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1...gwga` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
+
+> Note: Make sure you are using the out point owned by the address `ckt1...gwga` or the transaction will fail! This means you must have the correct `tx_hash` and `index`.
 
 ```javascript
 const PREVIOUS_OUTPUT =
