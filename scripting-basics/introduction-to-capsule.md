@@ -12,7 +12,7 @@ You should already have Rust installed since it was a prerequisite to this cours
 
 After Rust and Docker are installed, you can type the following to install capsule:
 
-```text
+```
 cargo install ckb-capsule
 ```
 
@@ -28,7 +28,7 @@ capsule new myproject
 
 This should display the output similar to the following.
 
-```bash
+```shell
 New project "myproject"
 Created file "capsule.toml"
 Created file "deployment.toml"
@@ -50,54 +50,59 @@ This initializes a capsule project called `myproject` and creates a single contr
 
 Enter the project directory using `cd myproject`, then use the following command to build the project.
 
-```text
+```
 capsule build
 ```
 
 You should see output similar to this.
 
-```bash
+```shell
 Building contract myproject
+    Updating crates.io index
  Downloading crates ...
-  Downloaded ckb-std v0.7.3
-   Compiling cfg-if v0.1.10
-   Compiling cc v1.0.41
+  Downloaded cstr_core v0.2.6
+  Downloaded ckb-std v0.10.0
+   Compiling memchr v2.5.0
+   Compiling cfg-if v1.0.0
+   Compiling cc v1.0.73
+   Compiling cty v0.2.2
    Compiling buddy-alloc v0.4.1
-   Compiling molecule v0.6.0
-   Compiling ckb-standalone-types v0.0.1-pre.1
-   Compiling ckb-std v0.7.3
+   Compiling molecule v0.7.3
+   Compiling ckb-standalone-types v0.1.2
+   Compiling cstr_core v0.2.6
+   Compiling ckb-std v0.10.0
    Compiling myproject v0.1.0 (/code/contracts/myproject)
-    Finished dev [unoptimized + debuginfo] target(s) in 6.13s
+    Finished dev [unoptimized + debuginfo] target(s) in 57.43s
 Done
 ```
 
 This builds the current project binaries in debug mode. Now that our binary is built, we can test it using the following command.
 
-```text
+```
 capsule test
 ```
 
 This will execute all tests for the project. The first time this runs, it may take a while to compile because it's building all the necessary testing tools including a light-weight simulator that will be used run the compiled scripts in a simulated blockchain environment. The output should be similar to this.
 
-```bash
-    Finished test [unoptimized + debuginfo] target(s) in 0.38s
-     Running target/debug/deps/tests-b429868b4af9df7d
+```shell
+Finished test [unoptimized + debuginfo] target(s) in 1m 12s
+     Running unittests src/lib.rs (target/debug/deps/tests-eb0bb2889f396ebc)
 
 running 2 tests
-[contract debug] script args is Bytes([42])
 [contract debug] script args is Bytes([])
 test tests::test_empty_args ... ok
-[contract debug] tx hash is [112, 109, 48, 116, 133, 71, 95, 186, 208, 254, 244, 53, 91, 80, 108, 213, 206, 112, 25, 187, 136, 180, 123, 124, 240, 31, 48, 192, 193, 175, 179, 176]
-consume cycles: 322770
+[contract debug] script args is Bytes([42])
+[contract debug] tx hash is [190, 153, 144, 72, 54, 166, 192, 113, 110, 225, 123, 15, 89, 128, 80, 36, 182, 213, 40, 188, 238, 250, 137, 35, 188, 180, 199, 13, 87, 148, 207, 39]
+consume cycles: 215704
 test tests::test_success ... ok
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
 
    Doc-tests tests
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
 The tests ran successfully! 🎉
@@ -110,10 +115,11 @@ Next, we will look at how a project is structured. Open the `myproject/contracts
 * **error.rs** - This file contains error codes used in the project.
 * **main.rs** - This file contains boilerplate code for the contract.
 
-Every Rust program begins with `main.rs`. Feel free to open it and take a look at what it contains, but we're not going to go through it here. This file is all boilerplate code that is needed to build a script. We won't need to touch anything in this file. 
+Every Rust program begins with `main.rs`. Feel free to open it and take a look at what it contains, but we're not going to go through it here. This file is all boilerplate code that is needed to build a script. We won't need to touch anything in this file.&#x20;
 
 Next, let's look at the contents of `entry.rs`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode
 use core::result::Result;
@@ -123,7 +129,7 @@ use core::result::Result;
 use alloc::{vec, vec::Vec};
 
 // Import CKB syscalls and structures
-// https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/index.html
+// https://docs.rs/ckb-std/
 use ckb_std::{
     debug,
     high_level::{load_script, load_tx_hash},
@@ -152,6 +158,7 @@ pub fn main() -> Result<(), Error> {
     Ok(())
 }
 ```
+{% endcode %}
 
 This file contains the main logic of the script. This example script contains boilerplate code and example code. Functionally, all it does is check if `args` were supplied to the script, and it gives an error if there were none.
 
@@ -169,6 +176,7 @@ Line 35 exits the script with success.
 
 Next, let's look at `error.rs`.
 
+{% code lineNumbers="true" %}
 ```rust
 use ckb_std::error::SysError;
 
@@ -196,6 +204,7 @@ impl From<SysError> for Error {
     }
 }
 ```
+{% endcode %}
 
 This file contains all the possible error codes for our script.
 
@@ -215,14 +224,14 @@ git clone https://github.com/jordanmack/developer-training-course-script-example
 
 Next, enter the directory and build all the script binaries.
 
-```text
-cd developer-training-course-scripts
+```
+cd developer-training-course-script-examples
 capsule build
 ```
 
-After the build is completed, run all the tests to verify that the scripts built properly.
+After the build is completed, run all the tests to verify that the scripts are built properly.
 
-```text
+```
 capsule test
 ```
 
@@ -236,5 +245,4 @@ Our lessons will also have labs that utilize Capsule. These labs can be found in
 git clone https://github.com/jordanmack/developer-training-course-script-labs.git
 ```
 
-There is no need to build at this time. This step will be done during the lab exercises. 
-
+There is no need to build at this time. This step will be done during the lab exercises.&#x20;
