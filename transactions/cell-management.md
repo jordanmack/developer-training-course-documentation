@@ -10,24 +10,24 @@ An indexer is a piece of software that helps speed up the process of locating ce
 
 An indexer runs as separate node that continuously monitors a Nervos CKB node for new block data. As new blocks are found, the cell information is extracted and organized internally by the indexer until needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
 
-Lumos has a built-in indexer as part of the framework. The allows dapps built on Lumos to perform cell collection very quickly, and without needing to access the CKB node directly.
-
+{% code lineNumbers="true" %}
 ```javascript
 const {initializeConfig} = require("@ckb-lumos/config-manager");
 const {Indexer} = require("@ckb-lumos/ckb-indexer"); 
 const config = require("./config.json");
 
-const nodeUrl = "http://127.0.0.1:8114/";
-const indexerUrl = "http://127.0.0.1:8116/";
+const NODE_URL = "http://127.0.0.1:8114/";
+const INDEXER_URL = "http://127.0.0.1:8116/";
 
 initializeConfig(config);
-const indexer = new Indexer(indexerUrl, nodeUrl);
+const indexer = new Indexer(INDEXER_URL, NODE_URL);
 
 (async function()
 {
     console.log(await indexer.tip());
 })();
 ```
+{% endcode %}
 
 On line 8 we start with `initializeConfig(config)`. This uses the `config.json` file in your current working directory to initialize Lumos.
 
@@ -41,6 +41,7 @@ Up until this point, we have been manually doing cell collection through `ckb-cl
 
 Lumos has a class called `CellCollector` which is designed to help with cell collection, but it requires some additional code to be used for our purposes. Here is the `collectCapacity` function that exists in the main shared library of the Developer Training Course repo `lib/index.js`.
 
+{% code lineNumbers="true" %}
 ```javascript
 /**
  * Collects cells for use as capacity from the specified lock script.
@@ -79,6 +80,7 @@ async function collectCapacity(indexer, lockScript, capacityRequired)
 	return {inputCells, inputCapacity};
 }
 ```
+{% endcode %}
 
 This function is used to collect cells for use as capacity in a transaction. It uses a `CellCollector` instance to query the indexer to find live cells.
 

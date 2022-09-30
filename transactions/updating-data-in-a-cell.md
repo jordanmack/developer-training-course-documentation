@@ -20,7 +20,7 @@ Here is the query that is used with the `CellCollector()` in the shared library 
 {lock: lockScript, type: null}
 ```
 
-This is a simple query that searches for live cells that have a specific lock script and no type script. We will cover exactly what both of these mean in-depth in later lessons. What is important to know now is that it is searching for basic cells with a specific owner \(lock\) and without any smart contract \(type\) to consume for capacity.
+This is a simple query that searches for live cells that have a specific lock script and no type script. We will cover exactly what both of these mean in-depth in later lessons. What is important to know now is that it is searching for basic cells with a specific owner (lock) and without any smart contract (type) to consume for capacity.
 
 To query for cells with specific data, all we have to do is add a third key for data:
 
@@ -31,7 +31,7 @@ To query for cells with specific data, all we have to do is add a third key for 
 This would limit the results of the query only to cells that contain no data. If we replace that with the data we are looking for, we will only get cells that contain that specific data.
 
 ```javascript
-const lockScript = addressToScript("ckt1qyqvsv5240xeh85wvnau2eky8pwrhh4jr8ts8vyj37");
+const lockScript = addressToScript("ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga");
 const {hexString} = await readFileToHexString("../files/HelloNervos.txt");
 const query = {lock: lockScript, type: null, data: hexString};
 ```
@@ -63,7 +63,6 @@ const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(
 transaction = addOutput(transaction, output1);
 ```
 
- If you read through the comments, the intent of the code is quite simple. We locate a single existing cell and use it as an input, consuming it. We then create a new output, recycling the capacity from the consumed cell.
+&#x20;If you read through the comments, the intent of the code is quite simple. We locate a single existing cell and use it as an input, consuming it. We then create a new output, recycling the capacity from the consumed cell.
 
 If you look through the rest of the code you will notice there is no additional cell collection and no creation of a change cell. This is because we knew ahead of time that the size of the data in the output cell is smaller than the input cell, and that we would have more than enough CKBytes.
-

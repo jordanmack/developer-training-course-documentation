@@ -30,9 +30,11 @@ If you look closely at the output, you should see testnet address `ckt1qzda0cr08
 
 To send CKBytes from one account to another we will use the `wallet transfer` command. Copy and paste the following command to send 1000 CKBytes between the two accounts:&#x20;
 
-```
+{% code overflow="wrap" %}
+```shell
 wallet transfer --from-account ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga --to-address ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsq28phxutezqvjgfv5q38gn5kwek4m9km3cmajeqs --capacity 1000
 ```
+{% endcode %}
 
 ![](<../.gitbook/assets/wallet-transfer (1).png>)
 

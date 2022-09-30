@@ -6,7 +6,7 @@ Let's examine the transaction that was created in the last lab exercise using `c
 
 To get the details of a transaction you use the `rpc get_transaction` command in `ckb-cli`. In the command below, replace `<TRANSACTION_ID>` with the transaction id you generated in the last lab exercise.
 
-```
+```shell
 rpc get_transaction --hash <TRANSACTION_ID>
 ```
 
