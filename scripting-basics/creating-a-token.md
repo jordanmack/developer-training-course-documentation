@@ -2,7 +2,7 @@
 
 Tokens are one of the most common use cases for smart contracts today. As of 2021, there are over 400,000 different tokens that have been created on various platforms. In this lesson, we will learn how to create a basic token on Nervos.
 
-To do this we will examine the SUDT standard, which stands for Simple User-Defined Token. SUDT is a minimalistic token standard, and the first official token standard to be released on Nervos. We use a Rust-based implementation that has specifically been formatted to be easier to read. The [official implementation](https://github.com/nervosnetwork/ckb-miscellaneous-scripts/blob/master/c/simple_udt.c) is written in C, but reviewing it is purely optional.
+To do this we will examine the SUDT standard, which stands for Simple User-Defined Token. SUDT is a minimalistic token standard, and the first official token standard to be released on Nervos. We use a Rust-based implementation that has specifically been formatted to be easier to read. The [official implementation](https://github.com/nervosnetwork/ckb-miscellaneous-scripts/blob/master/c/simple\_udt.c) is written in C, but reviewing it is purely optional.
 
 ### Script Logic
 
@@ -20,6 +20,7 @@ The next step is to check if the input tokens are greater than or equal to the o
 
 Next, we will review the code of the Rust implementation of SUDT. We will look at one section at a time to make it easier to understand, but you can review the full source code at any time by opening the `entry.rs` file in the directory`developer-training-course-script-examples/contracts/sudt/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from core instead of from std since we are in no-std mode.
 use core::result::Result;
@@ -33,21 +34,25 @@ use ckb_std::high_level::{load_script, load_cell_lock_hash, load_cell_data, Quer
 // Import our local error codes.
 use crate::error::Error;
 ```
+{% endcode %}
 
 This first block of code is the usual imports. Next, we have the definitions of the constants.
 
+{% code lineNumbers="true" %}
 ```rust
 // Constants
 const LOCK_HASH_LEN: usize = 32; // Number of bytes for a lock hash. (Blake2b 256-bit 32 bytes)
 const SUDT_DATA_LEN: usize = 16; // SUDT uses a u128, which is 16 bytes.
 ```
+{% endcode %}
 
-The `LOCK_HASH_LEN` value is the number of bytes for a lock hash. This is a 256-bit \(32 byte\) Blake2b hash of a populated lock script structure. A unique hash value represents a unique lock script, or in more simple terms, it represents a unique owner. We will explain why this is important shortly.
+The `LOCK_HASH_LEN` value is the number of bytes for a lock hash. This is a 256-bit (32 byte) Blake2b hash of a populated lock script structure. A unique hash value represents a unique lock script, or in more simple terms, it represents a unique owner. We will explain why this is important shortly.
 
-The `SUDT_DATA_LEN` value is the number of bytes in a `u128`. This is an unsigned 128-bit value, which is 16 bytes in length. We will use a `u128` value to store the number of tokens in a cell.  
+The `SUDT_DATA_LEN` value is the number of bytes in a `u128`. This is an unsigned 128-bit value, which is 16 bytes in length. We will use a `u128` value to store the number of tokens in a cell. &#x20;
 
 Next, we will skip down to the `main()` function and walk through the application in the order it would execute.
 
+{% code lineNumbers="true" %}
 ```rust
 // Main entry point.
 pub fn main() -> Result<(), Error>
@@ -77,6 +82,7 @@ pub fn main() -> Result<(), Error>
 }
 
 ```
+{% endcode %}
 
 On lines 4 to 6, we load the currently executing script, then extract the script args.
 
@@ -96,6 +102,7 @@ The `main()` function has three mains sections:
 
 Starting with step 1, let's look at how `check_owner_mode()` is implemented.
 
+{% code lineNumbers="true" %}
 ```rust
 /// Determine if owner mode is enabled.
 fn check_owner_mode(args: &Bytes) -> Result<bool, Error>
@@ -115,8 +122,9 @@ fn check_owner_mode(args: &Bytes) -> Result<bool, Error>
     Ok(is_owner_mode)
 }
 ```
+{% endcode %}
 
-On lines 4 to 8, we check that the length of the script args. If the length of the args is not equal to `LOCK_HASH_LEN` \(32 bytes\), then the token cell was created with an invalid owner, and we return an error.
+On lines 4 to 8, we check that the length of the script args. If the length of the args is not equal to `LOCK_HASH_LEN` (32 bytes), then the token cell was created with an invalid owner, and we return an error.
 
 On lines 10 to 13, we check if owner mode is enabled. This is done by loading the lock hash from every input cell and checking if any of them match the lock hash that was specified in the script args when the cell was created. If any of them match, then owner mode is enabled, otherwise, owner mode is disabled.
 
@@ -130,6 +138,7 @@ On line 16, we return the detected owner mode.
 
 Looking back at `main()`, if owner mode is detected, then we immediately exit successfully. If it isn't, then we continue validation by counting the number of input and output tokens. Next, we will look at `determine_token_amount()`.
 
+{% code lineNumbers="true" %}
 ```rust
 /// Count the number of tokens in the specified source. Source should be either GroupInput or GroupOutput.
 fn determine_token_amount(source: Source) -> Result<u128, Error>
@@ -163,14 +172,15 @@ fn determine_token_amount(source: Source) -> Result<u128, Error>
     Ok(total_token_amount)
 }
 ```
+{% endcode %}
 
 On lines 4 and 5, we create a variable for the total amount of tokens found.
 
-On lines 8 and 9, we load the data from each cell in the specified source, and cycle through them. The source must always be either `GroupInput` or `GroupOutput`.    
+On lines 8 and 9, we load the data from each cell in the specified source, and cycle through them. The source must always be either `GroupInput` or `GroupOutput`.   &#x20;
 
 On line 12, we check if the length of the data loaded from the cell is `>=` 16 bytes, which is the size of a u128 value. If it was created with less than 16 bytes, then it was created incorrectly and is invalid. In this case, we return an error on line 25.
 
-We use `>=` instead of `==` because are not restricting the data area to exactly 16 bytes. Our type script only uses the first 16 bytes, but more data could be present. A lock script could store extra data in that area. By allowing more data, this type script is implementing the minimal concern pattern. It is ignoring any extra data that is beyond its scope of concern. 
+We use `>=` instead of `==` because are not restricting the data area to exactly 16 bytes. Our type script only uses the first 16 bytes, but more data could be present. A lock script could store extra data in that area. By allowing more data, this type script is implementing the minimal concern pattern. It is ignoring any extra data that is beyond its scope of concern.&#x20;
 
 On lines 14 to 17, the first 16 bytes of data in the cell are converted into a `u128` value. On lines 20 and 21, this value is added to the total token amount.
 
@@ -178,14 +188,17 @@ On lines 29 and 30, we return the total number of tokens that were found in the 
 
 Looking back at `main()`:
 
+{% code lineNumbers="true" %}
 ```rust
 // Count the number of tokens in the GroupInput and GroupOutput.
 let input_token_amount = determine_token_amount(Source::GroupInput)?;
 let output_token_amount = determine_token_amount(Source::GroupOutput)?;
 ```
+{% endcode %}
 
 We run `determine_token_amount()` once for `GroupInput` and once for `GroupOutput`. This gives us two different numbers.
 
+{% code lineNumbers="true" %}
 ```rust
 // If the amount of input tokens is less than the amount of output tokens, return an error.   
 if input_token_amount < output_token_amount
@@ -193,10 +206,10 @@ if input_token_amount < output_token_amount
     return Err(Error::Amount);
 }
 ```
+{% endcode %}
 
-We then take those numbers and compare them to ensure that `input_tokens >= output_tokens`. This logic enforces token scarcity and if it is violated then an error is returned. This ensures that a normal user cannot mint new tokens. The owner can still mint tokens, because if owner mode was detected, then the script would immediately exit successfully, and this logic would never execute.  
+We then take those numbers and compare them to ensure that `input_tokens >= output_tokens`. This logic enforces token scarcity and if it is violated then an error is returned. This ensures that a normal user cannot mint new tokens. The owner can still mint tokens, because if owner mode was detected, then the script would immediately exit successfully, and this logic would never execute. &#x20;
 
 This simple statement ensures token scarcity while only including the bare minimum amount of logic. It does not care how many cells were in the transaction. It does not care who the owners of each cell are. It does not care if you are transferring cells, burning cells, or doing both at the same time. It only cares that token amounts are respected.
 
 This script perfectly embodies the minimal concern pattern to allow aggregation and minimize the amount of computational resources that are required for execution. Not all scripts can be this simple, but this is a great example of how basic logic can be used to achieve complex functionality in the Cell Model.
-

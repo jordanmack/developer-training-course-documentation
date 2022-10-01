@@ -4,7 +4,7 @@ In the last lesson, we learned how a type script can access and validate data in
 
 In this example, we will use a type script that allows cells to be created only if the data field has valid JSON data. Any time a cell is created, the type script will read the data that the cell is being created with and validate it as a JSON string. Trying to create a cell containing invalid JSON will result in the transaction being rejected. We will call this the "JSON Cell" type script.
 
-![](../.gitbook/assets/valid-invalid-transaction%20%281%29.png)
+![](<../.gitbook/assets/valid-invalid-transaction (1).png>)
 
 On the top left of the image is a transaction where the JSON Cell type script is used. The data area of the cell contains a valid JSON object. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction would process successfully.
 
@@ -16,6 +16,7 @@ Next, we will look at the logic and code that would be used to create this type 
 
 Let's take a look at it in pseudo-code first to understand the logic.
 
+{% code lineNumbers="true" %}
 ```javascript
 function main()
 {
@@ -31,6 +32,7 @@ function main()
     return 0;
 }
 ```
+{% endcode %}
 
 On line 3, we load cells from the output group. This is different from the last lesson where we loaded all the output cells. The outputs could contain many different cells, but this script is only concerned with those also using the JSON Cell type script. We could check each cell, like we did in the last lesson, but this is a more simple way. The output group only the output cells that have a script that is the same as the one currently executing. We will explain more about how `GroupOutput` works momentarily.
 
@@ -64,12 +66,13 @@ When TokenA uses `GroupInput` and `GroupOutput`, it will only see the cells of T
 
 When TokenB uses `GroupInput` and `GroupOutput`, it will only see the cells of TokenB type. These are the single input cell with a green border, and the single output cell with a green border. This is shown in the two right columns of the above image.
 
-The use of `GroupInput` and `GroupOutput` works for type scripts as described, but it is slightly different for lock scripts. When a lock script uses `GroupInput`, the input cells with the same lock script will be returned. **When a lock script uses the `GroupOutput`, no cells will be returned.** The reason for this is that these groups are related to how scripts are being executed in CKB-VM, and lock scripts do not execute on outputs. We will describe exactly why this is later on. 
+The use of `GroupInput` and `GroupOutput` works for type scripts as described, but it is slightly different for lock scripts. When a lock script uses `GroupInput`, the input cells with the same lock script will be returned. **When a lock script uses the `GroupOutput`, no cells will be returned.** The reason for this is that these groups are related to how scripts are being executed in CKB-VM, and lock scripts do not execute on outputs. We will describe exactly why this is later on.&#x20;
 
 ### Script Logic in Rust
 
 Now let's look at the real version of the JSON Cell type script, written in Rust. This is located in the `entry.rs` file in `developer-training-course-script-examples/contracts/jsoncell/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -102,6 +105,7 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 Lines 1 to 14 are all imports.
 
@@ -114,11 +118,10 @@ The `lite_json` library is an unmodified third-party library that we are using i
 
 Lines 16 to 30 contain the main logic for our type script. The Rust syntax is a little more complex than our pseudo-code, but code flow is very similar, and the length of the code isn't much longer.
 
- On line 20, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source with `QueryIter()`. Using `GroupOutput` eliminates the need to check the type script of each cell. Using script groups as sources is always preferred when possible, because it makes our code far more concise and efficient.
+&#x20;On line 20, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source with `QueryIter()`. Using `GroupOutput` eliminates the need to check the type script of each cell. Using script groups as sources is always preferred when possible, because it makes our code far more concise and efficient.
 
 On line 23, we parse the raw data into a UTF-8 string, and if an error occurs during decoding we trap the error and map it to `InvalidStringData`.
 
 On line 26, we parse the UTF-8 encoded JSON string. If the string is invalid, we trap the error and map it to `InvalidJson`.
 
 On line 29, if no errors were detected, we return success.
-

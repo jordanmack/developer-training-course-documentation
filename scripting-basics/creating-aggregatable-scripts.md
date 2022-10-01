@@ -1,6 +1,6 @@
 # Creating Aggregatable Scripts
 
-One of the unique features of the Cell Model is that multiple cells can be combined into a single large transaction instead of creating separate small transactions. This process is called "aggregation". However, aggregation is only possible when scripts are programmed in a way flexible enough to allow it. In this lesson, we will demonstrate some of the basic principles of creating aggregatable scripts.  
+One of the unique features of the Cell Model is that multiple cells can be combined into a single large transaction instead of creating separate small transactions. This process is called "aggregation". However, aggregation is only possible when scripts are programmed in a way flexible enough to allow it. In this lesson, we will demonstrate some of the basic principles of creating aggregatable scripts. &#x20;
 
 ### Minimal Concern Pattern
 
@@ -49,6 +49,7 @@ This transaction would not execute successfully because the Counter type script 
 
 We need to update the script logic to be able to handle multiple cells. Here is the pseudo-code for the Aggregatable Counter.
 
+{% code lineNumbers="true" %}
 ```javascript
 function main()
 {
@@ -73,6 +74,7 @@ function main()
     return 0;
 }
 ```
+{% endcode %}
 
 The code starts out the same as the regular counter. On lines 3 and 4, we count the number of group input cells and group output cells. On lines 6 and 7, we immediately succeed if there are no input cells which allows for the creation of new Counter cells.
 
@@ -90,6 +92,7 @@ This code can take any number of Counter cells. The requirements are that while 
 
 Here is the real version in Rust.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -150,6 +153,7 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 The dependencies and boilerplate code are the same in this example as in the previous lessons, so we won't go over them. We'll only go over the main logic of the code.
 
@@ -171,7 +175,7 @@ The code we will be covering here is located in the `index.js` file in the `Crea
 
 Starting with the `main()` function, you will see our code has four sections.
 
-![](../.gitbook/assets/example-flow%20%282%29.png)
+![](<../.gitbook/assets/example-flow (2).png>)
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
@@ -179,6 +183,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the Aggregatable Counter type script.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Create cells using the Aggregatable Counter type script.
 for(const amount of [0n, 42n, 9_000n])
@@ -196,21 +201,23 @@ for(const amount of [0n, 42n, 9_000n])
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
+{% endcode %}
 
 This block of code creates three Aggregatable Counter cells. This is very similar to the previous lesson, except that we are creating multiple cells now.
 
 On line 2, we loop through the amounts that want to create cells with. This is the starting value for the Aggregatable Counter. Our script code does not restrict the starting value, so we can customize the starting point.
 
-On line 12, we convert that amount into a u64 LE value in hex bytes and insert it into the cell structure on line 13, which is then added to the transaction on line 14. 
+On line 12, we convert that amount into a u64 LE value in hex bytes and insert it into the cell structure on line 13, which is then added to the transaction on line 14.&#x20;
 
 The resulting transaction will look similar to this.
 
-![](../.gitbook/assets/create-transaction-structure%20%2812%29.png)
+![](<../.gitbook/assets/create-transaction-structure (12).png>)
 
 ### Updating Cells
 
 Now, we'll look at the relevant parts of the `updateCells()` function. This function generates and executes a transaction that will update the Aggregatable Counter type script's state.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the Aggregatable Counter cells to the transaction and keep track of their counter values.
 const counterValues = [];
@@ -221,15 +228,17 @@ for(const counterCellOutPoint of counterCellOutPoints)
     transaction = transaction.update("inputs", (i)=>i.push(input));
 }
 ```
+{% endcode %}
 
 This adds the existing Aggregatable Counter cells as inputs to the transaction, using the given out points from the previous transaction.
 
 On line 2, we create an array to keep track of the values in each cell.
 
-On line 5, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different system calls, so we only request the data if it is needed. 
+On line 5, `getLiveCell()` contains a third parameter set to `true`. This is a flag indicating that data should be returned with the cell that is returned. Retrieving a cell and retrieving the data for a cell requires two different system calls, so we only request the data if it is needed.&#x20;
 
 On line 6, we take the data from the input Aggregatable Counter cell and decode it from hex-encoded binary to a BigInt. These values will be used again during the creation of our output Aggregatable Counter cells.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the updated Aggregatable Counter cell to the transaction.
 for(const counterValue of counterValues)
@@ -248,6 +257,7 @@ for(const counterValue of counterValues)
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
+{% endcode %}
 
 This code creates the output Aggregatable Counter cells with the updated values. This code is very similar to the code in the `createCell()` transaction, except we update the value on line 12.
 
@@ -256,4 +266,3 @@ The resulting transaction will look similar to this.
 ![](../.gitbook/assets/update-transaction-structure.png)
 
 We can update as many cells as needed in a single transaction, rather than having to create multiple transactions. This reduces the overhead involved with a transaction and on script execution since it is more efficient to have a script execute once and process multiple cells than it is to have a script execute multiple times to process a single pair of cells. This, in turn, reduces the computation cycles required and saves on transaction fees.
-

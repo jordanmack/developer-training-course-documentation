@@ -23,6 +23,7 @@ The logical flow of the script is fairly straightforward. We determine the mode 
 
 Now, we will review the code one section at a time to make it easier to understand, but you can review the full source code at any time by opening the `entry.rs` file in the directory`developer-training-course-script-examples/contracts/odcounter/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -35,9 +36,11 @@ use ckb_std::high_level::{load_cell, load_cell_data, QueryIter};
 // Import local modules.
 use crate::error::Error;
 ```
+{% endcode %}
 
 This first block of code is the usual imports. There is nothing special about this, but we're going to quickly peek into `errors.rs` to see the possible values of `Error` from line 10.
 
+{% code lineNumbers="true" %}
 ```rust
 /// Error
 #[repr(i8)]
@@ -55,6 +58,7 @@ pub enum Error
     InvalidCounterValue,
 }
 ```
+{% endcode %}
 
 On lines 10 to 14, you see we have five distinct custom errors. This is more than any other script we went through in the past. The more complex the application, the more potential there is for errors to occur.
 
@@ -70,7 +74,7 @@ enum Mode
 }
 ```
 
-Here we are defining the possible modes \(operations\) that our script will use. You may be wondering why there are only three instead of the four we said we would cover. There are only three here because, for the purposes of our counter, Transfer and Update are exactly the same.
+Here we are defining the possible modes (operations) that our script will use. You may be wondering why there are only three instead of the four we said we would cover. There are only three here because, for the purposes of our counter, Transfer and Update are exactly the same.
 
 Next, we will skip to the `main()` function and work through the application in the order it would execute.
 
@@ -99,11 +103,12 @@ The flow of the `main()` function is fairly simple:
 
 Starting with step 1, let's look at how `determine_mode()` works.
 
+{% code lineNumbers="true" %}
 ```rust
 // Determines the mode of operation for the currently executing script.
 fn determine_mode() -> Result<Mode, Error>
 {
-    // Gather counts on the number of group input and groupt output cells.
+    // Gather counts on the number of group input and group output cells.
     let group_input_count = QueryIter::new(load_cell, Source::GroupInput).count();
     let group_output_count = QueryIter::new(load_cell, Source::GroupOutput).count();
     
@@ -125,6 +130,7 @@ fn determine_mode() -> Result<Mode, Error>
     Err(Error::InvalidTransactionStructure)
 }
 ```
+{% endcode %}
 
 On lines 4 to 6, we count the group inputs and outputs.
 
@@ -142,6 +148,7 @@ On line 23, if no supported count pattern is recognized, we return an `InvalidTr
 
 Now that we have detected the mode, let's look at the `main()` function once again.
 
+{% code lineNumbers="true" %}
 ```rust
 // Main entry point.
 pub fn main() -> Result<(), Error>
@@ -158,9 +165,11 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
-If a burn operation is detected \(line 7\), we can immediately return success. If an error is detected \(line 10\), we immediately return the error. For create and transfer operations, we need to go through another layer of validation. Let's take a look at `validate_create()` first, and then the `validate_transfer()` function.
+If a burn operation is detected (line 7), we can immediately return success. If an error is detected (line 10), we immediately return the error. For create and transfer operations, we need to go through another layer of validation. Let's take a look at `validate_create()` first, and then the `validate_transfer()` function.
 
+{% code lineNumbers="true" %}
 ```rust
 // Validate a transaction to create a counter cell.
 fn validate_create() -> Result<(), Error>
@@ -175,9 +184,11 @@ fn validate_create() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 This code validates a create operation and should be fairly straightforward. It loads the cell data, and it ensures that the data is a zero u64 value. In the previous counter examples, we didn't check the value that a cell was created with. We skipped it to make the logic simpler, but it is generally a good idea to do so. This ensures that cells cannot be created with an invalid value that could cause undesired behavior.
 
+{% code lineNumbers="true" %}
 ```rust
 // Validate a transaction to transfer (update) a counter cell and increase its value.
 fn validate_transfer() -> Result<(), Error>
@@ -222,6 +233,7 @@ fn validate_transfer() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 On lines 4 to 9, we load the data from the first group input cell, then check that its data is exactly 8 bytes; the size of a u64.
 
@@ -235,11 +247,10 @@ On lines 29 to 33, we check for an overflow scenario. The counter can only go so
 
 On lines 35 to 39, we check that the output value is exactly one more than the input value, and deliver an `InvalidCounterValue` error if it doesn't match.
 
-The `validate_transfer()` function is the longest chunk of code in our script, but most of it is data validation and conversion. Some of our previous counters skipped some of the data validation to keep things more simple in our examples, but it is always recommended that you never cut corners on a script intended for production. If you look closely, line 36 is the only piece of real counter logic! 
+The `validate_transfer()` function is the longest chunk of code in our script, but most of it is data validation and conversion. Some of our previous counters skipped some of the data validation to keep things more simple in our examples, but it is always recommended that you never cut corners on a script intended for production. If you look closely, line 36 is the only piece of real counter logic!&#x20;
 
 Operation detection can be a helpful approach to better understand how a complex program operates. However, it may not always be the best solution. Operation detection can sometimes lead to unnecessary complications or functionality restrictions.
 
 Our example had three discrete modes of operation, create, transfer/update, and burn. It is not aggregatable and is only capable of processing one mode at a time. However, it is possible to create an aggregatable counter that can handle all modes simultaneously without using operation detection.
 
 What you should use will depend on the specifics of your project, and the architecture of your dapp. In the next lesson, we will demonstrate how operation detection is used in a production script.
-

@@ -6,7 +6,7 @@ Lock scripts and type scripts both take args similarly to how a program would ta
 
 Next, we will look at a type script that uses the args to specify the data limit. We will call this the "DataCap" type script.
 
-![](../.gitbook/assets/valid-invalid-transaction%20%283%29.png)
+![](<../.gitbook/assets/valid-invalid-transaction (3).png>)
 
 On the top left of the image is a transaction where the DataCap type script is used. In the type script args field is the value `10`, indicating a data limit of 10 bytes within the data field. The cell contains a string that is 10 bytes long. If this cell were created in a transaction, meaning it was added as an output, the type script would execute without error and the transaction would process successfully.
 
@@ -18,6 +18,7 @@ Next, we will look at the logic and code that would be used to create this type 
 
 Let's take a look at it in pseudo-code first to understand the logic.
 
+{% code lineNumbers="true" %}
 ```javascript
 function main()
 {
@@ -35,6 +36,7 @@ function main()
     return 0;
 }
 ```
+{% endcode %}
 
 On line 3, we load the max data size limit from the args.
 
@@ -46,6 +48,7 @@ On line 14, we return successfully after no errors are found.
 
 Now let's look at the real version of the type script, written in Rust. This is located in the `entry.rs` file within the directory `developer-training-course-script-examples/contracts/datacap/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -89,6 +92,7 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 Lines 1 to 11 are all imports of dependencies.
 
@@ -104,7 +108,7 @@ On lines 27 to 29 we convert the data from the `args` to a u32 value. We don't n
 
 On line 28, look at how the bytes to copy are specified using the `0..4` range. We can add multiple values to the args field by packing them next to each other, then specifying the ranges to read them out again.
 
- On line 32, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
+&#x20;On line 32, we use the `load_cell_data()` function to load cell data from the `GroupOutput` source. The `load_cell_data()` function can be used to load individual cells, but when combined with `QueryIter()` it can be used as a Rust `Iterator`, allowing us to cycle through all cells more easily.
 
 On line 34, we check the length of the data. If the data is longer than `cell_data_limit`, we return the error `DataLimitExceeded`.
 
@@ -118,7 +122,7 @@ The code we will be covering here is located in the `index.js` file in the `Usin
 
 Starting with the `main()` function, you will see our code has the usual four sections.
 
-![](https://gblobscdn.gitbook.com/assets%2F-MLuiCvogNfxQTk5TWAq%2F-MWXyed_PZWmr5dt-R_b%2F-MRhtF2hvu67w4rFgsc_%2FExample-Flow.png?alt=media&token=0e93ab2c-178c-4bd9-a758-2ad39ea92d54)
+![](https://gblobscdn.gitbook.com/assets%2F-MLuiCvogNfxQTk5TWAq%2F-MWXyed\_PZWmr5dt-R\_b%2F-MRhtF2hvu67w4rFgsc\_%2FExample-Flow.png?alt=media\&token=0e93ab2c-178c-4bd9-a758-2ad39ea92d54)
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
@@ -126,6 +130,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the DataCap type script.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Create cells using the DataCap type script.
 const messages = ["Hello World!", "Foo Bar", "1234567890"];
@@ -145,6 +150,7 @@ for(let message of messages)
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
+{% endcode %}
 
 This is the code logic that creates the cells that use the DataCap type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
 
@@ -152,16 +158,17 @@ On line 7 we convert our limit of 20 bytes as a 32-bit little-endian value as he
 
 On lines 9 to 13, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 15.
 
-On line 14 we convert our message to a hex string, and then add it to the structure on line 15. 
+On line 14 we convert our message to a hex string, and then add it to the structure on line 15.&#x20;
 
-The resulting transaction will look similar to this. We are creating three cells using the DataCap type script, and all are the same except for the data contained within. 
+The resulting transaction will look similar to this. We are creating three cells using the DataCap type script, and all are the same except for the data contained within.&#x20;
 
-![](../.gitbook/assets/create-transaction-structure%20%2811%29.png)
+![](<../.gitbook/assets/create-transaction-structure (11).png>)
 
 ### Consuming Cells
 
 Next, we will look at the relevant parts of the `consumeCells()` function. This function generates and executes a transaction that will consume the cells we just created that use the DataCap type script.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the DataCap cells to the transaction. 
 const lockScript1 = addressToScript(address1);
@@ -177,6 +184,7 @@ const cellCollector = new CellCollector(indexer, query);
 for await (const cell of cellCollector.collect())
     transaction = transaction.update("inputs", (i)=>i.push(cell));
 ```
+{% endcode %}
 
 Here we add the cells with the DataCap type script to the transaction using the `CellCollector()` library function. To form our query to locate the cells we must specify the same lock script and type script that they were create with.
 
@@ -188,9 +196,8 @@ On lines 12 and 13, we add all the cells found to the transaction. This will add
 
 The resulting transaction will look similar to this.
 
-![](../.gitbook/assets/consume-transaction-structure%20%2810%29.png)
+![](<../.gitbook/assets/consume-transaction-structure (10).png>)
 
 In the image, the three input DataCap cells are the same, except for the data contained within. Only one type script is pictured due to space considerations, but all three are the same.
 
 A type script executes on both inputs and outputs, so the DataCap type script will execute here. It will query the output group, but it won't find anything. There is one output, but that doesn't have the same type script, so it will not be included when the output group is queried. Since there are no DataCap cells to validate, it will exit with success, allowing the cells to be consumed.
-

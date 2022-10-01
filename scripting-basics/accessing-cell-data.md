@@ -16,6 +16,7 @@ Next, we will look at the logic and code that would be used to create this type 
 
 Let's take a look at it in pseudo-code first to understand the logic.
 
+{% code lineNumbers="true" %}
 ```javascript
 function main()
 {
@@ -36,8 +37,9 @@ function main()
     return 0;
 }
 ```
+{% endcode %}
 
-On line 3, we load the currently executing script. This is needed for comparison later on. 
+On line 3, we load the currently executing script. This is needed for comparison later on.&#x20;
 
 On line 5, we load the outputs. This will return all of the outputs in the current transaction we are validating.
 
@@ -53,6 +55,7 @@ Our code only checks the outputs, because that is when the cell is created. When
 
 Now let's look at the real version of the Data10 type script, written in Rust. This is located in the `entry.rs` file in`developer-training-course-script-examples/contracts/data10/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -104,6 +107,7 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 Lines 1 to 11 are all imports of dependencies.
 
@@ -143,15 +147,18 @@ The initialization and deployment code is nearly identical to the previous examp
 
 Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the Data10 type script.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the cell deps for the default lock script and Data10 type script.
 transaction = addDefaultCellDeps(transaction);
 const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
+{% endcode %}
 
 This is the code that adds cell deps to the transaction. On line 2, the cells deps are added for the default lock. On lines 3 and 4, the cell dep is added for the Data10 type script. Type scripts execute both on inputs and outputs, so a cell dep is always needed.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Create cells using the Data10.
 const messages = ["HelloWorld", "Foo Bar", "1234567890"];
@@ -170,16 +177,17 @@ for(const message of messages)
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
+{% endcode %}
 
 This is the code logic that creates the cells that use the Data10 type script. It uses the `messages` provided on line 2, then loops through them creating three cells with the different data.
 
 On lines 7 to 12, we define the type script for the cell. The syntax for this is the same as when we created lock scripts in the past, but it is added as the `type` instead of the `lock` when we generate the cell structure on line 14.
 
-On line 13, we convert our message to a hex string, and then add it to the structure on line 14. 
+On line 13, we convert our message to a hex string, and then add it to the structure on line 14.&#x20;
 
-The resulting transaction will look similar to this. We are creating three cells using the Data10 type script, and all are the same except for the data contained within. 
+The resulting transaction will look similar to this. We are creating three cells using the Data10 type script, and all are the same except for the data contained within.&#x20;
 
-![](../.gitbook/assets/create-transaction-structure%20%285%29.png)
+![](<../.gitbook/assets/create-transaction-structure (5).png>)
 
 ### Consuming
 
@@ -194,6 +202,7 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep))
 
 Just like with the creation function, we add cell deps for the default lock script and the Data10 type script. The cells we created use the Data10 type script, but they are secured by the default lock. Both will execute on the inputs, so both require cell deps.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the Data10 cells to the transaction. 
 const lockScript1 = addressToScript(address1);
@@ -208,6 +217,7 @@ const cellCollector = new CellCollector(indexer, query);
 for await (const cell of cellCollector.collect())
 		transaction = transaction.update("inputs", (i)=>i.push(cell));
 ```
+{% endcode %}
 
 Here we add the cells with the Data10 type script to the transaction. Just like the previous example, we use the `CellCollector()` with the same lock script and type script that we created the cell with.
 
@@ -217,7 +227,6 @@ On lines 11 and 12, we add all the cells found to the transaction. This will add
 
 The resulting transaction will look similar to this.
 
-![](../.gitbook/assets/consume-transaction-structure%20%285%29.png)
+![](<../.gitbook/assets/consume-transaction-structure (5).png>)
 
 A type script executes on both inputs and outputs, so the Data10 type script will execute here. It will query the output group, but it won't find anything. There is one output, but that doesn't have the same type script, so it will not be included when the output group is queried. Since there are no Data10 cells to validate, it will exit with success, allowing the cells to be consumed.
-

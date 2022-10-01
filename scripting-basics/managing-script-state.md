@@ -4,7 +4,7 @@ Script state is any form of data that needs to persist between transactions. Thi
 
 To demonstrate how we can work with script state, we will build a basic counter type script. The cell's data area will hold a single number that must be incremented by exactly 1 each time it is included in a transaction. We will call this the "Counter" type script.
 
-![](../.gitbook/assets/valid-invalid-transaction%20%282%29.png)
+![](<../.gitbook/assets/valid-invalid-transaction (2).png>)
 
 On the top left of the image is a transaction where the Counter type script is used. The data area of the input cell contains a value of 1, and the output cell contains a value of 2. The type script will execute without error and the transaction will process successfully.
 
@@ -16,6 +16,7 @@ Next, we will look at the logic and code that would be used to create this type 
 
 Let's take a look at it in pseudo-code first to understand the logic.
 
+{% code lineNumbers="true" %}
 ```javascript
 function main()
 {
@@ -37,16 +38,17 @@ function main()
     return 0;
 }
 ```
+{% endcode %}
 
 On lines 3 and 4, we count the number of cells in the group input and group output. We do this so we can make certain determinations about the structure of the transaction based on these counts.
 
-On lines 6 and 7, we check if there are no input cells, and immediately exit the program with success if there are none. This is done because we are checking if there are any Counter cells that are being incremented. If nothing is being incremented, then nothing needs to be checked so we can safely exit. 
+On lines 6 and 7, we check if there are no input cells, and immediately exit the program with success if there are none. This is done because we are checking if there are any Counter cells that are being incremented. If nothing is being incremented, then nothing needs to be checked so we can safely exit.&#x20;
 
 Lines 6 and 7 also handle the scenario where a Counter cell is being created for the first time. In that case there would be no input Counter cell, but there would be an output Counter cell. This allows the cell to be created, and simply assumes that the data is in the correct format. We will demonstrate better ways of handling this in the next few lessons.
 
 On lines 9 and 10, we check if the group input count and group output count are both 1, and we return an error if they are not. We are doing this to ensure that the transaction is conforming to a specific structure that we can check effectively. If the input and output are both exactly 1, we know we can properly validate that the Counter value is incremented.
 
-On lines 12 and 13, we are loading the input and output values from the cell's data area. This is done by loading the first cell from each group, then converting the binary data in the cell's data area into an integer. 
+On lines 12 and 13, we are loading the input and output values from the cell's data area. This is done by loading the first cell from each group, then converting the binary data in the cell's data area into an integer.&#x20;
 
 On lines 15 and 16, we take the input and output values and compare them. We ensure that the output value was increased by exactly 1, and if it is not, we return an error.
 
@@ -54,6 +56,7 @@ On line 18, we return successfully after no errors are found.
 
 Now let's look at the real version of the Counter type script, written in Rust. This is located in the `entry.rs` file in`developer-training-course-script-examples/contracts/counter/src`.
 
+{% code lineNumbers="true" %}
 ```rust
 // Import from `core` instead of from `std` since we are in no-std mode.
 use core::result::Result;
@@ -106,6 +109,7 @@ pub fn main() -> Result<(), Error>
     Ok(())
 }
 ```
+{% endcode %}
 
 Lines 1 to 10 are the usual imports of dependencies.
 
@@ -133,7 +137,7 @@ The code we will be covering here is located in the `index.js` file in the `Mana
 
 Starting with the `main()` function, you will see our code has four sections.
 
-![](../.gitbook/assets/example-flow%20%282%29.png)
+![](<../.gitbook/assets/example-flow (2).png>)
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
@@ -141,6 +145,7 @@ The initialization and deployment code is nearly identical to the previous examp
 
 Next, we will look at the relevant parts of the `createCells()` function. This function generates and executes a transaction that will create cells using the Counter type script.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Create a cell using the Counter type script.
 const outputCapacity1 = ckbytesToShannons(102n);
@@ -156,6 +161,7 @@ const data1 = intToU64LeHexBytes(dataValue1);
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
+{% endcode %}
 
 This code creates a single Counter cell and adds it as an output. The code is very similar to the code from previous lessons, but there are a few things we want to point out.
 
@@ -165,18 +171,20 @@ On line 10 and 11, we define the data value for the Counter cell. The value must
 
 The resulting transaction will look something like this.
 
-![](../.gitbook/assets/create-transaction-structure%20%2813%29.png)
+![](<../.gitbook/assets/create-transaction-structure (13).png>)
 
 ### Updating Cells
 
 Now, we'll look at the relevant parts of the `updateCells()` function. This function generates and executes a transaction that will update the Counter type script's state.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the Counter cell to the transaction.
 const input = await getLiveCell(nodeUrl, counterCellOutPoint, true);
 const counterValue = u64LeHexBytesToInt(input.data);
 transaction = transaction.update("inputs", (i)=>i.push(input));
 ```
+{% endcode %}
 
 This adds the existing Counter cell as an input to the transaction, using the given out point from the previous transaction. We're using the out point instead of cell collection this time because it is a little easier to structure in this example since this Counter cell does not allow for burning. This will be covered later on.
 
@@ -184,6 +192,7 @@ On line 2, `getLiveCell()` contains a third parameter set to `true`. This is a f
 
 On line 3, we take the data from the input Counter cell and decode it from hex-encoded binary to a BigInt. This value will be used again during the creation of our output Counter cell.
 
+{% code lineNumbers="true" %}
 ```javascript
 // Add the updated Counter cell to the transaction.
 const outputCapacity1 = ckbytesToShannons(102n);
@@ -199,16 +208,15 @@ const data1 = intToU64LeHexBytes(dataValue1);
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
+{% endcode %}
 
 This code adds a Counter cell to the outputs with the updated value. This code is nearly identical to the code in the `createCell()` transaction, except that on line 10, we insert an updated value that is exactly one higher than the input value.
 
 The resulting transaction will look similar to this.
 
-![](../.gitbook/assets/consume-transaction-structure%20%2811%29.png)
+![](<../.gitbook/assets/consume-transaction-structure (11).png>)
 
 As we mentioned in an earlier lesson, a cell is an immutable structure. When an output cell is added to the blockchain in a transaction, it cannot be altered. Therefore, when we "update" a Counter cell, we are consuming the input Counter cell, and creating a new output Counter cell.
 
 There is no direct association between the input cell and output cell. It is important to keep this in mind while developing scripts because the script logic must reflect this in order to process the transaction correctly. We will learn more about this in our next lesson.
-
-
 

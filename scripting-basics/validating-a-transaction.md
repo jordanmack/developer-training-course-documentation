@@ -1,6 +1,6 @@
 # Validating a Transaction
 
-Every lock script and type script has the ability to evaluate the complete transaction that it is included in. One of the most common ways to do this is to inspect the cells that were included in the transaction. This is done by using syscalls \(system calls\) to load cells from the transaction. 
+Every lock script and type script has the ability to evaluate the complete transaction that it is included in. One of the most common ways to do this is to inspect the cells that were included in the transaction. This is done by using syscalls (system calls) to load cells from the transaction.&#x20;
 
 Let's create a type script that counts the number of input cells available, and succeeds only when that count is 3. We will call this the "IC3Type" for short. Here is the psuedo-code for this type script.
 
@@ -75,7 +75,7 @@ pub fn main() -> Result<(), Error>
 
 The beginning of the file is all imports, so we will skip straight to line 14. This is the number of input cells required to unlock the cell. We hard-coded this to keep the code simple.
 
-On lines 23 to 33, we load and count all the input cells. The [load\_cell\(\)](https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb_std/high_level/fn.load_cell.html) function is the syscall we use to query for a single cell using an index and a source as arguments. The index value is the index of a cell in the transaction, and the source is where to load the cell from. For example, `load_cell(0, Source::Input)` loads the first input cell.
+On lines 23 to 33, we load and count all the input cells. The [load\_cell()](https://nervosnetwork.github.io/ckb-std/riscv64imac-unknown-none-elf/doc/ckb\_std/high\_level/fn.load\_cell.html) function is the syscall we use to query for a single cell using an index and a source as arguments. The index value is the index of a cell in the transaction, and the source is where to load the cell from. For example, `load_cell(0, Source::Input)` loads the first input cell.
 
 The `load_cell()` function returns a cell structure that we can examine, but in this example, we are just interested in counting the input cells. Even though we are only counting the cells, we still have to go through the process of loading each cell one at a time. On line 28, we successfully load a cell and count it.
 
@@ -117,12 +117,14 @@ This code adds the required cell deps to the transaction. On line 2, we add the 
 
 Let's dig a little deeper into the `addDefaultCellDeps()` function on line 2. If we look into the shared library, we will see this:
 
+{% code overflow="wrap" %}
 ```javascript
 function addDefaultCellDeps(transaction)
 {
     return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
 }
 ```
+{% endcode %}
 
 We can see that this function is adding a cell dep for the default lock hash, and it's getting it from the `locateCellDep()` function. The `locateCellDep()` function is part of Lumos, and it can be used to locate specific well-known cell deps for the default lock script, the multisig lock script, and the Nervos DAO. This function is getting this information from the `config.json` file in the working directory.
 
@@ -135,6 +137,7 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep))
 
 The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
+{% code overflow="wrap" lineNumbers="true" %}
 ```javascript
 // Create a cell using the IC3Type script as a type script.
 const outputCapacity1 = ckbytesToShannons(94n);
@@ -148,6 +151,7 @@ const typeScript1 =
 const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output1, output1, output1));
 ```
+{% endcode %}
 
 This code is used to generate the cells that use the IC3Type script. There are a few important things to point out.
 
@@ -155,11 +159,11 @@ On line 2, the value of `outputCapacity1` is set to 96 CKBytes. The reason for t
 
 On line 3, we create the lock script. We can see it is using the `addressToScript()` function from Lumos, so we know it is using the default lock script.
 
-On lines 4 to 9, we define the type script. This structure should look familiar, because it is exactly the same as the lock script that was used in a previous lesson for the always success lock. The only difference is that we are now using the data hash for the IC3Type binary instead of the always success binary.
+On lines 4 to 9, we define the type script. This structure should look familiar because it is exactly the same as the lock script that was used in a previous lesson for the always success lock. The only difference is that we are now using the data hash for the IC3Type binary instead of the always success binary.
 
 On line 10, we create the cell structure for our output cell. Note that we now define the `type` field instead of leaving it as `null`. The `lock` field will never be `null` because a lock script is always required. The `type` field accepts the `null` value because a type script is optional.
 
-On line 11, we add cells to the transaction. We push output1 three times, which creates three identical cells as outputs. 
+On line 11, we add cells to the transaction. We push output1 three times, which creates three identical cells as outputs.&#x20;
 
 ```javascript
 // Add input capacity cells.
@@ -176,7 +180,7 @@ This code adds capacity to our transaction. We're not using the usual `collectCa
 
 The resulting generated transaction will look similar to this.
 
-![](../.gitbook/assets/create-transaction-structure%20%2810%29.png)
+![](<../.gitbook/assets/create-transaction-structure (10).png>)
 
 ### Consuming Cells
 
@@ -191,6 +195,7 @@ transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep))
 
 This code adds cell deps to our transaction skeleton. This is the same as the `createCells()` code. Just like before, both the default lock script and the IC3Type script will be executed, so the script code for both is required.
 
+{% code overflow="wrap" lineNumbers="true" %}
 ```javascript
 // Add the IC3Type cells to the transaction. 
 const lockScript1 = addressToScript(address1);
@@ -208,6 +213,7 @@ for(let i = 0; i < 3; ++i)
     transaction = transaction.update("inputs", (i)=>i.push(cell));
 }
 ```
+{% endcode %}
 
 This code is locating and adding the IC3Type cells we just created to the transaction. To do this, we use the `CellCollector()` class from the Lumos framework. By specifying the lock script and type script, we can query for live cells that match.
 
@@ -226,7 +232,6 @@ On lines 11 to 15, we locate and add exactly three cells matching the query. Onc
 
 This code would be used to add in more required capacity for the transaction, but we won't need it in this example, and this is why it is commented out. Let's take a look at the resulting transaction.
 
-![](../.gitbook/assets/consume-transaction-structure%20%289%29.png)
+![](<../.gitbook/assets/consume-transaction-structure (9).png>)
 
 Our three input cells provide a total of 282 CKBytes of capacity. This is more than enough capacity for the transaction to complete successfully.
-
