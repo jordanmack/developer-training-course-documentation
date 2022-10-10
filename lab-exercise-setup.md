@@ -73,7 +73,7 @@ The table below describes the values that need to be updated in `config.json`, a
 
 For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the config group that contains the line `included_cells = ["Bundled(specs/cells/secp256k1_data)", "Bundled(specs/cells/secp256k1_blake160_sighash_all)"]`. The values for `SECP256K1_BLAKE160.TX_HASH` and `SECP256K1_BLAKE160.INDEX` are contained in the lines directly underneath.
 
-> Note: You only need to replace the `tx_hash` and `index` values that are indicated. There should be six values in total. All the rest of the values in `config.json` are unchanged.
+> Note: You only need to replace the `tx_hash` and `index` values that are indicated. **There should be six values in total.** All the rest of the values in `config.json` are unchanged.
 
 | config.json                            | ckb list-hashes                                                                                                        |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -87,4 +87,4 @@ For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the 
 | DAO.TX\_HASH                           | tx\_hash                                                                                                               |
 | DAO.INDEX                              | index                                                                                                                  |
 
-A total of six values should be updated in total. This process only needs to be done once, but if you set up a new dev chain, you will need to repeat this process since the values will be different.
+This process only needs to be done once per dev chain. However, if you set up a new dev chain you will need to repeat this process since the values will be different.
