@@ -10,7 +10,7 @@ Our examples are all created using a Linux environment, and this is the preferre
 
 Our lessons and lab exercises all rely on Node.js v16 LTS, so this will need to be installed prior to starting.
 
-Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the installation.
+Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the installation. Many developers prefer using NVM since it allows you to quickly select between different versions of Node.js without having to reinstall.
 
 * Vanilla Node.js (All Platforms): [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 * NVM (Linux & MacOS): [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
