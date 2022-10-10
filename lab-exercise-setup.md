@@ -73,27 +73,18 @@ The table below describes the values that need to be updated in `config.json`, a
 
 For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the config group that contains the line `included_cells = ["Bundled(specs/cells/secp256k1_data)", "Bundled(specs/cells/secp256k1_blake160_sighash_all)"]`. The values for `SECP256K1_BLAKE160.TX_HASH` and `SECP256K1_BLAKE160.INDEX` are contained in the lines directly underneath.
 
-| config.json                              | ckb list-hashes                                                                                                        |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| SECP256K1\_BLAKE160                      | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_sighash\_all)"]  |
-| SECP256K1\_BLAKE160.CODE\_HASH           | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160.HASH\_TYPE           | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160.TX\_HASH             | tx\_hash                                                                                                               |
-| SECP256K1\_BLAKE160.INDEX                | index                                                                                                                  |
-| SECP256K1\_BLAKE160.DEP\_TYPE            | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160.SHORT\_ID            | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160\_MULTISIG            | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_multisig\_all)"] |
-| SECP256K1\_BLAKE160\_MULTISIG.CODE\_HASH | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160\_MULTISIG.HASH\_TYPE | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160\_MULTISIG.TX\_HASH   | tx\_hash                                                                                                               |
-| SECP256K1\_BLAKE160\_MULTISIG.INDEX      | index                                                                                                                  |
-| SECP256K1\_BLAKE160\_MULTISIG.DEP\_TYPE  | \<unchanged>                                                                                                           |
-| SECP256K1\_BLAKE160\_MULTISIG.SHORT\_ID  | \<unchanged>                                                                                                           |
-| DAO                                      | path = "Bundled(specs/cells/dao)"                                                                                      |
-| DAO.CODE\_HASH                           | \<unchanged>                                                                                                           |
-| DAO.HASH\_TYPE                           | \<unchanged>                                                                                                           |
-| DAO.TX\_HASH                             | tx\_hash                                                                                                               |
-| DAO.INDEX                                | index                                                                                                                  |
-| DAO.DEP\_TYPE                            | \<unchanged>                                                                                                           |
+> Note: You only need to replace the `tx_hash` and `index` values that are indicated. There should be six values in total. All the rest of the values in `config.json` are unchanged.
+
+| config.json                            | ckb list-hashes                                                                                                        |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| SECP256K1\_BLAKE160                    | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_sighash\_all)"]  |
+| SECP256K1\_BLAKE160.TX\_HASH           | tx\_hash                                                                                                               |
+| SECP256K1\_BLAKE160.INDEX              | index                                                                                                                  |
+| SECP256K1\_BLAKE160\_MULTISIG          | included\_cells = \["Bundled(specs/cells/secp256k1\_data)", "Bundled(specs/cells/secp256k1\_blake160\_multisig\_all)"] |
+| SECP256K1\_BLAKE160\_MULTISIG.TX\_HASH | tx\_hash                                                                                                               |
+| SECP256K1\_BLAKE160\_MULTISIG.INDEX    | index                                                                                                                  |
+| DAO                                    | path = "Bundled(specs/cells/dao)"                                                                                      |
+| DAO.TX\_HASH                           | tx\_hash                                                                                                               |
+| DAO.INDEX                              | index                                                                                                                  |
 
 A total of six values should be updated in total. This process only needs to be done once, but if you set up a new dev chain, you will need to repeat this process since the values will be different.
