@@ -8,18 +8,21 @@ An indexer is a piece of software that helps speed up the process of locating ce
 
 ![](../.gitbook/assets/ckb-indexer.png)
 
-An indexer runs as separate node that continuously monitors a Nervos CKB node for new block data. As new blocks are found, the cell information is extracted and organized internally by the indexer until needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
+An indexer monitors for new block data, and then extracts and organizes the cell information so it can be more quickly located when needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
+
+The way that indexers have been implemented changed over time, so you may see them referenced as a separate stand-alone node or as part of the CKB node. In the newest generation of node software, the CKB node includes the indexer functionality, and it is enabled in `ckb.toml`.
 
 {% code lineNumbers="true" %}
 ```javascript
-const {initializeConfig} = require("@ckb-lumos/config-manager");
-const {Indexer} = require("@ckb-lumos/ckb-indexer"); 
-const config = require("./config.json");
+import fs from "fs";
+import {initializeConfig} from "@ckb-lumos/config-manager";
+import {Indexer} from "@ckb-lumos/ckb-indexer"; 
+const CONFIG = JSON.parse(fs.readFileSync("../config.json"));
 
 const NODE_URL = "http://127.0.0.1:8114/";
-const INDEXER_URL = "http://127.0.0.1:8116/";
+const INDEXER_URL = "http://127.0.0.1:8114/";
 
-initializeConfig(config);
+initializeConfig(CONFIG);
 const indexer = new Indexer(INDEXER_URL, NODE_URL);
 
 (async function()
@@ -29,11 +32,13 @@ const indexer = new Indexer(INDEXER_URL, NODE_URL);
 ```
 {% endcode %}
 
-On line 8 we start with `initializeConfig(config)`. This uses the `config.json` file in your current working directory to initialize Lumos.
+On lines 6 and 7 we define the CKB node RPC URL and the CKB Indexer RPC URL. These are the same value because the new versions of the CKB node now include the indexer functionality, where it had previously been a separate server.
 
-On line 9 we create a new instance of `Indexer` which will pass requests to the CKB Indexer node JSON RPC which we specified.
+On line 9 we start with `initializeConfig(CONFIG)`. This uses the `config.json` file in your current working directory to initialize Lumos.
 
-Finally, on line 13 we use `indexer` to retrieve and display the most recent tip block on the console.
+On line 10 we create a new instance of `Indexer` which will pass requests to the CKB Indexer node JSON RPC which we specified.
+
+Finally, on line 14 we use `indexer` to retrieve and display the most recent tip block on the console.
 
 ### Automated Cell Collection
 
@@ -102,7 +107,7 @@ The rest of the code should be fairly easy to understand. It continuously gather
 
 ### Capacity Management
 
-Let's say that Charlie wants to send Bob 100 CKBytes. If Charlie had a cell that contained exactly enough CKBytes, this would be a very straight forward transaction.
+Let's say that Charlie wants to send Bob 100 CKBytes. If Charlie had a cell that contained exactly enough CKBytes, this would be a very straightforward transaction.
 
 ![](../.gitbook/assets/cell-capacity-management.png)
 
