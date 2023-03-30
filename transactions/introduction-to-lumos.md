@@ -1,6 +1,6 @@
 # Introduction to Lumos
 
-Lumos is a dapp framework. It is used for backend dapp development and is very useful for creating transactions and interacting with the blockchain.
+Lumos is a dapp framework. It is used for both frontend and backend dapp development and is very useful for creating transactions and interacting with the blockchain.
 
 Open the `index.js` file from the `Introduction-to-Lumos-Example` folder in the Developer Training Course repo you cloned from GitHub. If you don't have this, go back to the Lab Exercise Setup section for instructions on how to clone it from GitHub.
 
