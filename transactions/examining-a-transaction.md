@@ -26,13 +26,11 @@ One of the outputs has 100,000 capacity. Remember, capacity is another way of de
 
 Below that you see another output with 199,999.9999 capacity. This is the change of the transaction. Think of it like paying for a $5 item with a $20 bill. You would hand your $20 to the cashier, and they would hand you $15 back as change. This is the same basic process but in a purely digital system, our bills are often not in the same denomination.
 
-These CKBytes had to have been transferred from somewhere, and that place is the inputs.&#x20;
-
-![](../.gitbook/assets/tx-previous-output.png)
-
-There is one input and it has a `previous_output` with a `tx_hash` and `index` as a reference. If we use `ckb-cli` to look up that transaction hash and look at the matching index, we see an output with 300,000 capacity.
+The CKBytes in the outputs had to come from somewhere, and that place is the inputs. There is one input and it has a `previous_output` with a `tx_hash` and `index` as a reference.
 
 Every input is an output from a previous transaction, and that's why it's called a "previous output" in `ckb-cli`. A transaction can have many outputs, which is why the index is specified in addition to the tx\_hash. The combination of a `tx_hash` and an `index` is called an "out point", and it is used to describe where an output originates from. An out point is sometimes represented as two values, and sometimes represented as a single value in the format `<tx_hash>-<index>`.
+
+If you use `ckb-cli` to lookup the `tx_hash` from the `previous_output` of the input, you will get similar output. Remember, every input is an output from a previous transaction. This ensures that everything is always accounted for and every CKByte has a traceable history in the blockchain.
 
 Below is a diagram that shows how inputs and outputs are related, and how CKBytes can move around between transactions. Note: TX fees are omitted to keep it more simple.
 
@@ -50,9 +48,9 @@ An unspent transaction output is more commonly known as a UTXO, and this is the 
 
 ![](../.gitbook/assets/tx-combined.png)
 
-The formatting on the inputs and outputs is different, so it's hard to compare. The image above combines the two screenshot images from earlier so the formatting on the inputs matches the outputs. This will make it easier to compare the capacity values to understand what's going on.
+The formatting on the inputs and outputs is different, so it's hard to compare. In the image above we updated the formatting of the inputs to match the outputs. This will make it easier to compare the capacity values to understand what's going on.
 
-With this combined image, the amounts should start to make more sense. The inputs have a total of 300,000 CKBytes. The outputs have one for 100,000 CKBytes, and one for 199,999.9999 CKBytes, for a total of 299,999.9999 CKBytes.
+With this new image, the amounts should start to make more sense. The inputs have a total of 300,000 CKBytes. The outputs have one for 100,000 CKBytes, and one for 199,999.9999 CKBytes, for a total of 299,999.9999 CKBytes.
 
 There is a difference of 0.0001 CKBytes. This difference is the transaction fee that we specified when sending the transaction. Whenever there is an unaccounted difference in CKBytes between the inputs and outputs, that is the fee paid to miners for processing the transaction. You can think of this as leaving a tip on the table at a restaurant after you've paid what was listed on the bill.
 
