@@ -13,16 +13,19 @@ The input cell that the code uses will be specified by one of two out points you
 Starting at the top of the file, we have the includes.
 
 ```javascript
-const {initializeConfig} = require("@ckb-lumos/config-manager");
-const {addressToScript, TransactionSkeleton} = require("@ckb-lumos/helpers");
-const {Indexer} = require("@ckb-lumos/ckb-indexer");
-const {addDefaultCellDeps, addDefaultWitnessPlaceholders, getLiveCell, sendTransaction, signTransaction, waitForTransactionConfirmation} = require("../lib/index.js");
-const {hexToInt, intToHex} = require("../lib/util.js");
-const {describeTransaction} = require("./lab.js");
-const config = require("../config.json");
+import fs from "fs";
+import {initializeConfig} from "@ckb-lumos/config-manager";
+import {addressToScript, TransactionSkeleton} from "@ckb-lumos/helpers";
+import {Indexer} from "@ckb-lumos/ckb-indexer";
+import {addDefaultCellDeps, addDefaultWitnessPlaceholders, getLiveCell, sendTransaction, signTransaction, waitForTransactionConfirmation} from "../lib/index.js";
+import {hexToInt, intToHex} from "../lib/util.js";
+import {describeTransaction} from "./lab.js";
+const CONFIG = JSON.parse(fs.readFileSync("../config.json"));
 ```
 
 We have a few includes from Lumos framework, but most are from our shared library, utility library, and lab library. The shared library contains some functions to handle common operations. The utility library contains some basic converters and formatters. The lab library is used to set up and validate lab environments and make concepts easier to understand.
+
+You can dive in deeper and read through all the code being used behind the scenes to make a lab work, but in most cases, you will probably find that this is of limited benefit. The labs are designed to focus on understanding the core concepts needed to build a dapp since that is what is most important. The functions and methods being used at the framework level will change and become outdated over time, but the core concepts of how we approach building a dapp are likely to change much less.
 
 Next, you will see a group of variables, which we will explain.
 
@@ -33,7 +36,7 @@ const PRIVATE_KEY = "0xd00c06bfd800d27397002dca6fb0993d5ba6399b4238b2f29ee9deb97
 const ADDRESS = "ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwgx292hnvmn68xf779vmzrshpmm6epn4c0cgwga";
 const PREVIOUS_OUTPUT =
 {
-	tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+	txHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
 	index: "0x0"
 };
 const TX_FEE = 100_000n;
@@ -51,7 +54,7 @@ We'll walk through each line of code to give a deeper explanation of what is hap
 
 ```javascript
 // Initialize the Lumos configuration using ./config.json.
-initializeConfig(config);
+initializeConfig(CONFIG);
 ```
 
 Lumos must be initialized with a configuration file before it can be used for the first time. This configuration file is named `config.json`, and it is normally found in the current directory where your script executes from. This is already set up for you in the developer training course repo.
@@ -61,7 +64,7 @@ Lumos must be initialized with a configuration file before it can be used for th
 let transaction = TransactionSkeleton();
 ```
 
-This creates a Lumos transaction skeleton. This is an empty transaction structure which we will populate with information, like what cells to consume as inputs, and which to create as outputs. We will then use this transaction skeleton to generate a real transaction that is sent to the CKB node via RPC, and broadcast to the network.
+This creates a Lumos transaction skeleton. This is an empty transaction structure that we will populate with information, like what cells to consume as inputs, and which to create as outputs. We will then use this transaction skeleton to generate a real transaction that is sent to the CKB node via RPC, and broadcast to the network.
 
 ```javascript
 // Add the cell dep for the lock script.
@@ -82,8 +85,8 @@ The transaction skeleton is built with the [ImmutableJS](https://immutable-js.gi
 
 ```javascript
 // Add an output cell.
-const outputCapacity = intToHex(hexToInt(input.cell_output.capacity) - TX_FEE);
-const output = {cell_output: {capacity: outputCapacity, lock: addressToScript(ADDRESS), type: null}, data: "0x"};
+const outputCapacity = intToHex(hexToInt(input.cellOutput.capacity) - TX_FEE);
+const output = {cellOutput: {capacity: outputCapacity, lock: addressToScript(ADDRESS), type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output));
 ```
 
