@@ -10,7 +10,7 @@ As a developer, your goal is to always produce valid transactions. To do this co
 
 #### At Least One Input Cell Must Exist
 
-In order for a transaction to be considered valid, there must be at least one input cell. Remember, a transaction is how a change in state is described. Without an input cell, there is no state to change, and no way to pay transaction fees.
+In order for a transaction to be considered valid, there must be at least one input cell. Remember, a transaction is how a change in state is described. Without an input cell, there is no state to change, and no way to pay transaction fees. Therefore, there must always be at least one input cell in a valid transaction.
 
 #### All Inputs Must be Authorized
 
@@ -24,11 +24,10 @@ Nervos uses small programs called "scripts" to achieve smart contract functional
 
 Every cell must have a capacity equal to or greater than the number of bytes occupied by the cell on the blockchain. This includes any assets or data held within the cell, as well as the overhead of the cell's data structure itself. In most cases, this means that the minimum capacity required by a basic cell is 61 bytes.
 
-The capacity requirement exists both at the cell level and the transaction level. In order for an output cell to have 61 bytes of capacity, there must be an input cell with at least 61 bytes of capacity \(+ TX Fees\). If the total capacity of the output cells exceeds that of the input cells, then the transaction is invalid.
+The capacity requirement exists both at the cell level and the transaction level. In order for an output cell to have 61 bytes of capacity, there must be an input cell with at least 61 bytes of capacity (+ TX Fees). If the total capacity of the output cells exceeds that of the input cells, then the transaction is invalid.
 
 #### Adequate Transaction Fees Must be Included
 
 Every transaction that is submitted to the network must include a fee paid in CKBytes. This fee is paid to miners for verifying and processing transactions and for providing security to the network. Fees are based both on the size of the transaction and the amount of computing resources required to process it.
 
 Just like with other blockchains, a fee market is used to prioritize transactions that have paid a higher fee rate. However, unlike most other blockchains, transaction fees are not the only economic incentive for miners. The result is less upward pressure on transaction fees, allowing them to remain lower without sacrificing security. We'll learn how to calculate transaction fees in a later lesson.
-
