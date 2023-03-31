@@ -85,7 +85,7 @@ Storing data using Lumos is very similar to what you've already done in previous
 
 ```javascript
 {
-    cell_output:
+    cellOutput:
     {
         capacity: outputCapacity,
         lock: addressToScript(address),
@@ -104,7 +104,7 @@ Looking at the code example in the folder `Storing-Data-in-a-Cell-Example`, we s
 const hexString = "0x48656c6c6f204e6572766f7321"; // "Hello Nervos!" as a hex string.
 const dataSize = ((hexString.length - 2) / 2); // Calculate the size of hexString as binary.
 const outputCapacity1 = intToHex(ckbytesToShannons(61n) + ckbytesToShannons(dataSize)); // 61 CKBytes for the Cell minimum + the size of the data.
-const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address), type: null}, data: hexString};
+const output1 = {cellOutput: {capacity: outputCapacity1, lock: addressToScript(address), type: null}, data: hexString};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
