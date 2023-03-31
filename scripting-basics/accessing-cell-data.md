@@ -151,7 +151,7 @@ Next, we will look at the relevant parts of the `createCells()` function. This f
 ```javascript
 // Add the cell deps for the default lock script and Data10 type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
+const cellDep = {depType: "code", outPoint: data10CodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 {% endcode %}
@@ -168,12 +168,12 @@ for(const message of messages)
     const lockScript1 = addressToScript(address1);
     const typeScript1 =
     {
-        code_hash: dataFileHash1,
-        hash_type: "data",
+        codeHash: dataFileHash1,
+        hashType: "data",
         args: "0x"
     };
     const data1 = stringToHex(message);
-    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
@@ -196,7 +196,7 @@ Next, we will look at the relevant parts of the `consumeCells()` function. This 
 ```javascript
 // Add the cell deps for the default lock script and Data10 type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: data10CodeOutPoint};
+const cellDep = {depType: "code", outPoint: data10CodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
@@ -208,8 +208,8 @@ Just like with the creation function, we add cell deps for the default lock scri
 const lockScript1 = addressToScript(address1);
 const typeScript1 =
 {
-		code_hash: dataFileHash1,
-		hash_type: "data",
+		codeHash: dataFileHash1,
+		hashType: "data",
 		args: "0x"
 };
 const query = {lock: lockScript1, type: typeScript1};
