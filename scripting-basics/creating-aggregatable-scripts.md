@@ -192,12 +192,12 @@ for(const amount of [0n, 42n, 9_000n])
     const lockScript1 = addressToScript(address1);
     const typeScript1 =
     {
-        code_hash: dataFileHash1,
-        hash_type: "data",
+        codeHash: dataFileHash1,
+        hashType: "data",
         args: "0x"
     };
     const data1 = intToU64LeHexBytes(amount);
-    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
@@ -247,13 +247,13 @@ for(const counterValue of counterValues)
     const lockScript1 = addressToScript(address1);
     const typeScript1 =
     {
-        code_hash: dataFileHash1,
-        hash_type: "data",
+        codeHash: dataFileHash1,
+        hashType: "data",
         args: "0x"
     };
     const dataValue1 = counterValue + 1n;
     const data1 = intToU64LeHexBytes(dataValue1);
-    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
