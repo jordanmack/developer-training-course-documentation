@@ -54,12 +54,12 @@ if(transaction.inputs.size === 0)
 	throw new Error("Unable to locate a live cell with the expected data.");
 
 // Calculate the total capacity of all inputs.
-const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cellOutput.capacity), 0n);
 
 // Create a cell with data from the specified file.
 const {hexString: hexString2} = await readFileToHexString(dataFile2);
 const outputCapacity1 = intToHex(inputCapacity - txFee);
-const output1 = {cell_output: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: hexString2};
+const output1 = {cellOutput: {capacity: outputCapacity1, lock: addressToScript(address1), type: null}, data: hexString2};
 transaction = addOutput(transaction, output1);
 ```
 
