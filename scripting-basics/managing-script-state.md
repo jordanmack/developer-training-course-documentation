@@ -152,20 +152,20 @@ const outputCapacity1 = ckbytesToShannons(102n);
 const lockScript1 = addressToScript(address1);
 const typeScript1 =
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
+    codeHash: dataFileHash1,
+    hashType: "data",
     args: "0x"
 };
 const dataValue1 = 9_000n;
 const data1 = intToU64LeHexBytes(dataValue1);
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 {% endcode %}
 
 This code creates a single Counter cell and adds it as an output. The code is very similar to the code from previous lessons, but there are a few things we want to point out.
 
-On line 2, the capacity of the cell is being set to 102 CKBytes. This is the minimum amount of capacity necessary for the Counter cell. A basic cell secured with the default lock and no type script or data is 61 CKBytes. The addition of the type script is 32 bytes for the `code_hash`, 1 byte for the `hash_type`, and 0 bytes for the empty args. The data field is a 64-bit integer, which is 8 bytes. `61 + 32 + 1 + 0 + 8 = 102`
+On line 2, the capacity of the cell is being set to 102 CKBytes. This is the minimum amount of capacity necessary for the Counter cell. A basic cell secured with the default lock and no type script or data is 61 CKBytes. The addition of the type script is 32 bytes for the `codeHash`, 1 byte for the `hashType`, and 0 bytes for the empty args. The data field is a 64-bit integer, which is 8 bytes. `61 + 32 + 1 + 0 + 8 = 102`
 
 On line 10 and 11, we define the data value for the Counter cell. The value must be converted to a 64-bit LE encoded hex string, which is the requirement of the Counter type script. Other encodings can be used as long as they match both in the transaction generation code and the on-chain script, but generally binary is the most space and computationally format for on-chain scripts.
 
@@ -199,13 +199,13 @@ const outputCapacity1 = ckbytesToShannons(102n);
 const lockScript1 = addressToScript(address1);
 const typeScript1 =
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
+    codeHash: dataFileHash1,
+    hashType: "data",
     args: "0x"
 };
 const dataValue1 = counterValue + 1n;
 const data1 = intToU64LeHexBytes(dataValue1);
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 {% endcode %}
