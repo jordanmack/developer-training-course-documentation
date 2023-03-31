@@ -131,7 +131,7 @@ We can see that this function is adding a cell dep for the default lock hash, an
 However, we will not be able to use the `locateCellDep` function with the IC3Type binary because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
 
 ```javascript
-const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
+const cellDep = {depType: "code", outPoint: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
