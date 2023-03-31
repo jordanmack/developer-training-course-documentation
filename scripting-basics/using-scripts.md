@@ -10,17 +10,17 @@ When the above code is executed, `lockScript` will be set to the following.
 
 ```javascript
 {
-    code_hash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
-    hash_type: 'type',
+    codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
+    hashType: 'type',
     args: '0x988a9c3e74c09dab76c8e41d481a71f4d36d772f'
 }
 ```
 
-The `code_hash` and `hash_type` fields indicate what code should be executed. The `code_hash` value is a Blake2b hash that indicates what script code we need to execute, and `hash_type` indicates how we need to treat code hash in order to match it up properly. The combination of the two together specifies **what** code should execute. If this doesn't make sense yet, don't worry. Later in this lesson, we will use it in an example that will make it perfectly clear.
+The `codeHash` and `hashType` fields indicate what code should be executed. The `codeHash` value is a Blake2b hash that indicates what script code we need to execute, and `hashType` indicates how we need to treat code hash in order to match it up properly. The combination of the two together specifies **what** code should execute. If this doesn't make sense yet, don't worry. Later in this lesson, we will use it in an example that will make it perfectly clear.
 
 The `args` value specifies the data that will be passed to the script when it executes. This is just like passing a few arguments to a command-line program. The value of the `args` field can be set to any value, and what is placed there is determined by the requirements of the script that is executing.&#x20;
 
-In the example above, the `code_hash` and `hash_type` values specify the script code for the default lock. The `args` value is Blake2b hash of the owner's public key. When the transaction is submitted to the network, the default lock's script code will be executed and passed the `args` value. Using the `args` value in combination with the other values in the transaction, the default lock can make the determination if proper credentials were provided for this cell. If proper credentials were provided, a value of `0` is returned, indicating that execution was successful. If improper credentials were provided, then an error code will be returned, indicating that execution was not successful and that the transaction is invalid.
+In the example above, the `codeHash` and `hashType` values specify the script code for the default lock. The `args` value is Blake2b hash of the owner's public key. When the transaction is submitted to the network, the default lock's script code will be executed and passed the `args` value. Using the `args` value in combination with the other values in the transaction, the default lock can make the determination if proper credentials were provided for this cell. If proper credentials were provided, a value of `0` is returned, indicating that execution was successful. If improper credentials were provided, then an error code will be returned, indicating that execution was not successful and that the transaction is invalid.
 
 ### The Always Success Script
 
