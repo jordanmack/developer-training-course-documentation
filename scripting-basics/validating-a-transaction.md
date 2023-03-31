@@ -109,7 +109,7 @@ Next, let's look at the `createCells()` function. This function generates and ex
 ```javascript
 // Add the cell deps for the default lock script and the IC3Type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
+const cellDep = {depType: "code", outPoint: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
@@ -121,7 +121,7 @@ Let's dig a little deeper into the `addDefaultCellDeps()` function on line 2. If
 ```javascript
 function addDefaultCellDeps(transaction)
 {
-    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({codeHash: DEFAULT_LOCK_HASH, hashType: "type"})));
 }
 ```
 {% endcode %}
@@ -135,7 +135,7 @@ const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
+The `depType` can be either `code` or `depGroup`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `depGroup`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```javascript
@@ -144,18 +144,18 @@ const outputCapacity1 = ckbytesToShannons(94n);
 const lockScript1 = addressToScript(address1);
 const typeScript1 =
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
+    codeHash: dataFileHash1,
+    hashType: "data",
     args: "0x"
 };
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: "0x"};
+const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output1, output1, output1));
 ```
 {% endcode %}
 
 This code is used to generate the cells that use the IC3Type script. There are a few important things to point out.
 
-On line 2, the value of `outputCapacity1` is set to 96 CKBytes. The reason for this is that this cell is using a type script. Looking at lines 6 to 8, we see the structure of the type script. The `code_hash` field requires 32 bytes, the `hash_type` field requires 1 byte, and the `args` field is empty. This is a total of 33 bytes, and 61 + 33 = 94.
+On line 2, the value of `outputCapacity1` is set to 96 CKBytes. The reason for this is that this cell is using a type script. Looking at lines 6 to 8, we see the structure of the type script. The `codeHash` field requires 32 bytes, the `hashType` field requires 1 byte, and the `args` field is empty. This is a total of 33 bytes, and 61 + 33 = 94.
 
 On line 3, we create the lock script. We can see it is using the `addressToScript()` function from Lumos, so we know it is using the default lock script.
 
@@ -189,7 +189,7 @@ Now let's look at the relevant parts of the `consumeCells()` function. This func
 ```javascript
 // Add the cell deps for the default lock script and the IC3Type script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: ic3typeCodeOutPoint};
+const cellDep = {depType: "code", outPoint: ic3typeCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
