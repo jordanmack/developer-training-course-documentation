@@ -64,7 +64,7 @@ Let's go through the `deployCode()` function. This function generates and execut
 // Create a cell with data from the specified file.
 const {hexString: hexString1, dataSize: dataSize1} = await readFileToHexString(dataFile1);
 const outputCapacity1 = ckbytesToShannons(61n) + ckbytesToShannons(dataSize1);
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: addressToScript(address1), type: null}, data: hexString1};
+const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: addressToScript(address1), type: null}, data: hexString1};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
@@ -76,7 +76,7 @@ At the end of the function you will see this code:
 // Return the out point for the always success binary so it can be used in the next transaction.
 const outPoint =
 {
-    tx_hash: txid,
+    txHash: txid,
     index: "0x0"
 };
 return outPoint;
@@ -93,17 +93,17 @@ Next, let's look at the `createCells()` function. This function generates and ex
 const outputCapacity1 = ckbytesToShannons(41n);
 const lockScript1 =
 {
-	code_hash: dataFileHash1,
-	hash_type: "data",
+	codeHash: dataFileHash1,
+	hashType: "data",
 	args: "0x"
 };
-const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
+const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(output1));
 ```
 
 There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
-The `lockScript1` variable defines the lock script for the cell. The `code_hash` is being set to a Blake2b hash of the always success lock script binary. The `hash_type` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `code_hash` value reflects this. You may have noticed that the `hash_type` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradeable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
+The `lockScript1` variable defines the lock script for the cell. The `codeHash` is being set to a Blake2b hash of the always success lock script binary. The `hashType` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `codeHash` value reflects this. You may have noticed that the `hashType` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradeable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
 
 ![](../.gitbook/assets/get-live-cell.png)
 
@@ -119,7 +119,7 @@ The resulting generated transaction will look something like this.
 
 ### Cell Deps
 
-Our lock script uses the `code_hash` and `hash_type` to determine **what** code should execute, but it does not specify **where** that code exists in the blockchain. This is where cell deps come into play.
+Our lock script uses the `codeHash` and `hashType` to determine **what** code should execute, but it does not specify **where** that code exists in the blockchain. This is where cell deps come into play.
 
 We already learned about input cells and output cells in a transaction. Cell deps are the third type. Short for cell dependencies, cell deps are similar to input cells, but they are not consumed.
 
@@ -135,7 +135,7 @@ With the addition of cell deps, our transaction now knows **what** code is neede
 
 ![](../.gitbook/assets/transaction-connections-3.png)
 
-When the transaction is executed, every cell in the inputs will execute its lock script. The `code_hash` identifies what code needs to execute. The code that needs to be executed will be matched against the cell dep with a matching `data_hash`. The data field of the cell from the matching cell dep contains the script code that will be executed.
+When the transaction is executed, every cell in the inputs will execute its lock script. The `codeHash` identifies what code needs to execute. The code that needs to be executed will be matched against the cell dep with a matching `dataHash`. The data field of the cell from the matching cell dep contains the script code that will be executed.
 
 This method of providing resources enables code reuse in a way that is not possible on most other blockchains. Millions of cells can exist on-chain and all rely on a single cell dep that provides the code they need. This provides massive on-chain space savings and allows for complete code reuse between smart contracts.
 
@@ -146,7 +146,7 @@ Now let's look at the relevant parts of the `consumeCells()` function. This func
 ```javascript
 // Add the cell dep for the lock script.
 transaction = addDefaultCellDeps(transaction);
-const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+const cellDep = {depType: "code", outPoint: alwaysSuccessCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
@@ -155,7 +155,7 @@ This code adds cell deps to our transaction skeleton. On line 2 you see the func
 ```javascript
 function addDefaultCellDeps(transaction)
 {
-    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({code_hash: DEFAULT_LOCK_HASH, hash_type: "type"})));
+    return transaction.update("cellDeps", (cellDeps)=>cellDeps.push(locateCellDep({codeHash: DEFAULT_LOCK_HASH, hashType: "type"})));
 }
 ```
 
@@ -164,11 +164,11 @@ We can see that this function is adding a cell dep for the default lock hash, an
 However, we will not be able to use the `locateCellDep` function with the always success binary we just loaded, because it is not well-known. Instead, we construct a cell dep object which we add to the cell deps in the transaction using this code:
 
 ```javascript
-const cellDep = {dep_type: "code", out_point: alwaysSuccessCodeOutPoint};
+const cellDep = {depType: "code", outPoint: alwaysSuccessCodeOutPoint};
 transaction = transaction.update("cellDeps", (cellDeps)=>cellDeps.push(cellDep));
 ```
 
-The `dep_type` can be either `code` or `dep_group`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `dep_group`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
+The `depType` can be either `code` or `depGroup`. The value of `code` indicates that the out point we specify is a code binary. The other possible value, `depGroup`, is used to specify multiple out points at once. We'll be covering how to use that in a future lesson.
 
 If you look closely at the code in `createCells()` and `consumeCells()`, you will notice that we're only adding the always success lock as a cell dep in the consume function. The always success lock is referenced in the lock script of cells in both the create and consume functions, but we only need it to be referenced in the cell deps of the consume function is because that is the only time when it is executed.
 
@@ -185,12 +185,12 @@ const collectedCells = await collectCapacity(indexer, addressToScript(address1),
 transaction = transaction.update("inputs", (i)=>i.concat(collectedCells.inputCells));
 
 // Determine the capacity from all input Cells.
-const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
-const outputCapacity = transaction.outputs.toArray().reduce((a, c)=>a+hexToInt(c.cell_output.capacity), 0n);
+const inputCapacity = transaction.inputs.toArray().reduce((a, c)=>a+hexToInt(c.cellOutput.capacity), 0n);
+const outputCapacity = transaction.outputs.toArray().reduce((a, c)=>a+hexToInt(c.cellOutput.capacity), 0n);
 
 // Create a change Cell for the remaining CKBytes.
 const changeCapacity = intToHex(inputCapacity - outputCapacity - txFee);
-let change = {cell_output: {capacity: changeCapacity, lock: addressToScript(address1), type: null}, data: "0x"};
+let change = {cellOutput: {capacity: changeCapacity, lock: addressToScript(address1), type: null}, data: "0x"};
 transaction = transaction.update("outputs", (i)=>i.push(change));
 ```
 
