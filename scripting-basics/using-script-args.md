@@ -141,12 +141,12 @@ for(let message of messages)
     const dataCapSize1 = intToU32LeHexBytes(20);
     const typeScript1 =
     {
-        code_hash: dataFileHash1,
-        hash_type: "data",
+        codeHash: dataFileHash1,
+        hashType: "data",
         args: dataCapSize1
     };
     const data1 = stringToHex(message);
-    const output1 = {cell_output: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
+    const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: typeScript1}, data: data1};
     transaction = transaction.update("outputs", (i)=>i.push(output1));
 }
 ```
@@ -175,8 +175,8 @@ const lockScript1 = addressToScript(address1);
 const dataCapSize1 = intToU32LeHexBytes(20);
 const typeScript1 =
 {
-    code_hash: dataFileHash1,
-    hash_type: "data",
+    codeHash: dataFileHash1,
+    hashType: "data",
     args: dataCapSize1
 };
 const query = {lock: lockScript1, type: typeScript1};
