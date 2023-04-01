@@ -6,9 +6,9 @@ In order to follow along with the examples and complete the lab exercises, some 
 
 Our examples are all created using a Linux environment, and this is the preferred environment for development on Nervos in general. It should also work for MacOS and Windows, but there may be a few extra steps you will need to take to get things working.
 
-### Install Node.js (v16 LTS)
+### Install Node.js (v18 LTS)
 
-Our lessons and lab exercises all rely on Node.js v16 LTS, so this will need to be installed prior to starting. We officially support and test only with this exact version. If you experience any problems, please make sure you are using the correct version of Node.js.
+Our lessons and lab exercises all rely on Node.js v18 LTS, so this will need to be installed prior to starting. We officially support and test only with this exact version. If you experience any problems, please make sure you are using the correct version of Node.js.
 
 Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the installation. Many developers prefer using NVM since it allows you to quickly select between different versions of Node.js without having to reinstall.
 
