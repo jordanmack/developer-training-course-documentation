@@ -10,7 +10,16 @@ An indexer is a piece of software that helps speed up the process of locating ce
 
 An indexer monitors for new block data, and then extracts and organizes the cell information so it can be more quickly located when needed. Dapp frontends and backends can then interface directly with the indexer to query for information about cells.
 
-The way that indexers have been implemented changed over time, so you may see them referenced as a separate stand-alone node or as part of the CKB node. In the newest generation of node software, the CKB node includes the indexer functionality, and it is enabled in `ckb.toml`.
+The way that indexers have been implemented changed over time, so you may see them referenced as a separate stand-alone node or as part of the CKB node. In the newest generation of node software, the CKB node includes the indexer functionality. This will need to be enabled adding `"Indexer"` to the `modules` array in `ckb.toml`, as seen below.
+
+```toml
+# List of API modules: ["Net", "Pool", "Miner", "Chain", "Stats", "Subscription", "Experiment", "Debug", "Indexer"]
+modules = ["Net", "Pool", "Miner", "Chain", "Stats", "Subscription", "Experiment", "Debug", "Indexer"]ml
+```
+
+After adding the `Indexer` module to `ckb.toml`, restart the CKB node to activate it.
+
+Below is some basic Lumos code to verify that the Indexer functionality is enabled and running properly.
 
 {% code lineNumbers="true" %}
 ```javascript
