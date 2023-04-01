@@ -135,12 +135,12 @@ This waits for the transaction we just sent to confirm before we continue. The `
 
 Now scroll back up to the top. We need to change the `PREVIOUS_OUTPUT` value to match one of the out points you verified at the end of the last lesson. You should have verified two out points. The out point you want is the one that is owned by the address `ckt1...gwga` since that is the private key we are using. Hint: The `lock_arg` which you recorded can be used to match it with the address. Use the `ckb-cli` command `account list` to find out the `lock_arg` for the matching testnet address. We will cover the purpose of what a `lock_arg` is in the next lesson.
 
-> Note: Make sure you are using the out point owned by the address `ckt1...gwga` or the transaction will fail! This means you must have the correct `tx_hash` and `index`.
+> Note: Make sure you are using the out point owned by the address `ckt1...gwga` or the transaction will fail! This means you must have the correct `txHash` and `index`.
 
 ```javascript
 const PREVIOUS_OUTPUT =
 {
-	tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+	txHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
 	index: "0x0"
 };
 ```
