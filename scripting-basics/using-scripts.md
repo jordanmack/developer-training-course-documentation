@@ -94,7 +94,7 @@ const outputCapacity1 = ckbytesToShannons(41n);
 const lockScript1 =
 {
 	codeHash: dataFileHash1,
-	hashType: "data",
+	hashType: "data1",
 	args: "0x"
 };
 const output1 = {cellOutput: {capacity: intToHex(outputCapacity1), lock: lockScript1, type: null}, data: "0x"};
@@ -103,7 +103,7 @@ transaction = transaction.update("outputs", (i)=>i.push(output1));
 
 There are a few interesting things about this code. Look at the value of the `outputCapacity1` variable. It's set to 41 CKBytes. You may be thinking, "isn't the minimum 61?" Yes, 61 CKBytes is the minimum for a standard cell using the default lock script, but we're not using the default lock script.
 
-The `lockScript1` variable defines the lock script for the cell. The `codeHash` is being set to a Blake2b hash of the always success lock script binary. The `hashType` is `data`, which means the `code_hash` value needs to match a Blake2b hash of the data in a cell containing the code that will be executed. Our `codeHash` value reflects this. You may have noticed that the `hashType` of the default lock script is `type`. The meaning of this value is more complicated but usually means that the script is upgradeable. We will cover that use case at a later time. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
+The `lockScript1` variable defines the lock script for the cell. The `codeHash` is being set to a Blake2b hash of the always success lock script binary. The `hashType` is `data1`, which means to execute the code we just uploaded in V1 virtual machine. We will explain more about the meaning of `hashType` below. Finally, we have the `args` value. Notice that it's empty. Let's compare it to the `args` of a live cell using the default lock script.
 
 ![](../.gitbook/assets/get-live-cell.png)
 
@@ -116,6 +116,22 @@ Even though this saves a little bit of space, it isn't practical to use in a pro
 The resulting generated transaction will look something like this.
 
 ![](<../.gitbook/assets/create-transaction-structure (9).png>)
+
+### Hash Type
+
+Both a lock script and a type script use `codeHash` and `hashType` to determine what code should execute. The `codeHash` specifies a value that is used to match the code to execute. The `hashType` value controls how the `codeHash` value should be interpreted.
+
+Below are the possible values for `hashType`.&#x20;
+
+| Hash Type | Matching                 | CKB-VM Version    |
+| --------- | ------------------------ | ----------------- |
+| data      | Match code by data hash. | 0                 |
+| type      | Match code by type hash. | 1 (always newest) |
+| data1     | Match code by data hash. | 1                 |
+
+Using a `hashType` of `data` or `data1` indicates that the `codeHash` value must match the Blake2b hash of the binary executable located in a cell. Using `data` means to use CKB-VM version 0, and using `data1` means to use CKB-VM version 1.
+
+Using a `hashType` of `type` indicates that the `codeHash` value must match the Blake2b hash of the type script on a cell. This method means that it will execute any binary code in a cell, as long as that cell has the proper type script attached to it. This allows for upgradeable scripts which will be covered in a later section.&#x20;
 
 ### Cell Deps
 
