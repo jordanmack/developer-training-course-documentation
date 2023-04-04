@@ -10,7 +10,7 @@ In a sense, it isn't really an "update" at all because the cell being consumed h
 
 ### Updating Data Using Lumos
 
-Updating a cell in Lumos consists of first locating the existing cell to be updated, and then constructing the new cell to replace it.
+Updating a cell in Lumos consists of first locating the existing cell to be updated, and then constructing the new cell to replace it. If we already know the out point of the cell we want to update then we can specify it directly, but for this example, we will rely on cell collection since it is a more common scenario.
 
 To locate the existing cell, we will use the `CellCollector()` as we did previously, but we will need to update the query to only return cells that have the specific data we're looking for.
 
