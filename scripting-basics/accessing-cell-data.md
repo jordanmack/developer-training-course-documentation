@@ -139,7 +139,7 @@ The code we will be covering here is located in the `index.js` file in the `Acce
 
 Starting with the `main()` function, you will see our code has the usual four sections.
 
-![](../.gitbook/assets/example-flow.png)
+![](../.gitbook/assets/Example-Flow.png)
 
 The initialization and deployment code is nearly identical to the previous examples, so we're not going to go over it here. Feel free to review that code on your own if you need a refresher.
 
@@ -187,7 +187,7 @@ On line 13, we convert our message to a hex string, and then add it to the struc
 
 The resulting transaction will look similar to this. We are creating three cells using the Data10 type script, and all are the same except for the data contained within.&#x20;
 
-![](<../.gitbook/assets/create-transaction-structure (5).png>)
+![](../.gitbook/assets/create-transaction-structure.png)
 
 ### Consuming
 

@@ -49,7 +49,7 @@ Next, we will go through an example to use the always success script as a lock s
 
 Open the `index.js` file from the `Using-Scripts-Example` folder. If you scroll down to the `main()` function, you will see that there four main sections.
 
-![](../.gitbook/assets/example-flow.png)
+![](../.gitbook/assets/Example-Flow.png)
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
 2. Deploy Code - The `deployCode()` function creates a cell with the contents of the RISC-V binary located in the file `./files/always_success`. This is the always success lock binary executable.

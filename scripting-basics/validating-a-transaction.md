@@ -93,7 +93,7 @@ The code we will be covering here is in the `index.js` file in the `Validating-a
 
 If you scroll down to the `main()` function, you will see that there four main sections. These are the same four sections as the previous Lumos example, and you will see this pattern often.
 
-![](../.gitbook/assets/example-flow.png)
+![](../.gitbook/assets/Example-Flow.png)
 
 1. Initialize - In the first three lines of code in `main()`, we initialize the Lumos configuration, start the Lumos Indexer, and initialize the lab environment.
 2. Deploy Code - The `deployCode()` function creates a cell with the contents of the RISC-V binary located in the file `./files/ic3type`. This is the ic3type script binary executable.

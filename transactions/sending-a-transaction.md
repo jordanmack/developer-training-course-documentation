@@ -4,7 +4,7 @@ We will begin by sending a basic transaction using the `ckb-cli` command-line to
 
 ### Verifying Your Accounts
 
-![](../.gitbook/assets/ckb-cli.png)
+![](<../.gitbook/assets/ckb-cli (1).png>)
 
 Launch `ckb-cli` in your console. You should be presented with a screen similar to this.
 
@@ -12,7 +12,7 @@ Note: In my examples, I have disabled colored output to make it easier to read o
 
 Use the command `account list` to show the accounts that are being managed by `ckb-cli`.&#x20;
 
-![](<../.gitbook/assets/account-list (1).png>)
+![](<../.gitbook/assets/account-list (1) (1).png>)
 
 If you followed the Lab Exercise Setup instructions completely, you should see the same two accounts on your screen. These are two special accounts that are used only on dev blockchains. When the dev blockchain is created, these accounts are issued a very large amount of CKBytes, the native token of Nervos. Our examples will use these accounts often since they have plenty of CKBytes.
 

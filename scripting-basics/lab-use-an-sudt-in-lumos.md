@@ -2,7 +2,7 @@
 
 Complete the exercise in `index.js` in the folder `Lab-SUDT-Exercise` by adding code and values as necessary.
 
-The `index.js` file contains incomplete Lumos code to deploy, create, transfer, and consume cells using the **** SUDT type script. Your task is to add and modify the code as necessary to complete the transactions as instructed.
+The `index.js` file contains incomplete Lumos code to deploy, create, transfer, and consume cells using the SUDT type script. Your task is to add and modify the code as necessary to complete the transactions as instructed.
 
 In this lab exercise, several pieces of the core logic has been removed. You must construct it yourself. Feel free to copy and paste some of your code from previous exercises to complete this lab exercise, but it's recommended that you try to write as much of the code as possible.
 
