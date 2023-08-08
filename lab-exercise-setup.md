@@ -6,11 +6,11 @@ In order to follow along with the examples and complete the lab exercises, some 
 
 Our examples are all created using a Linux environment, and this is the preferred environment for development on Nervos in general. It should also work for MacOS and Windows, but there may be a few extra steps you will need to take to get things working.
 
-### Install Node.js v16 LTS
+### Install Node.js (v18 LTS)
 
-Our lessons and lab exercises all rely on Node.js v16 LTS, so this will need to be installed prior to starting. Other versions may still work but are not officially supported.
+Our lessons and lab exercises all rely on Node.js v18 LTS, so this will need to be installed prior to starting. We officially support and test only with this exact version. If you experience any problems, please make sure you are using the correct version of Node.js.
 
-Installing vanilla Node.js is fine, or you can use a tool like NVM to manage the installation of multiple versions easily.
+Installing vanilla Node.js is fine or you can use a tool like NVM to manage the installation. Many developers prefer using NVM since it allows you to quickly select between different versions of Node.js without having to reinstall.
 
 * Vanilla Node.js (All Platforms): [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 * NVM (Linux & MacOS): [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
@@ -43,6 +43,8 @@ cd developer-training-course
 npm i
 ```
 
+While installing dependencies using `npm i` you may get some warnings. This is normal and does not always indicate a problem. If you encounter errors, make sure you are on the correct version of Node.js by using the command `node -v`.
+
 ### Setup a CKB Dev Blockchain
 
 You will need to have a CKB Dev Blockchain node running locally for our code to interact with. This is a full Nervos CKB node that will run on your computer with a private testnet, also known as a devnet.
@@ -57,7 +59,7 @@ Alternatively, if you are using an OS with a GUI you can use Tippy to create a o
 
 ### Update Your Chain Hashes in config.json
 
-After you have created your devnet, you will need to copy some of the chain configuration values into the developer-training-course repo. The scripts we will be using require this information about the devnet in order to create transactions properly.
+After you have created your devnet, you will need to copy some of the chain configuration values into the developer-training-course repo. The scripts we will be using require this information about the devnet in order to locate resources to create transactions properly.
 
 From the console, enter the directory where you have your devnet CKB Node, and run the following command.
 
@@ -71,9 +73,9 @@ This should give you console output similar to the following.
 
 The system cell hashes are specifically the ones we are interested in. These describe the locations of resources the Developer Training Course will need. You will need to copy these values into the file `developer-training-course/config.json` in the correct locations. This `config.json` file will be used by the Lumos framework in the later lessons to create transactions.
 
-The chart below describes the values that need to be updated in `config.json`, and where they come from the output from `./ckb list-hashes`. The format from `config.json` and the output of `./ckb list-hashes` are structured differently, so you will need to match them up manually.
+The table below describes the values that need to be updated in `config.json`, and where they come from the output from `./ckb list-hashes`. The format of `config.json` and the output of `./ckb list-hashes` are structured differently, so you will need to match them up manually.
 
-For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the line `path = "Bundled(specs/cells/secp256k1_blake160_sighash_all)"`. The value for `SECP256K1_BLAKE160.TX_HASH` needs to be copied from the value for`tx_hash` underneath the line `path = "Bundled(specs/cells/secp256k1_blake160_sighash_all)"`.
+For example, the `SECP256K1_BLAKE160` key in `config.json` corresponds with the config group that contains the line `included_cells = ["Bundled(specs/cells/secp256k1_data)", "Bundled(specs/cells/secp256k1_blake160_sighash_all)"]`. The values for `SECP256K1_BLAKE160.TX_HASH` and `SECP256K1_BLAKE160.INDEX` are contained in the lines directly underneath.
 
 | config.json                            | ckb list-hashes                                         |
 | -------------------------------------- | ------------------------------------------------------- |
